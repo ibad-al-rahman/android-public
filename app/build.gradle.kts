@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "org.ibadalrahman.publicsector"
-    compileSdk = 34
+    namespace = GradleConfigs.baseNamespace
+    compileSdk = GradleConfigs.compileSdk
 
     defaultConfig {
-        applicationId = "org.ibadalrahman.publicsector"
-        minSdk = 24
-        targetSdk = 34
+        applicationId = GradleConfigs.baseNamespace
+        minSdk = GradleConfigs.minSdk
+        targetSdk = GradleConfigs.compileSdk
         versionCode = 1
         versionName = "1.0"
 
