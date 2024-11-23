@@ -23,3 +23,4 @@ dependencyResolutionManagement {
 rootProject.name = "Public Sector"
 
 include(":app")
+include(":common:mvi")
