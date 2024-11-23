@@ -1,3 +1,5 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     repositories {
         google {
@@ -20,7 +22,9 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Public Sector"
+rootProject.name = "PublicSector"
 
 include(":app")
+
 include(":app:common:mvi")
+include(":app:common:base")

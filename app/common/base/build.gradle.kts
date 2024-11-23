@@ -1,16 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.jetbrains.kotlin.kapt)
-}
-
-kapt {
-    correctErrorTypes = true
-    useBuildCache = true
 }
 
 android {
-    namespace = GradleConfigs.subNamespace("mvi")
+    namespace = GradleConfigs.subNamespace("base")
     compileSdk = GradleConfigs.compileSdk
 
     defaultConfig {
@@ -27,8 +21,6 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.savedstate)
-    implementation(projects.app.common.base)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
 }
