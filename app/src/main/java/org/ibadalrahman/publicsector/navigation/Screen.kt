@@ -3,7 +3,10 @@ package org.ibadalrahman.publicsector.navigation
 import java.net.URLEncoder
 
 sealed class Screen(val route: String) {
-    data object DeveloperSettings : Screen("developer-settings")
+    data object Adhkar: Screen("adhkar")
+    data object Settings: Screen("settings")
+    data object PrayerTimes: Screen("prayer-times")
+    data object DeveloperSettings: Screen("developer-settings")
 
     fun createRouteWith(vararg args: Any, isNavigating: Boolean = false): String {
         var arguments = ""
