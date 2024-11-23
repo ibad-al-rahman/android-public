@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.dagger.hilt.android)
 }
 
 android {
@@ -58,6 +59,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.dagger.hilt.android)
+    implementation(libs.dagger.hilt.compiler)
+    implementation(projects.app.common.base)
 
     testImplementation(libs.junit)
 
