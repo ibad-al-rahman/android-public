@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = GradleConfigs.baseNamespace
+    namespace = GradleConfigs.subNamespace("publicsector")
     compileSdk = GradleConfigs.compileSdk
 
     defaultConfig {

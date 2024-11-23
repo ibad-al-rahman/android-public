@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ibadalrahman.publicsector.mvi"
-    compileSdk = 34
+    namespace = GradleConfigs.subNamespace("mvi")
+    compileSdk = GradleConfigs.compileSdk
 
     defaultConfig {
-        minSdk = 24
+        minSdk = GradleConfigs.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
