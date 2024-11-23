@@ -11,12 +11,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class CoroutinesModule {
-    @Singleton
     @Provides
+    @Singleton
     fun provideCoroutineDispatchers() = CoroutineDispatchers(
         io = Dispatchers.IO,
         computation = Dispatchers.Default,
         main = Dispatchers.Main
     )
 }
-

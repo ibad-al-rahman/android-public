@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     implementation(libs.dagger.hilt.compiler)
     implementation(projects.app.common.base)
+    implementation(projects.app.common.mvi)
 
     testImplementation(libs.junit)
 
