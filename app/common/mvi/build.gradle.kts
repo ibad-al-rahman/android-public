@@ -30,5 +30,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.savedstate)
+    implementation(libs.androidx.ui.tooling)
     implementation(projects.app.common.base)
+    implementation(platform(libs.androidx.compose.bom))
 }
