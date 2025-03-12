@@ -15,16 +15,19 @@
             </builds>
           </compositeBuild>
         </compositeConfiguration>
+        <option name="testRunner" value="CHOOSE_PER_TEST" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
+        <option name="gradleJvm" value="jbr-17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app/common" />
+            <option value="$PROJECT_DIR$/app/common/base" />
+            <option value="$PROJECT_DIR$/app/common/mvi" />
             <option value="$PROJECT_DIR$/buildSrc" />
           </set>
         </option>
-        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
