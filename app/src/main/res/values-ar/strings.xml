@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hadith">حديث الأسبوع</string>
+    <string name="timings">المواقيت</string>
+    <string name="fajr">الفجر</string>
+    <string name="sunrise">الشروق</string>
+    <string name="dhuhr">الظهر</string>
+    <string name="asr">العصر</string>
+    <string name="maghrib">المغرب</string>
+    <string name="ishaa">العشاء</string>
+    <string name="am">ص</string>
+    <string name="pm">م</string>
+    <string name="date">التاريخ</string>
+    <string name="daily">يومي</string>
+    <string name="weekly">أسبوعي</string>
+    <string name="settings">الإعدادات</string>
+    <string name="select">إختيار</string>
+    <string name="donate">التبرع</string>
+    <string name="appearance">المظهر</string>
+    <string name="display">الإظهار</string>
+    <string name="language">اللغة</string>
+    <string name="visit_website">زيارة الموقع</string>
+    <string name="clear_cache">حذف الإعدادات</string>
+    <string name="week">الأسبوع</string>
+    <string name="sunday">الأحد</string>
+    <string name="monday">الإثنين</string>
+    <string name="tuesday">الثلاثاء</string>
+    <string name="wednesday">الأربعاء</string>
+    <string name="thursday">الخميس</string>
+    <string name="friday">الجمعة</string>
+    <string name="saturday">السبت</string>
+</resources>

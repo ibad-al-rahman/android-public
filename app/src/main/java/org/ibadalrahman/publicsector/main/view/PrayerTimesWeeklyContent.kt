@@ -1,12 +1,121 @@
 package org.ibadalrahman.publicsector.main.view
 
 
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import org.ibadalrahman.publicsector.R
 
 @Preview
 @Composable
 fun PrayerTimesWeeklyContent() {
-    Text("Weekly")
+
+    val prayerTimes = arrayOf(
+        arrayOf(stringResource(id = R.string.saturday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+        arrayOf(stringResource(id = R.string.sunday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+        arrayOf(stringResource(id = R.string.monday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+        arrayOf(stringResource(id = R.string.tuesday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+        arrayOf(stringResource(id = R.string.wednesday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+        arrayOf(stringResource(id = R.string.thursday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+        arrayOf(stringResource(id = R.string.friday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+    )
+
+    Column(
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF4F4F4))
+            .padding(
+                vertical = 30.dp,
+                horizontal = 20.dp
+            )
+    ) {
+        Text(
+            text = stringResource(id = R.string.timings).uppercase(),
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.DarkGray,
+            modifier = Modifier.padding(vertical = 10.dp)
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(ScrollState(0))
+                .background(Color(0xFFFFFFFF))
+        ) {
+
+            Row(Modifier.fillMaxWidth()) {
+                Text(text = stringResource(id = R.string.week), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(60.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.fajr), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.sunrise), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.dhuhr), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.asr), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.maghrib), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.ishaa), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
+            }
+
+            prayerTimes.forEach { day ->
+                HorizontalDivider( Modifier.width(640.dp))
+                Row(
+                ) {
+                    day.forEachIndexed { index, entry ->
+
+                        if(index == 0) {
+                            Text(entry, fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(60.dp), textAlign = TextAlign.Center)
+                        }
+                        else {
+                            Text(entry, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
+                        }
+                    }
+                }
+            }
+        }
+        Spacer(
+            modifier = Modifier.height(40.dp)
+        )
+        Text(
+            text = stringResource(id = R.string.hadith).uppercase(),
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.DarkGray,
+            modifier = Modifier.padding(vertical = 10.dp)
+        )
+        Box(
+            modifier = Modifier
+                .background(Color(0xFFFFFFFF))
+                .fillMaxWidth()
+                .padding(20.dp)
+        ) {
+            Text(
+                text = "انسخ الحديث هنا",
+                textAlign = TextAlign.Right,
+                fontSize = 18.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
 }

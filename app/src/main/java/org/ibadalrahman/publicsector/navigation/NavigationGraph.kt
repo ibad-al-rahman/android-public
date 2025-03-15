@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import org.ibadalrahman.publicsector.main.view.PrayerTimesContent
+import org.ibadalrahman.publicsector.main.view.SettingsContent
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -58,7 +59,7 @@ fun NavGraphBuilder.addAdhkarScreen(navController: NavHostController) {
 
 fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
     composable(Screen.Settings.route) {
-        Text("Settings")
+        SettingsContent()
     }
 }
 

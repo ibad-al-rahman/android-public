@@ -69,6 +69,8 @@ dependencies {
     implementation(libs.material.icons.extended)
     implementation(libs.dagger.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
+//    implementation(libs.androidx.appcompat)
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
     implementation(projects.app.common.base)
     implementation(projects.app.common.mvi)

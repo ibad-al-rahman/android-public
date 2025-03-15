@@ -14,7 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PublicSector"
         tools:targetApi="31"
+        android:localeConfig="@xml/locale_config"
     >
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
         <activity
             android:name=".main.view.MainActivity"
             android:exported="true"

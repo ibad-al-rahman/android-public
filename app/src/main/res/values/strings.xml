@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">Public Sector</string>
+    <string name="hadith">Hadith of the week</string>
+    <string name="timings">Timings</string>
+    <string name="fajr">Fajr</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="dhuhr">Dhuhr</string>
+    <string name="asr">Asr</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="ishaa">Ishaa</string>
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
+    <string name="date">Date</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="settings">Settings</string>
+    <string name="select">Select</string>
+    <string name="donate">Donate</string>
+    <string name="appearance">Appearance</string>
+    <string name="display">Display</string>
+    <string name="language">Language</string>
+    <string name="visit_website">Visit Website</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="week">Week</string>
+    <string name="sunday">Sun</string>
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
+    <string name="saturday">Sat</string>
 </resources>

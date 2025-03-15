@@ -1,6 +1,7 @@
 package org.ibadalrahman.publicsector.main.view
 
 import android.provider.CalendarContract.Colors
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Nightlight
@@ -30,11 +32,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.ibadalrahman.publicsector.R
 import org.ibadalrahman.publicsector.navigation.DatePickerModal
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -52,12 +56,12 @@ fun PrayerTimesDailyContent() {
     }
 
     var prayers = arrayOf(
-        Prayer(name = "Fajr", icon = Icons.Default.Nightlight, time = "4:22 AM"),
-        Prayer(name = "Sunrise", icon = Icons.Default.WbTwilight, time = "5:52 AM"),
-        Prayer(name = "Dhuhr", icon = Icons.Default.WbSunny, time = "11:48 AM"),
-        Prayer(name = "Asr", icon = Icons.Default.WbSunny, time = "3:10 PM"),
-        Prayer(name = "Maghrib", icon = Icons.Default.WbTwilight, time = "5:48 PM"),
-        Prayer(name = "Ishaa", icon = Icons.Default.Nightlight, time = "7:04 PM"),
+        Prayer(name = stringResource(id = R.string.fajr), icon = Icons.Default.Nightlight, time = "4:22 AM"),
+        Prayer(name = stringResource(id = R.string.sunrise), icon = Icons.Default.WbTwilight, time = "5:52 AM"),
+        Prayer(name = stringResource(id = R.string.dhuhr), icon = Icons.Default.WbSunny, time = "11:48 AM"),
+        Prayer(name = stringResource(id = R.string.asr), icon = Icons.Default.WbSunny, time = "3:10 PM"),
+        Prayer(name = stringResource(id = R.string.maghrib), icon = Icons.Default.WbTwilight, time = "5:48 PM"),
+        Prayer(name = stringResource(id = R.string.ishaa), icon = Icons.Default.Nightlight, time = "7:04 PM"),
     )
 
     Column(
@@ -70,6 +74,7 @@ fun PrayerTimesDailyContent() {
                 vertical = 30.dp,
                 horizontal = 20.dp
             )
+            .verticalScroll(ScrollState(0))
     ) {
         Row (
             verticalAlignment = Alignment.CenterVertically,
@@ -82,7 +87,7 @@ fun PrayerTimesDailyContent() {
 
         ){
             Text(
-                text = "Date",
+                text = stringResource(id = R.string.date),
                 fontSize = 18.sp,
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
@@ -105,7 +110,7 @@ fun PrayerTimesDailyContent() {
             modifier = Modifier.height(40.dp)
         )
         Text(
-            text = "TIMINGS",
+            text = stringResource(id = R.string.timings).uppercase(),
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = Color.DarkGray,
@@ -128,7 +133,7 @@ fun PrayerTimesDailyContent() {
                ) {
                    Icon(imageVector = prayer.icon, prayer.name, modifier = Modifier.padding(horizontal = 10.dp))
                    Text(text = prayer.name, fontSize = 18.sp)
-                   Spacer(Modifier.weight(1f).fillMaxWidth().background(Color.White)) // height and background only for demonstration
+                   Spacer(Modifier.weight(1f).fillMaxWidth().background(Color.White))
                    Text(prayer.time, fontSize = 18.sp, color = Color.DarkGray, fontWeight = FontWeight.Bold)
                }
            }
@@ -137,7 +142,7 @@ fun PrayerTimesDailyContent() {
             modifier = Modifier.height(40.dp)
         )
         Text(
-            text = "HADITH OF THE WEEK",
+            text = stringResource(id = R.string.hadith).uppercase(),
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = Color.DarkGray,
