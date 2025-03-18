@@ -24,12 +24,14 @@ import androidx.compose.material.icons.filled.WbTwilight
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -47,6 +49,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import org.ibadalrahman.publicsector.R
+import org.ibadalrahman.publicsector.main.presenter.MainActivityViewModel
+import org.ibadalrahman.publicsector.main.presenter.MainIntention
 import org.ibadalrahman.publicsector.navigation.DatePickerModal
 import org.ibadalrahman.publicsector.navigation.Screen
 import org.ibadalrahman.publicsector.navigation.TabBarItem
@@ -54,26 +58,23 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 @OptIn(ExperimentalFoundationApi::class)
-@Preview
 @Composable
-fun PrayerTimesContent() {
+fun PrayerTimesContent(viewModel: MainActivityViewModel) {
 
-//    page 0 = daily;
-//    page 1 = weekly
-    var currentPage by remember {
-        mutableIntStateOf(0)
-    }
+    val viewState by viewModel.viewState.collectAsState()
 
     val tabData = arrayOf(
         stringResource(id=R.string.daily), stringResource(id=R.string.weekly)
     )
+
+    var currentPage = viewState.currentPrayerPage.ordinal
 
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF4F4F4))
+            .background(MaterialTheme.colorScheme.tertiaryContainer)
     ) {
         TabRow (
             selectedTabIndex = currentPage,
@@ -89,7 +90,9 @@ fun PrayerTimesContent() {
                 Tab(
                     selected = currentPage == index,
                     onClick = {
-                        currentPage = index
+                        viewModel.handleIntent(
+                            if(index == 0) MainIntention.LoadDayView else MainIntention.LoadWeekView
+                        )
                     },
                     text = {
                         Text(text = name, fontSize = 18.sp)
@@ -100,11 +103,21 @@ fun PrayerTimesContent() {
 
         if(currentPage == 0) {
 //        daily
-            PrayerTimesDailyContent()
+            PrayerTimesDailyContent(
+                inputDate = viewState.inputDate,
+                isLoading = viewState.isLoading,
+                prayers = viewState.prayersDay,
+                onDateSelected = { date ->
+                    viewModel.handleIntent(MainIntention.SetDate(inputDate = date))
+                }
+            )
         }
         else {
 //        weekly
-            PrayerTimesWeeklyContent()
+            PrayerTimesWeeklyContent(
+                isLoading = viewState.isLoading,
+                prayers = viewState.prayersWeek,
+            )
         }
     }
 

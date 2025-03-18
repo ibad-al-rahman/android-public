@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -22,13 +23,14 @@ import org.ibadalrahman.publicsector.main.presenter.MainActivityViewModel
 import org.ibadalrahman.publicsector.navigation.NavigationGraph
 import org.ibadalrahman.publicsector.navigation.Screen
 import org.ibadalrahman.publicsector.navigation.TabBarItem
-import org.ibadalrahman.publicsector.ui.theme.PublicSectorTheme
+import org.ibadalrahman.publicsector.ui.theme.AppTheme
 
 @Composable
 fun RootContent(
     navController: NavHostController = rememberNavController(),
     mainViewModel: MainActivityViewModel
 ) {
+
     val tabBarItems = remember {
         arrayOf(
             TabBarItem(
@@ -52,7 +54,8 @@ fun RootContent(
     Content(
         navController = navController,
         initialRoute = Screen.PrayerTimes.route,
-        tabBarItems = tabBarItems
+        tabBarItems = tabBarItems,
+        mainViewModel = mainViewModel
     )
 }
 
@@ -60,9 +63,10 @@ fun RootContent(
 fun Content(
     navController: NavHostController,
     initialRoute: String,
-    tabBarItems: List<TabBarItem>
+    tabBarItems: List<TabBarItem>,
+    mainViewModel: MainActivityViewModel
 ) {
-    PublicSectorTheme {
+    AppTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
@@ -89,7 +93,7 @@ fun Content(
             Box(
                 modifier = Modifier.fillMaxSize().padding(padding)
             ) {
-                NavigationGraph(navController = navController, initialRoute = initialRoute)
+                NavigationGraph(navController = navController, initialRoute = initialRoute, viewModel = mainViewModel)
             }
         }
     }

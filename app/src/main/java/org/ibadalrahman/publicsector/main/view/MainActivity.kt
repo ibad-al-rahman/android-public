@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.ibadalrahman.publicsector.main.presenter.MainActivityViewModel
+import org.ibadalrahman.publicsector.ui.theme.AppTheme
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
@@ -14,6 +15,10 @@ class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent { RootContent(mainViewModel = mainViewModel) }
+        setContent {
+            AppTheme {
+                RootContent(mainViewModel = mainViewModel)
+            }
+        }
     }
 }

@@ -27,6 +27,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
+import org.ibadalrahman.publicsector.main.presenter.MainActivityViewModel
 import org.ibadalrahman.publicsector.main.view.PrayerTimesContent
 import org.ibadalrahman.publicsector.main.view.SettingsContent
 import java.text.SimpleDateFormat
@@ -35,29 +37,30 @@ import java.util.Date
 @Composable
 fun NavigationGraph(
     navController: NavHostController,
-    initialRoute: String
+    initialRoute: String,
+    viewModel: MainActivityViewModel
 ) {
     NavHost(navController = navController, startDestination = initialRoute) {
-        addPrayerTimesScreen(navController = navController)
-        addAdhkarScreen(navController = navController)
-        addSettingsScreen(navController = navController)
+        addPrayerTimesScreen(navController = navController, viewModel = viewModel)
+        addAdhkarScreen(navController = navController, viewModel = viewModel)
+        addSettingsScreen(navController = navController, viewModel = viewModel)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun NavGraphBuilder.addPrayerTimesScreen(navController: NavHostController) {
+fun NavGraphBuilder.addPrayerTimesScreen(navController: NavHostController, viewModel : MainActivityViewModel) {
     composable(Screen.PrayerTimes.route) {
-        PrayerTimesContent()
+        PrayerTimesContent(viewModel = viewModel)
     }
 }
 
-fun NavGraphBuilder.addAdhkarScreen(navController: NavHostController) {
+fun NavGraphBuilder.addAdhkarScreen(navController: NavHostController, viewModel : MainActivityViewModel) {
     composable(Screen.Adhkar.route) {
         Text("Adhkar")
     }
 }
 
-fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
+fun NavGraphBuilder.addSettingsScreen(navController: NavHostController, viewModel : MainActivityViewModel) {
     composable(Screen.Settings.route) {
         SettingsContent()
     }

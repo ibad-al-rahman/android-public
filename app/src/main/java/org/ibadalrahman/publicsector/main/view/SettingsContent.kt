@@ -59,6 +59,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.draw.scale
@@ -81,7 +82,7 @@ fun SettingsContent() {
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF4F4F4))
+            .background(MaterialTheme.colorScheme.tertiaryContainer)
             .padding(20.dp)
     ) {
         Text(
@@ -154,7 +155,7 @@ fun ListButton(text: String, icon: ImageVector, onClick : () -> Unit ) {
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Icon(icon, text)
@@ -162,7 +163,7 @@ fun ListButton(text: String, icon: ImageVector, onClick : () -> Unit ) {
             Spacer(Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .background(Color.White))
+                .background(MaterialTheme.colorScheme.background))
             Icon(imageVector = Icons.Default.ChevronRight, contentDescription = "Go", modifier = Modifier.mirror())
         }
     }

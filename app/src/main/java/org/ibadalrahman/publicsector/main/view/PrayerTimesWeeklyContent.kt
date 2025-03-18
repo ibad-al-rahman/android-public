@@ -1,6 +1,7 @@
 package org.ibadalrahman.publicsector.main.view
 
 
+import Prayer
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,24 +32,27 @@ import org.ibadalrahman.publicsector.R
 
 @Preview
 @Composable
-fun PrayerTimesWeeklyContent() {
+fun PrayerTimesWeeklyContent(
+    isLoading: Boolean = false,
+    prayers: Array<Array<String>> = arrayOf()
+) {
 
-    val prayerTimes = arrayOf(
-        arrayOf(stringResource(id = R.string.saturday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-        arrayOf(stringResource(id = R.string.sunday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-        arrayOf(stringResource(id = R.string.monday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-        arrayOf(stringResource(id = R.string.tuesday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-        arrayOf(stringResource(id = R.string.wednesday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-        arrayOf(stringResource(id = R.string.thursday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-        arrayOf(stringResource(id = R.string.friday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-    )
+//    val prayerTimes = arrayOf(
+//        arrayOf(stringResource(id = R.string.saturday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+//        arrayOf(stringResource(id = R.string.sunday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+//        arrayOf(stringResource(id = R.string.monday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+//        arrayOf(stringResource(id = R.string.tuesday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+//        arrayOf(stringResource(id = R.string.wednesday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+//        arrayOf(stringResource(id = R.string.thursday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+//        arrayOf(stringResource(id = R.string.friday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
+//    )
 
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF4F4F4))
+            .background(MaterialTheme.colorScheme.tertiaryContainer)
             .padding(
                 vertical = 30.dp,
                 horizontal = 20.dp
@@ -57,7 +62,7 @@ fun PrayerTimesWeeklyContent() {
             text = stringResource(id = R.string.timings).uppercase(),
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.DarkGray,
+            color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(vertical = 10.dp)
         )
 
@@ -65,7 +70,7 @@ fun PrayerTimesWeeklyContent() {
             modifier = Modifier
                 .fillMaxWidth()
                 .horizontalScroll(ScrollState(0))
-                .background(Color(0xFFFFFFFF))
+                .background(MaterialTheme.colorScheme.background)
         ) {
 
             Row(Modifier.fillMaxWidth()) {
@@ -78,17 +83,17 @@ fun PrayerTimesWeeklyContent() {
                 Text(stringResource(id = R.string.ishaa), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
             }
 
-            prayerTimes.forEach { day ->
+            prayers.forEach { day ->
                 HorizontalDivider( Modifier.width(640.dp))
                 Row(
                 ) {
                     day.forEachIndexed { index, entry ->
 
                         if(index == 0) {
-                            Text(entry, fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(60.dp), textAlign = TextAlign.Center)
+                            Text(text = entry, fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(60.dp), textAlign = TextAlign.Center)
                         }
                         else {
-                            Text(entry, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
+                            Text(entry, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(90.dp), textAlign = TextAlign.Center)
                         }
                     }
                 }
@@ -101,12 +106,12 @@ fun PrayerTimesWeeklyContent() {
             text = stringResource(id = R.string.hadith).uppercase(),
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.DarkGray,
+            color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(vertical = 10.dp)
         )
         Box(
             modifier = Modifier
-                .background(Color(0xFFFFFFFF))
+                .background(MaterialTheme.colorScheme.background)
                 .fillMaxWidth()
                 .padding(20.dp)
         ) {
