@@ -34,8 +34,18 @@ import org.ibadalrahman.publicsector.R
 @Composable
 fun PrayerTimesWeeklyContent(
     isLoading: Boolean = false,
-    prayers: Array<Array<String>> = arrayOf()
+    prayers: List<List<String>> = listOf()
 ) {
+
+    val dayNames = arrayOf(
+        stringResource(id = R.string.saturday),
+        stringResource(id = R.string.sunday),
+        stringResource(id = R.string.monday),
+        stringResource(id = R.string.tuesday),
+        stringResource(id = R.string.wednesday),
+        stringResource(id = R.string.thursday),
+        stringResource(id = R.string.friday)
+    )
 
 //    val prayerTimes = arrayOf(
 //        arrayOf(stringResource(id = R.string.saturday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
@@ -75,26 +85,21 @@ fun PrayerTimesWeeklyContent(
 
             Row(Modifier.fillMaxWidth()) {
                 Text(text = stringResource(id = R.string.week), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(60.dp), textAlign = TextAlign.Center)
-                Text(stringResource(id = R.string.fajr), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
-                Text(stringResource(id = R.string.sunrise), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
-                Text(stringResource(id = R.string.dhuhr), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
-                Text(stringResource(id = R.string.asr), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
-                Text(stringResource(id = R.string.maghrib), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
-                Text(stringResource(id = R.string.ishaa), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(80.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.fajr), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(90.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.sunrise), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(90.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.dhuhr), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(90.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.asr), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(90.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.maghrib), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(90.dp), textAlign = TextAlign.Center)
+                Text(stringResource(id = R.string.ishaa), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(90.dp), textAlign = TextAlign.Center)
             }
 
-            prayers.forEach { day ->
-                HorizontalDivider( Modifier.width(640.dp))
+            prayers.forEachIndexed { idx, day ->
+                HorizontalDivider( Modifier.width(710.dp))
                 Row(
                 ) {
+                    Text(text = dayNames[idx], fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(60.dp), textAlign = TextAlign.Center)
                     day.forEachIndexed { index, entry ->
-
-                        if(index == 0) {
-                            Text(text = entry, fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(60.dp), textAlign = TextAlign.Center)
-                        }
-                        else {
-                            Text(entry, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(90.dp), textAlign = TextAlign.Center)
-                        }
+                        Text(entry.replace("am", stringResource(R.string.am)).replace("pm", stringResource(R.string.pm)), fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(90.dp), textAlign = TextAlign.Center)
                     }
                 }
             }

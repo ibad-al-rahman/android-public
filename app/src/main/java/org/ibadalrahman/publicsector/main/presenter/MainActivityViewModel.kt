@@ -61,7 +61,7 @@ class MainActivityViewModel @Inject constructor(
 
     private fun loadDayView() {
         var currentDate = Date()
-        val sdf = SimpleDateFormat("dd/MM/yyyy", java.util.Locale.ROOT)
+        var sdf = SimpleDateFormat("dd/MM/yyyy", java.util.Locale.ROOT)
         var currentDateFormatted : String = sdf.format(currentDate)
 
         _viewState.value = _viewState.value.copy(

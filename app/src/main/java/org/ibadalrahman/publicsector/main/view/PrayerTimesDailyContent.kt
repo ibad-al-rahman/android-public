@@ -59,7 +59,7 @@ import kotlin.math.abs
 fun PrayerTimesDailyContent(
     inputDate: String = "",
     isLoading: Boolean = false,
-    prayers: Array<Prayer> = arrayOf(),
+    prayers: List<Prayer> = listOf(),
     onDateSelected: (String) -> Unit = {_ -> null}
 ) {
     var showDatePicker by remember {
@@ -84,7 +84,9 @@ fun PrayerTimesDailyContent(
         }
     }
     nearestPrayerIdx.value = min_idx
-    prayers[min_idx].highlight = true
+    if(min_idx > 0 && min_idx < prayers.size) {
+        prayers[min_idx].highlight = true
+    }
 
 
     Column(
@@ -222,7 +224,7 @@ fun PrayerRow(prayer: Prayer) {
             }
         }
         Icon(imageVector = prayer.icon, prayer.name, modifier = Modifier.padding(horizontal = 10.dp))
-        Text(text = prayer.name, fontSize = 18.sp, fontWeight = fw)
+        Text(text = getLocalizedPrayerName(prayer.name), fontSize = 18.sp, fontWeight = fw)
 
         if(prayer.highlight) {
             Text(timeDiffString, color = MaterialTheme.colorScheme.onPrimaryContainer, fontSize = 18.sp, fontWeight = fw, modifier = Modifier.weight(1f).padding(horizontal = 20.dp), textAlign = TextAlign.End)
@@ -231,7 +233,7 @@ fun PrayerRow(prayer: Prayer) {
             Spacer(Modifier.weight(1f).fillMaxWidth().background(Color.White))
         }
 
-        Text(prayer.time, fontSize = 18.sp, fontWeight = fw)
+        Text(prayer.time.replace("am", stringResource(R.string.am)).replace("pm", stringResource(R.string.pm)), fontSize = 18.sp, fontWeight = fw)
     }
 }
 
@@ -255,44 +257,15 @@ fun displayTime(millis : Long = 0, showSeconds: Boolean = false, twentyFourHourF
     return prefix + sdf.format(dateObj)
 }
 
-
-
-/*
-LaunchedEffect(key1 = Unit){
-        while(isActive){
-            var currentDate = Date()
-            time = sdf.format(currentDate)
-            var min_time_diff = Long.MAX_VALUE
-            var min_time_diff_idx = -1
-            prayers.forEachIndexed { index, prayer ->
-                var currentTime = Calendar.getInstance(); // locale-specific
-                currentTime.set(Calendar.HOUR_OF_DAY, currentDate.hours);
-                currentTime.set(Calendar.MINUTE, currentDate.minutes);
-                currentTime.set(Calendar.SECOND, currentDate.seconds);
-
-                var prayerDate = sdf.parse(prayer.time)
-                var prayerTime = Calendar.getInstance(); // locale-specific
-                prayerTime.set(Calendar.HOUR_OF_DAY, prayerDate.hours);
-                prayerTime.set(Calendar.MINUTE, prayerDate.minutes);
-                prayerTime.set(Calendar.SECOND, prayerDate.seconds);
-
-//                var prayerDate = Date()
-//                prayerDate.time = sdf.parse(prayer.time).time
-                var diff = currentTime.timeInMillis - prayerTime.timeInMillis
-                if(abs(diff) < abs(min_time_diff)) {
-                    min_time_diff = diff // VERY IMPORTANT: KEEP SIGN !! (POSITIVE OR NEGATIVE)
-                    min_time_diff_idx = index
-                }
-            }
-
-            nearestPrayerIdx.value = min_time_diff_idx
-            var diff_time = Date()
-            diff_time.time = abs(min_time_diff)
-            time_diff_sdf.timeZone = TimeZone.getTimeZone("UTC")
-            val time_sign = if(min_time_diff >= 0) "+ " else "- "
-            timeDiff = time_sign + time_diff_sdf.format(diff_time)
-
-            delay(1000)
-        }
+@Composable
+fun getLocalizedPrayerName(name: String): String {
+    when(name) {
+        "Fajr" -> return stringResource(R.string.fajr)
+        "Sunrise" -> return stringResource(R.string.sunrise)
+        "Dhuhr" -> return stringResource(R.string.dhuhr)
+        "Asr" -> return stringResource(R.string.asr)
+        "Maghrib" -> return stringResource(R.string.maghrib)
+        "Ishaa" -> return stringResource(R.string.ishaa)
+        else -> return name
     }
- */
+}
