@@ -3,11 +3,9 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.kapt)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.dagger.hilt.android)
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21" // this version matches your Kotlin version
-    kotlin("plugin.serialization") version "2.0.20"
+    alias(libs.plugins.jetbrains.kotlin.compose)
+    alias(libs.plugins.kotlinxSerialization)
 }
-
-val ktor_version: String by project
 
 android {
     namespace = GradleConfigs.subNamespace("publicsector")
@@ -74,13 +72,10 @@ dependencies {
     implementation(libs.material.icons.extended)
     implementation(libs.dagger.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
-    //    implementation(libs.androidx.appcompat)
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
-
-    implementation("io.ktor:ktor-client-core:$ktor_version")
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
-
+    implementation(libs.androidx.appcompat)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
 
     implementation(projects.app.common.base)
     implementation(projects.app.common.mvi)
