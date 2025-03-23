@@ -28,5 +28,8 @@ include(":app")
 
 include(":app:common:mvi")
 include(":app:common:base")
-include(":app:data:prayer-times-repository")
 include(":app:common:network")
+
+include(":app:data:prayer-times-repository")
+
+include(":app:screens:prayer-times")
