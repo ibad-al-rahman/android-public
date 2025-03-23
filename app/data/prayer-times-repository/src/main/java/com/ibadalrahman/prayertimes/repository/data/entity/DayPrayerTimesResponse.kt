@@ -1,0 +1,12 @@
+package com.ibadalrahman.prayertimes.repository.data.entity
+
+import com.google.gson.annotations.SerializedName
+
+data class DayPrayerTimesResponse(
+    @SerializedName("id") val id: Int,
+    @SerializedName("gregorian") val gregorian: String,
+    @SerializedName("hijri") val hijri: String,
+    @SerializedName("prayerTimes") val prayerTimes: PrayerTimesResponse,
+    @SerializedName("weekId") val weekId: String,
+    @SerializedName("event") val event: EventResponse?
+)

@@ -3,5 +3,6 @@ object GradleConfigs {
     const val minSdk = 26
     const val baseNamespace = "org.ibadalrahman"
 
-    fun subNamespace(sub: String) = "$baseNamespace.$sub"
+    fun subNamespace(nsp: String) = "$baseNamespace.$nsp"
+    fun subNamespaces(vararg nsps: String) = "$baseNamespace.${nsps.joinToString(".")}"
 }
