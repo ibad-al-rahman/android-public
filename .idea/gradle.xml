@@ -28,6 +28,8 @@
             <option value="$PROJECT_DIR$/app/common/network" />
             <option value="$PROJECT_DIR$/app/data" />
             <option value="$PROJECT_DIR$/app/data/prayer-times-repository" />
+            <option value="$PROJECT_DIR$/app/screens" />
+            <option value="$PROJECT_DIR$/app/screens/prayer-times" />
             <option value="$PROJECT_DIR$/buildSrc" />
           </set>
         </option>
