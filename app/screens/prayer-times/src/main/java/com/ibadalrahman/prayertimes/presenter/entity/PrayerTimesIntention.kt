@@ -1,4 +1,5 @@
 package com.ibadalrahman.prayertimes.presenter.entity
 
-class PrayerTimesIntention {
+sealed interface PrayerTimesIntention {
+    data object OnScreenStarted: PrayerTimesIntention
 }
