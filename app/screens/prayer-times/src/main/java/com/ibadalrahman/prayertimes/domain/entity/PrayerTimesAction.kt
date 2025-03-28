@@ -1,4 +1,5 @@
 package com.ibadalrahman.prayertimes.domain.entity
 
-class PrayerTimesAction {
+sealed interface PrayerTimesAction {
+    data object Setup: PrayerTimesAction
 }

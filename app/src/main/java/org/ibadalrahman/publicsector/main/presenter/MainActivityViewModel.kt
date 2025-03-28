@@ -1,6 +1,5 @@
 package org.ibadalrahman.publicsector.main.presenter
 
-import android.R
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.ibadalrahman.mvi.BaseViewModel
