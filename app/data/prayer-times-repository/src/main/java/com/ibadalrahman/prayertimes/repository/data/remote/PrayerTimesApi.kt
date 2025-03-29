@@ -1,6 +1,6 @@
 package com.ibadalrahman.prayertimes.repository.data.remote
 
-import com.ibadalrahman.prayertimes.repository.data.entity.YearDailyPrayerTimesResponse
+import com.ibadalrahman.prayertimes.repository.data.remote.responses.YearDailyPrayerTimesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

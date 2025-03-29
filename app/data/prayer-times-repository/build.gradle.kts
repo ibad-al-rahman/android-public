@@ -1,12 +1,7 @@
 plugins {
-    alias(libs.plugins.jetbrains.kotlin.kapt)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.android.library)
-}
-
-kapt {
-    correctErrorTypes = true
-    useBuildCache = true
+    alias(libs.plugins.google.devtools.ksp)
 }
 
 android {
@@ -22,11 +17,14 @@ android {
 }
 
 dependencies {
-    kapt(libs.dagger.hilt.compiler)
+    ksp(libs.room.compiler)
+    ksp(libs.dagger.hilt.compiler)
     implementation(libs.dagger.hilt.core)
     implementation(libs.dagger.hilt.android)
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.converter.gson)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
     implementation(projects.app.common.base)
     implementation(projects.app.common.network)
 }
