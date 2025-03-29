@@ -1,12 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.kotlin.kapt)
+    alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.jetbrains.kotlin.android)
-}
-
-kapt {
-    correctErrorTypes = true
-    useBuildCache = true
+    alias(libs.plugins.jetbrains.kotlin.compose)
 }
 
 android {
@@ -23,7 +19,7 @@ android {
 }
 
 dependencies {
-    kapt(libs.dagger.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

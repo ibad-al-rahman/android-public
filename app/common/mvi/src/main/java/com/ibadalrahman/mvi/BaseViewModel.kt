@@ -19,13 +19,12 @@ import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import org.ibadalrahman.base.CoroutineDispatchers
 
-abstract class BaseViewModel<UiState: Any, Intention: Any, ViewAction: Any, Action: Any, Result: Any> constructor(
+abstract class BaseViewModel<UiState: Any, Intention: Any, ViewAction: Any, Action: Any, Result: Any>(
     open val savedStateHandle: SavedStateHandle,
     open val coroutineDispatchers: CoroutineDispatchers,
     val initialState: UiState,
     private val interactor: BaseInteractor<Action, Result>
 ): ViewModel() {
-
     @PublishedApi
     internal val mState: MutableStateFlow<UiState> = MutableStateFlow(initialState)
     val state: StateFlow<UiState> = mState.stateIn(
@@ -48,7 +47,6 @@ abstract class BaseViewModel<UiState: Any, Intention: Any, ViewAction: Any, Acti
                 }
                 is MviBoundary.ViewAction -> submitViewAction(either.value)
                 is MviBoundary.Result -> resultHandler(either.value)
-                else -> {}
             }
         }
     }

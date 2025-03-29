@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.kapt)
+    alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.dagger.hilt.android)
     alias(libs.plugins.jetbrains.kotlin.compose)
@@ -59,7 +59,7 @@ android {
 }
 
 dependencies {
-    kapt(libs.dagger.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -79,6 +79,7 @@ dependencies {
 
     implementation(projects.app.common.base)
     implementation(projects.app.common.mvi)
+    implementation(projects.app.screens.prayerTimes)
 
     testImplementation(libs.junit)
 

@@ -1,12 +1,7 @@
 plugins {
-    alias(libs.plugins.jetbrains.kotlin.kapt)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.android.library)
-}
-
-kapt {
-    correctErrorTypes = true
-    useBuildCache = true
+    alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 android {
@@ -22,7 +17,7 @@ android {
 }
 
 dependencies {
-    kapt(libs.dagger.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
     implementation(libs.dagger.hilt.core)
     implementation(libs.dagger.hilt.android)
     implementation(libs.okhttp3)

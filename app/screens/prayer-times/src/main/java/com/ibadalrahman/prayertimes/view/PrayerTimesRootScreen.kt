@@ -1,5 +1,6 @@
 package com.ibadalrahman.prayertimes.view
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.ibadalrahman.mvi.BaseScreen
 import com.ibadalrahman.prayertimes.presenter.PrayerTimesViewModel
@@ -12,6 +13,6 @@ fun PrayerTimesRootScreen(viewModel: PrayerTimesViewModel) {
 
         }
     ) { state, intentionProcessor ->
-
+        Text("Hello World")
     }
 }
