@@ -1,5 +1,6 @@
 package com.ibadalrahman.prayertimes.repository.data
 
+import android.content.SharedPreferences
 import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
 import com.ibadalrahman.prayertimes.repository.data.domain.Event
 import com.ibadalrahman.prayertimes.repository.data.domain.PrayerTimes
@@ -55,3 +56,9 @@ fun EventEntity.toDomain(): Event = Event(
     en = this.en,
     ar = this.ar
 )
+
+fun SharedPreferences.getDigest(year: Int): String = this.getString("digest.$year", null) ?: ""
+
+fun SharedPreferences.setDigest(year: Int, digest: String) {
+    this.edit().putString(year.toString(), digest).apply()
+}

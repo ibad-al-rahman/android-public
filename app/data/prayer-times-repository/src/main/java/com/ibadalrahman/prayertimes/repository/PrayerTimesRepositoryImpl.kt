@@ -2,7 +2,6 @@ package com.ibadalrahman.prayertimes.repository
 
 import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
 import com.ibadalrahman.prayertimes.repository.data.local.PrayerTimesLocalDataSource
-import com.ibadalrahman.prayertimes.repository.data.remote.responses.YearDailyPrayerTimesResponse
 import com.ibadalrahman.prayertimes.repository.data.remote.PrayerTimesRemoteDataSource
 import com.ibadalrahman.prayertimes.repository.data.remote.responses.DayPrayerTimesResponse
 import com.ibadalrahman.prayertimes.repository.data.toDomain
@@ -32,11 +31,20 @@ class PrayerTimesRepositoryImpl @Inject constructor(
             .getYearDailyPrayerTimes(year = year)
             .onSuccess {
                 localDatasource.deleteAll()
-                localDatasource.insertAll(*it.year.map(DayPrayerTimesResponse::toEntity).toTypedArray())
+                localDatasource.insertAll(
+                    *it.year.map(DayPrayerTimesResponse::toEntity).toTypedArray()
+                )
+                localDatasource.setDigest(year = year, digest = it.sha1)
             }
             .onFailure {
                 return Result.failure(it)
             }
         return Result.success(Unit)
     }
+
+    override suspend fun fetchDigest(year: Int): Result<String> =
+        remoteDataSource.getYearSha1(year = year).map { it.sha1 }
+
+    override suspend fun getDigest(year: Int): String =
+        localDatasource.getDigest(year = year)
 }
