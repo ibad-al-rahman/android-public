@@ -30,11 +30,12 @@ class PrayerTimesViewModel @Inject constructor(
     initialState = PrayerTimesScreenState.initialState,
     interactor = interactor
 ) {
-    override fun router(intention: PrayerTimesIntention): MviBoundary<PrayerTimesViewAction, PrayerTimesAction, PrayerTimesResult> {
-        TODO("Not yet implemented")
-    }
+    override fun router(
+        intention: PrayerTimesIntention
+    ): MviBoundary<PrayerTimesViewAction, PrayerTimesAction, PrayerTimesResult> =
+        MviBoundary.Result(PrayerTimesResult.Noop)
 
-    override fun reduce(result: PrayerTimesResult) {
-        TODO("Not yet implemented")
-    }
+    override fun reduce(result: PrayerTimesResult) {}
+
+    override fun viewActionFrom(result: PrayerTimesResult): PrayerTimesViewAction? = null
 }

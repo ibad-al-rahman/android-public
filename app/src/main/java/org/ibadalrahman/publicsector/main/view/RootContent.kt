@@ -4,15 +4,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Book
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -30,7 +27,6 @@ fun RootContent(
     navController: NavHostController = rememberNavController(),
     mainViewModel: MainActivityViewModel
 ) {
-
     val tabBarItems = remember {
         arrayOf(
             TabBarItem(
@@ -38,12 +34,6 @@ fun RootContent(
                 icon = Icons.Outlined.CalendarMonth,
                 selectedIcon = Icons.Filled.CalendarMonth,
             ),
-//            TODO uncomment if we need adhkar tab back
-//            TabBarItem(
-//                route = Screen.Adhkar.route,
-//                icon = Icons.Outlined.Book,
-//                selectedIcon = Icons.Filled.Book,
-//            ),
             TabBarItem(
                 route = Screen.Settings.route,
                 icon = Icons.Outlined.Settings,
@@ -55,8 +45,7 @@ fun RootContent(
     Content(
         navController = navController,
         initialRoute = Screen.PrayerTimes.route,
-        tabBarItems = tabBarItems,
-        mainViewModel = mainViewModel
+        tabBarItems = tabBarItems
     )
 }
 
@@ -64,8 +53,7 @@ fun RootContent(
 fun Content(
     navController: NavHostController,
     initialRoute: String,
-    tabBarItems: List<TabBarItem>,
-    mainViewModel: MainActivityViewModel
+    tabBarItems: List<TabBarItem>
 ) {
     AppTheme {
         Scaffold(
@@ -94,7 +82,7 @@ fun Content(
             Box(
                 modifier = Modifier.fillMaxSize().padding(padding)
             ) {
-                NavigationGraph(navController = navController, initialRoute = initialRoute, viewModel = mainViewModel)
+                NavigationGraph(navController = navController, initialRoute = initialRoute)
             }
         }
     }

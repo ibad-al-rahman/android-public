@@ -32,9 +32,7 @@ class MainActivityViewModel @Inject constructor(
     initialState = MainState(),
     interactor = interactor
 ) {
-
     override fun router(intention: MainIntention): MviBoundary<MainViewAction, MainAction, MainResult> = action(MainAction.Noop)
-
     override fun reduce(result: MainResult) { }
 
 //    custom
