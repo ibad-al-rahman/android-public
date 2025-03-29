@@ -9,9 +9,7 @@ import com.ibadalrahman.prayertimes.presenter.PrayerTimesViewModel
 fun PrayerTimesRootScreen(viewModel: PrayerTimesViewModel) {
     BaseScreen(
         viewModel = viewModel,
-        viewActionProcessor = { _ ->
-
-        }
+        viewActionProcessor = { _ -> }
     ) { state, intentionProcessor ->
         Text("Hello World")
     }

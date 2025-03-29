@@ -5,5 +5,7 @@ import com.ibadalrahman.prayertimes.repository.data.local.entities.DayPrayerTime
 interface PrayerTimesLocalDataSource {
     fun insertAll(vararg prayerTimes: DayPrayerTimesEntity)
     fun findById(id: Int): DayPrayerTimesEntity
+    fun getDigest(year: Int): String
+    fun setDigest(year: Int, digest: String)
     fun deleteAll()
 }
