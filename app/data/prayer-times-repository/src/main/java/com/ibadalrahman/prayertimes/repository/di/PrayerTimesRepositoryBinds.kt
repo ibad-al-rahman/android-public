@@ -2,6 +2,8 @@ package com.ibadalrahman.prayertimes.repository.di
 
 import com.ibadalrahman.prayertimes.repository.PrayerTimesRepository
 import com.ibadalrahman.prayertimes.repository.PrayerTimesRepositoryImpl
+import com.ibadalrahman.prayertimes.repository.data.local.PrayerTimesLocalDataSource
+import com.ibadalrahman.prayertimes.repository.data.local.PrayerTimesLocalDataSourceImpl
 import com.ibadalrahman.prayertimes.repository.data.remote.PrayerTimesRemoteDataSource
 import com.ibadalrahman.prayertimes.repository.data.remote.PrayerTimesRemoteDataSourceImpl
 import dagger.Binds
@@ -16,6 +18,11 @@ abstract class PrayerTimesRepositoryBinds {
     abstract fun bindsPrayerTimesRemoteDataSource(
         dataSource: PrayerTimesRemoteDataSourceImpl
     ): PrayerTimesRemoteDataSource
+
+    @Binds
+    abstract fun bindsPrayerTimesLocalDataSource(
+        dataSource: PrayerTimesLocalDataSourceImpl
+    ): PrayerTimesLocalDataSource
 
     @Binds
     abstract fun bindsPrayerTimesRepository(

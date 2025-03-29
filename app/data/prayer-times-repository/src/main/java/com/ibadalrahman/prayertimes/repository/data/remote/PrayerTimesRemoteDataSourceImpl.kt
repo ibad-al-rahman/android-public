@@ -1,7 +1,7 @@
 package com.ibadalrahman.prayertimes.repository.data.remote
 
 import com.ibadalrahman.network.extensions.apiCall
-import com.ibadalrahman.prayertimes.repository.data.entity.YearDailyPrayerTimesResponse
+import com.ibadalrahman.prayertimes.repository.data.remote.responses.YearDailyPrayerTimesResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
