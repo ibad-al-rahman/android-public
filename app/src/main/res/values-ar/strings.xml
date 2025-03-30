@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">عباد الرحمن</string>
     <string name="hadith">حديث الأسبوع</string>
     <string name="timings">المواقيت</string>
     <string name="fajr">الفجر</string>
@@ -29,4 +30,7 @@
     <string name="thursday">الخميس</string>
     <string name="friday">الجمعة</string>
     <string name="saturday">السبت</string>
+    <string name="app_widget_description">وصف الويدجت</string>
+    <string name="events">المناسبات</string>
+    <string name="layout_direction">rtl</string>
 </resources>

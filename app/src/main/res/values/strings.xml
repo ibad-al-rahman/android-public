@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Public Sector</string>
+    <string name="app_name">Ibad Al-Rahman</string>
     <string name="hadith">Hadith of the week</string>
     <string name="timings">Timings</string>
     <string name="fajr">Fajr</string>
@@ -29,4 +29,7 @@
     <string name="thursday">Thu</string>
     <string name="friday">Fri</string>
     <string name="saturday">Sat</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="events">Events</string>
+    <string name="layout_direction">ltr</string>
 </resources>
