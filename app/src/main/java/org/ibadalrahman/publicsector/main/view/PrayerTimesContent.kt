@@ -106,7 +106,7 @@ fun PrayerTimesContent(viewModel: MainActivityViewModel) {
             PrayerTimesDailyContent(
                 inputDate = viewState.inputDate,
                 isLoading = viewState.isLoading,
-                prayers = viewState.prayersDay,
+                prayerData = viewState.prayerData,
                 onDateSelected = { date ->
                     viewModel.handleIntent(MainIntention.SetDate(inputDate = date))
                 }

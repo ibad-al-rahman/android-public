@@ -106,10 +106,10 @@ class MainActivityViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
-            val prayersDay = repository.getPrayersForDay(_viewState.value.inputDate)
+            val prayerData = repository.getPrayersForDay(_viewState.value.inputDate)
             _viewState.value = _viewState.value.copy(
                 isLoading = false,
-                prayersDay = prayersDay
+                prayerData = prayerData
             )
         }
     }

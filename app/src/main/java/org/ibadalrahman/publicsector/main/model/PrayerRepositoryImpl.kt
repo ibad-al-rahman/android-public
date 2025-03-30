@@ -1,6 +1,8 @@
 package org.ibadalrahman.publicsector.main.model
 
 import Prayer
+import android.content.Context
+import android.os.Environment
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Nightlight
 import androidx.compose.material.icons.filled.WbSunny
@@ -16,6 +18,8 @@ import io.ktor.client.call.body
 import io.ktor.client.engine.cio.*
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
+import kotlinx.serialization.InternalSerializationApi
+import java.io.File
 import java.util.Calendar
 import java.util.GregorianCalendar
 
@@ -24,40 +28,38 @@ private const val BASE_URL =
 
 class PrayerRepositoryImpl : PrayerRepository {
 
-    @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun getPrayersForDay(day: String): List<Prayer> {
+    @OptIn(ExperimentalSerializationApi::class, InternalSerializationApi::class)
+    override suspend fun getPrayersForDay(day: String): PrayerData {
 
-//       `day` param is formatted as dd/MM/yyyy
-//        for the API, we need to convert it to yyyy/MM/dd
+        var dayData =  getDataForDay(day)
 
-        var dayObj = SimpleDateFormat("dd/MM/yyyy", java.util.Locale.ROOT).parse(day)
-        var dayYmd = SimpleDateFormat("yyyy/MM/dd", java.util.Locale.ROOT).format(dayObj)
+        val prayersForDay = listOf(
+            Prayer(name = "Fajr", icon = Icons.Default.Nightlight, time = dayData.prayerTimes.fajr),
+            Prayer(name = "Sunrise", icon = Icons.Default.WbTwilight, time = dayData.prayerTimes.sunrise),
+            Prayer(name = "Dhuhr", icon = Icons.Default.WbSunny, time = dayData.prayerTimes.dhuhr),
+            Prayer(name = "Asr", icon = Icons.Default.WbSunny, time = dayData.prayerTimes.asr),
+            Prayer(name = "Maghrib", icon = Icons.Default.WbTwilight, time = dayData.prayerTimes.maghrib),
+            Prayer(name = "Ishaa", icon = Icons.Default.Nightlight, time =dayData.prayerTimes.ishaa),
+        )
 
-        val client = HttpClient(CIO)
-        val response: HttpResponse = client.get(BASE_URL + "/v1/day/$dayYmd.json")
+        return PrayerData(
+            id = dayData.id,
+            gregorian = dayData.gregorian,
+            hijri = dayData.hijri,
+            prayerTimes = prayersForDay,
+            eventEn = dayData.event?.en ?: "",
+            eventAr = dayData.event?.ar ?: "",
+            weekId = dayData.weekId
 
-        val prayerData = Json.decodeFromString<PrayerData>(response.body())
-
-        val prayerTimes = prayerData.prayerTimes
-
-        return listOf(
-            Prayer(name = "Fajr", icon = Icons.Default.Nightlight, time = prayerTimes.fajr),
-            Prayer(name = "Sunrise", icon = Icons.Default.WbTwilight, time = prayerTimes.sunrise),
-            Prayer(name = "Dhuhr", icon = Icons.Default.WbSunny, time = prayerTimes.dhuhr),
-            Prayer(name = "Asr", icon = Icons.Default.WbSunny, time = prayerTimes.asr),
-            Prayer(name = "Maghrib", icon = Icons.Default.WbTwilight, time = prayerTimes.maghrib),
-            Prayer(name = "Ishaa", icon = Icons.Default.Nightlight, time =prayerTimes.ishaa),
         )
 
     }
 
+    @OptIn(InternalSerializationApi::class)
     override suspend fun getPrayersForWeek(week: Int): List<List<String>> {
 
-        var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR);
-        val client = HttpClient(CIO)
-        val response: HttpResponse = client.get(BASE_URL + "/v1/year/days/$currentYear.json")
-
-        val yearPrayerData = Json.decodeFromString<YearPrayerData>(response.body())
+        var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
+        val yearPrayerData = getDataForYear(currentYear)
 
         var currentWeek: List<String> = listOf()
         var now: Calendar = Calendar.getInstance()
@@ -71,12 +73,12 @@ class PrayerRepositoryImpl : PrayerRepository {
             now.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-        var res : List<PrayerData> = listOf()
+        var res : List<PrayerDataSerializable> = listOf()
 
         currentWeek.forEach { dayStr ->
-            var prayerData: PrayerData? = yearPrayerData.year.find { "" + it.id == dayStr }
+            var prayerData: PrayerDataSerializable? = yearPrayerData.year.find { "" + it.id == dayStr }
             if(prayerData == null) {
-                res = res.plus(PrayerData(
+                res = res.plus(PrayerDataSerializable(
                     id = dayStr.toInt(),
                     gregorian = "",
                     hijri = "",
@@ -107,36 +109,98 @@ class PrayerRepositoryImpl : PrayerRepository {
             prayerData.prayerTimes.ishaa,
         ) }
     }
+
+    @OptIn(InternalSerializationApi::class)
+    suspend fun getDataForYear(year: Int): YearPrayerData {
+
+        val file = File(IOUtils.filesDir ?: File(""), "ibad_$year.json")
+
+        if(file.exists()) {
+//            if file exists already, read from the file
+            println("READING DATA FROM STORAGE...")
+            return Json.decodeFromString<YearPrayerData>(file.readText())
+        }
+
+//        otherwise, fetch from API
+        println("FETCHING DATA FORM API...")
+        println(BASE_URL + "/v1/year/days/$year.json")
+        val client = HttpClient(CIO)
+        val response: HttpResponse = client.get(BASE_URL + "/v1/year/days/$year.json")
+
+//        write response body to JSON file
+        if(file.createNewFile()) {
+            file.writeText(response.body())
+        }
+
+//        return object to caller
+        return Json.decodeFromString<YearPrayerData>(response.body())
+
+    }
+
+    @OptIn(InternalSerializationApi::class)
+    suspend fun getDataForDay(day: String): PrayerDataSerializable {
+        var dayObj = SimpleDateFormat("dd/MM/yyyy", java.util.Locale.ROOT).parse(day)
+        var yearObj = Calendar.getInstance()
+        if (dayObj != null) {
+            yearObj.time = dayObj
+        }
+        val year = yearObj.get(Calendar.YEAR)
+
+
+
+        val yearPrayerData : YearPrayerData = getDataForYear(year)
+
+        var dayId = SimpleDateFormat("yyyyMMdd", java.util.Locale.ROOT).format(dayObj)
+
+        var dayData = yearPrayerData.year.find { "" + it.id == dayId }
+
+        return dayData ?: PrayerDataSerializable() // equivalent to:  return if(dayData != null) dayData else PrayerDataSerializable()
+    }
 }
 
+@kotlinx.serialization.InternalSerializationApi
 @Serializable
-data class PrayerData(
-    val id: Int,
-    val gregorian: String,
-    val hijri: String,
-    val prayerTimes: DayPrayers,
+data class PrayerDataSerializable(
+    val id: Int = 0,
+    val gregorian: String = "",
+    val hijri: String = "",
+    val prayerTimes: DayPrayers = DayPrayers(),
     val event: Event? = null,
     val weekId: Int? = null
 )
 
+@kotlinx.serialization.InternalSerializationApi
 @Serializable
 data class YearPrayerData(
-    val year: List<PrayerData>,
+    val year: List<PrayerDataSerializable>,
     val sha1: String
 )
 
+@kotlinx.serialization.InternalSerializationApi
 @Serializable
 data class DayPrayers(
-    val fajr: String,
-    val sunrise: String,
-    val dhuhr: String,
-    val asr: String,
-    val maghrib: String,
-    val ishaa: String
+    val fajr: String = "",
+    val sunrise: String = "",
+    val dhuhr: String = "",
+    val asr: String = "",
+    val maghrib: String = "",
+    val ishaa: String = ""
 )
 
+@kotlinx.serialization.InternalSerializationApi
 @Serializable
 data class Event(
     val ar: String,
     val en: String? = null
+)
+
+// a non "@serializable" version of PrayerDataSerializable
+data class PrayerData(
+    val id: Int = 0,
+    val gregorian: String = "",
+    val hijri: String = "",
+    val prayerTimes: List<Prayer> = listOf(),
+    val eventEn: String = "",
+    val eventAr: String = "",
+    val weekId: Int? = null
 )

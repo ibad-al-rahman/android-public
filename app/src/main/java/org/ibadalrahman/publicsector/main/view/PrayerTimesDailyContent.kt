@@ -27,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
@@ -37,20 +38,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.ConfigurationCompat
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import org.ibadalrahman.publicsector.R
+import org.ibadalrahman.publicsector.main.model.PrayerData
 import org.ibadalrahman.publicsector.navigation.DatePickerModal
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 import java.util.TimeZone
 import kotlin.math.abs
 
@@ -59,7 +64,7 @@ import kotlin.math.abs
 fun PrayerTimesDailyContent(
     inputDate: String = "",
     isLoading: Boolean = false,
-    prayers: List<Prayer> = listOf(),
+    prayerData: PrayerData = PrayerData(),
     onDateSelected: (String) -> Unit = {_ -> null}
 ) {
     var showDatePicker by remember {
@@ -74,7 +79,10 @@ fun PrayerTimesDailyContent(
     var min_diff_time = Long.MAX_VALUE
     var min_idx = -1
 
-    prayers.forEachIndexed { index, prayer ->
+    prayerData.prayerTimes.forEachIndexed { index, prayer ->
+
+//        un-highlight all prayers
+        prayer.highlight = false
 
         val prayer_date = sdf.parse(prayer.time)
         val diff_time = computeTimeDiffFromNow(prayer_date)
@@ -84,8 +92,8 @@ fun PrayerTimesDailyContent(
         }
     }
     nearestPrayerIdx.value = min_idx
-    if(min_idx > 0 && min_idx < prayers.size) {
-        prayers[min_idx].highlight = true
+    if(min_idx > 0 && min_idx < prayerData.prayerTimes.size) {
+        prayerData.prayerTimes[min_idx].highlight = true
     }
 
 
@@ -150,7 +158,7 @@ fun PrayerTimesDailyContent(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-           prayers.forEachIndexed { idx, prayer ->
+            prayerData.prayerTimes.forEachIndexed { idx, prayer ->
                PrayerRow(prayer)
            }
         }
@@ -177,7 +185,56 @@ fun PrayerTimesDailyContent(
                 modifier = Modifier.fillMaxWidth()
             )
         }
+        EventsRow(prayerData)
 
+    }
+}
+
+@Composable
+fun EventsRow(prayerData: PrayerData) {
+    if(prayerData.eventEn != "" && getLocale() == Locale.forLanguageTag("en")) {
+        Text(
+            text = stringResource(id = R.string.events).uppercase(),
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.secondary,
+            modifier = Modifier.padding(vertical = 10.dp)
+        )
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .fillMaxWidth()
+                .padding(20.dp)
+        ) {
+            Text(
+                text = prayerData.eventEn,
+                textAlign = TextAlign.Right,
+                fontSize = 18.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+    else if(prayerData.eventAr != "") {
+        Text(
+            text = stringResource(id = R.string.events).uppercase(),
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.secondary,
+            modifier = Modifier.padding(vertical = 10.dp)
+        )
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .fillMaxWidth()
+                .padding(20.dp)
+        ) {
+            Text(
+                text = prayerData.eventAr,
+                textAlign = TextAlign.Right,
+                fontSize = 18.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
