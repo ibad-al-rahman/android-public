@@ -45,6 +45,5 @@ class PrayerTimesRepositoryImpl @Inject constructor(
     override suspend fun fetchDigest(year: Int): Result<String> =
         remoteDataSource.getYearSha1(year = year).map { it.sha1 }
 
-    override suspend fun getDigest(year: Int): String =
-        localDatasource.getDigest(year = year)
+    override suspend fun getDigest(year: Int): String = localDatasource.getDigest(year = year)
 }

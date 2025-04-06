@@ -8,7 +8,7 @@ import retrofit2.http.Path
 
 interface PrayerTimesApi {
     companion object {
-        const val PRAYER_TIMES_ENDPOINT = "v1/year"
+        const val PRAYER_TIMES_ENDPOINT = "v1/year/days"
         const val SHA1_ENDPOINT = "v1/sha1"
     }
 

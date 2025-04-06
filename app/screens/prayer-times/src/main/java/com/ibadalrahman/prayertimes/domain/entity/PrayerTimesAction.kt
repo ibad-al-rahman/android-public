@@ -1,5 +1,5 @@
 package com.ibadalrahman.prayertimes.domain.entity
 
 sealed interface PrayerTimesAction {
-    data object Setup: PrayerTimesAction
+    data class LoadPrayerTimes(val year: Int): PrayerTimesAction
 }
