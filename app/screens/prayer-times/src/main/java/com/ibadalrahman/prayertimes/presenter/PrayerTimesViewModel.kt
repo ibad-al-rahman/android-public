@@ -33,9 +33,14 @@ class PrayerTimesViewModel @Inject constructor(
     override fun router(
         intention: PrayerTimesIntention
     ): MviBoundary<PrayerTimesViewAction, PrayerTimesAction, PrayerTimesResult> =
-        MviBoundary.Result(PrayerTimesResult.Noop)
+        when(intention) {
+            PrayerTimesIntention.OnScreenStarted ->
+                action(PrayerTimesAction.LoadPrayerTimes(year = 2025))
+        }
 
-    override fun reduce(result: PrayerTimesResult) {}
+    override fun reduce(result: PrayerTimesResult) {
+        updateState { PrayerTimesReducer.reduce(prevState = this, result = result) }
+    }
 
     override fun viewActionFrom(result: PrayerTimesResult): PrayerTimesViewAction? = null
 }
