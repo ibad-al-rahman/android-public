@@ -2,6 +2,8 @@ package org.ibadalrahman.publicsector.main.view
 
 import Prayer
 import android.provider.CalendarContract.Colors
+import android.text.format.DateUtils
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,13 +16,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Nightlight
 import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material.icons.filled.WbTwilight
+import androidx.compose.material3.Divider
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,6 +44,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -58,7 +65,6 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 import kotlin.math.abs
-
 @Preview
 @Composable
 fun PrayerTimesDailyContent(
@@ -70,8 +76,6 @@ fun PrayerTimesDailyContent(
     var showDatePicker by remember {
         mutableStateOf(false)
     }
-
-    var time by remember { mutableStateOf("") }
     val sdf = remember { SimpleDateFormat("hh:mm a", java.util.Locale.ROOT)}
     var nearestPrayerIdx = remember {mutableIntStateOf(-1)}
 
@@ -104,18 +108,32 @@ fun PrayerTimesDailyContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.tertiaryContainer)
             .padding(
-                vertical = 30.dp,
-                horizontal = 20.dp
+                top = 30.dp,
+                bottom = 0.dp,
+                start = 20.dp,
+                end = 20.dp
             )
             .verticalScroll(ScrollState(0))
     ) {
-        Spacer(
-            modifier = Modifier.height(30.dp)
-        )
-        Text(time, fontSize = 40.sp, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
-        Spacer(
-            modifier = Modifier.height(30.dp)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+
+        ) {
+            Image(
+                painterResource(R.drawable.ibad_logo_transparent),
+                contentDescription = "",
+                modifier = Modifier.width(100.dp))
+        }
+
+//        Box(modifier = Modifier
+//            .fillMaxWidth()
+//        ) {
+//            ClockText()
+//        }
+
+        Spacer(modifier = Modifier.height(15.dp))
+
         Row (
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -185,7 +203,12 @@ fun PrayerTimesDailyContent(
                 modifier = Modifier.fillMaxWidth()
             )
         }
+
+        Spacer(Modifier.height(40.dp))
+
         EventsRow(prayerData)
+
+        Spacer(Modifier.height(40.dp))
 
     }
 }
@@ -208,7 +231,7 @@ fun EventsRow(prayerData: PrayerData) {
         ) {
             Text(
                 text = prayerData.eventEn,
-                textAlign = TextAlign.Right,
+                textAlign = TextAlign.Start,
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -230,7 +253,7 @@ fun EventsRow(prayerData: PrayerData) {
         ) {
             Text(
                 text = prayerData.eventAr,
-                textAlign = TextAlign.Right,
+                textAlign = TextAlign.Start,
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )

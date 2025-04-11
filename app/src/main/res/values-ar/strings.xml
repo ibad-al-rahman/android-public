@@ -33,4 +33,6 @@
     <string name="app_widget_description">وصف الويدجت</string>
     <string name="events">المناسبات</string>
     <string name="layout_direction">rtl</string>
+    <string name="light">فاتح</string>
+    <string name="dark">داكن</string>
 </resources>

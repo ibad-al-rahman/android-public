@@ -4,12 +4,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import org.ibadalrahman.publicsector.main.presenter.MainActivityViewModel
 import org.ibadalrahman.publicsector.ui.theme.AppTheme
 
 @AndroidEntryPoint
-class MainActivity: ComponentActivity() {
+class MainActivity: AppCompatActivity() {
     private val mainViewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

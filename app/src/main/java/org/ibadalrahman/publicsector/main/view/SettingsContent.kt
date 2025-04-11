@@ -108,7 +108,7 @@ fun SettingsContent() {
             text = stringResource(R.string.display),
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.DarkGray,
+            color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(vertical = 10.dp)
         )
         ListButton(
@@ -159,7 +159,7 @@ fun ListButton(text: String, icon: ImageVector, onClick : () -> Unit ) {
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Icon(icon, text)
-            Text(text, fontSize = 18.sp, color = Color.Black, modifier = Modifier.padding(horizontal = 10.dp))
+            Text(text, fontSize = 18.sp, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.padding(horizontal = 10.dp))
             Spacer(Modifier
                 .weight(1f)
                 .fillMaxWidth()
@@ -167,6 +167,68 @@ fun ListButton(text: String, icon: ImageVector, onClick : () -> Unit ) {
             Icon(imageVector = Icons.Default.ChevronRight, contentDescription = "Go", modifier = Modifier.mirror())
         }
     }
+}
+
+@Composable
+fun AppearanceSelector() {
+    var expanded by remember { mutableStateOf(false) }
+    var context = LocalContext.current
+    var select = stringResource(id = R.string.select)
+    var selectedAppearance by remember { mutableStateOf(select) }
+
+    TextButton(
+        onClick = { expanded = !expanded } ,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+
+    ) {
+
+        val str_light = stringResource(id = R.string.light)
+        val str_dark = stringResource(id = R.string.dark)
+        Row(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background)) {
+            Icon(Icons.Default.Contrast, stringResource(id = R.string.language))
+            Text(stringResource(id = R.string.appearance), fontSize = 18.sp, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.padding(horizontal = 10.dp))
+            Spacer(Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background))
+            Box {
+                Text(stringResource(id = R.string.select))
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { str_light },
+                        onClick = {
+                            setDarkMode(false)
+                            selectedAppearance = str_light
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { str_dark },
+                        onClick = {
+                            setDarkMode(true)
+                            selectedAppearance = str_dark
+                        }
+                    )
+                }
+            }
+        }
+    }
+
+
+
+}
+
+fun setDarkMode(enabled: Boolean) {
+    val value = when (enabled) {
+        true -> AppCompatDelegate.MODE_NIGHT_YES
+        false -> AppCompatDelegate.MODE_NIGHT_NO
+    }
+
+    AppCompatDelegate.setDefaultNightMode(value)
 }
 
 @Composable
@@ -180,16 +242,16 @@ fun LanguageSelector() {
         onClick = { expanded = !expanded } ,
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
 
     ) {
-        Row(modifier = Modifier.fillMaxWidth().background(Color.White)) {
+        Row(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background)) {
             Icon(Icons.Default.FontDownload, stringResource(id = R.string.language))
-            Text(stringResource(id = R.string.language), fontSize = 18.sp, color = Color.Black, modifier = Modifier.padding(horizontal = 10.dp))
+            Text(stringResource(id = R.string.language), fontSize = 18.sp, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.padding(horizontal = 10.dp))
             Spacer(Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .background(Color.White))
+                .background(MaterialTheme.colorScheme.background))
             Box {
                 Text(stringResource(id = R.string.select))
                 DropdownMenu(
