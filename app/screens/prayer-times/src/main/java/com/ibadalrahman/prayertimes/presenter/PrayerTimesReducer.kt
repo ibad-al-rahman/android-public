@@ -8,6 +8,8 @@ object PrayerTimesReducer {
         prevState: PrayerTimesScreenState,
         result: PrayerTimesResult
     ): PrayerTimesScreenState = when(result) {
+        PrayerTimesResult.ShowDatePicker -> prevState.copy(isDatePickerVisible = true)
+        PrayerTimesResult.HideDatePicker -> prevState.copy(isDatePickerVisible = false)
         else -> {
             println(result)
             PrayerTimesScreenState.initialState

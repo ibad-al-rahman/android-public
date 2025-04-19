@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "268863422776",
+    "project_id": "ibad-debug",
+    "storage_bucket": "ibad-debug.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268863422776:android:4d285d6d20a3c7cc8bc1cd",
+        "android_client_info": {
+          "package_name": "org.ibadalrahman.publicsector"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzzmlS8cwzBP8GqXfOBub0CJPz87mmP8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

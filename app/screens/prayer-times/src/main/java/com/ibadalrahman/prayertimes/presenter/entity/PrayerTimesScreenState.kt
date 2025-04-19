@@ -9,20 +9,22 @@ import java.util.Date
 data class PrayerTimesScreenState(
     val isLoading: Boolean,
     val date: Date,
-    val prayerTimes: PrayerTimesState
+    val isDatePickerVisible: Boolean,
+    val prayerTimes: PrayerTimesState?
 ) {
     companion object {
         val initialState: PrayerTimesScreenState
             get() = PrayerTimesScreenState(
                 isLoading = false,
                 date = Date(),
+                isDatePickerVisible = false,
                 prayerTimes = PrayerTimesState(
-                    fajr = "",
-                    sunrise = "",
-                    dhuhr = "",
-                    asr = "",
-                    maghrib = "",
-                    ishaa = ""
+                    fajr = Date(),
+                    sunrise = Date(),
+                    dhuhr = Date(),
+                    asr = Date(),
+                    maghrib = Date(),
+                    ishaa = Date()
                 )
             )
     }
@@ -31,10 +33,21 @@ data class PrayerTimesScreenState(
 @Stable
 @Immutable
 data class PrayerTimesState(
-    val fajr: String,
-    val sunrise: String,
-    val dhuhr: String,
-    val asr: String,
-    val maghrib: String,
-    val ishaa: String
+    val fajr: Date,
+    val sunrise: Date,
+    val dhuhr: Date,
+    val asr: Date,
+    val maghrib: Date,
+    val ishaa: Date
 )
+
+@Stable
+@Immutable
+enum class Prayer {
+    FAJR,
+    SUNRISE,
+    DHUHR,
+    ASR,
+    MAGHRIB,
+    ISHAA
+}

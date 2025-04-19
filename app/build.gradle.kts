@@ -4,15 +4,18 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.dagger.hilt.android)
     alias(libs.plugins.jetbrains.kotlin.compose)
-    alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.google.gsm.google.services)
 }
 
 android {
-    namespace = GradleConfigs.subNamespace("publicsector")
+    val appId = GradleConfigs.subNamespace("publicsector")
+
+    namespace = appId
     compileSdk = GradleConfigs.compileSdk
 
     defaultConfig {
-        applicationId = GradleConfigs.baseNamespace
+        applicationId = appId
         minSdk = GradleConfigs.minSdk
         targetSdk = GradleConfigs.compileSdk
         versionCode = 1
