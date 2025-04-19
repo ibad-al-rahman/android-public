@@ -1,6 +1,5 @@
 package com.ibadalrahman.prayertimes.view
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.ibadalrahman.mvi.BaseScreen
 import com.ibadalrahman.mvi.ObserveLifecycleEvents
@@ -16,6 +15,6 @@ fun PrayerTimesRootScreen(viewModel: PrayerTimesViewModel) {
         ObserveLifecycleEvents (
             onStart = { intentionProcessor(PrayerTimesIntention.OnScreenStarted) }
         )
-        Text("Hello World")
+        DailyPrayerTimesView(state = state, intentionProcessor = intentionProcessor)
     }
 }

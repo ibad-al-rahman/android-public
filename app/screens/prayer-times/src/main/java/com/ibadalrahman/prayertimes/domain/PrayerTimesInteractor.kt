@@ -13,34 +13,33 @@ class PrayerTimesInteractor @Inject constructor(
 ): BaseInteractor<PrayerTimesAction, PrayerTimesResult> {
     override suspend fun resultFrom(action: PrayerTimesAction): Flow<PrayerTimesResult> = flow {
         when(action) {
+            PrayerTimesAction.ShowDatePicker -> {
+                emit(PrayerTimesResult.ShowDatePicker)
+            }
+            PrayerTimesAction.HideDatePicker -> {
+                emit(PrayerTimesResult.HideDatePicker)
+            }
             is PrayerTimesAction.LoadPrayerTimes -> {
                 emit(PrayerTimesResult.Loading)
-                prayerTimesRepository
+
+                val remoteDigest = prayerTimesRepository
                     .fetchDigest(year = action.year)
+                    .getOrElse { return@flow }
+
+                val localDigest = prayerTimesRepository.getDigest(year = action.year)
+
+                if (remoteDigest != localDigest) {
+                    prayerTimesRepository
+                        .fetchPrayerTimes(year = action.year)
+                        .getOrElse { return@flow }
+                }
+
+                prayerTimesRepository.getDayPrayerTimes(year = 2025, month = 1, day = 1)
                     .fold(
-                        onSuccess = { digest ->
-                            val localDigest = prayerTimesRepository.getDigest(year = action.year)
-                            if(digest != localDigest) {
-                                prayerTimesRepository
-                                    .fetchPrayerTimes(year = action.year)
-                                    .fold(
-                                        onSuccess = {
-                                            prayerTimesRepository
-                                                .getDayPrayerTimes(year = 2025, month = 1, day = 1)
-                                                .fold(
-                                                    onSuccess = {
-                                                        emit(PrayerTimesResult.PrayerTimesLoaded(prayerTimes = it))
-                                                    },
-                                                    onFailure = {}
-                                                )
-                                        },
-                                        onFailure = {}
-                                    )
-                            }
+                        onSuccess = { prayerTimes ->
+                            emit(PrayerTimesResult.PrayerTimesLoaded(prayerTimes = prayerTimes))
                         },
-                        onFailure = {
-                            println(it)
-                        }
+                        onFailure = {}
                     )
             }
         }

@@ -26,6 +26,7 @@
             <option value="$PROJECT_DIR$/app/common/base" />
             <option value="$PROJECT_DIR$/app/common/mvi" />
             <option value="$PROJECT_DIR$/app/common/network" />
+            <option value="$PROJECT_DIR$/app/common/resources" />
             <option value="$PROJECT_DIR$/app/data" />
             <option value="$PROJECT_DIR$/app/data/prayer-times-repository" />
             <option value="$PROJECT_DIR$/app/screens" />

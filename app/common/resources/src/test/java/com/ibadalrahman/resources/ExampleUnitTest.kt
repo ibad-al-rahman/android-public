@@ -1,4 +1,4 @@
-package com.ibadalrahman.network
+package com.ibadalrahman.resources
 
 import org.junit.Test
 

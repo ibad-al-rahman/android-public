@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     implementation(projects.app.common.mvi)
     implementation(projects.app.common.base)
+    implementation(projects.app.common.resources)
     implementation(projects.app.data.prayerTimesRepository)
 
     testImplementation(libs.junit)
