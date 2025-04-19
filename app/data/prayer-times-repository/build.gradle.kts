@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.retrofit2.converter.gson)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(projects.app.common.fp)
     implementation(projects.app.common.base)
     implementation(projects.app.common.network)
 }

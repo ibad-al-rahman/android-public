@@ -11,6 +11,7 @@ import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesViewAction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.ibadalrahman.base.CoroutineDispatchers
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +36,7 @@ class PrayerTimesViewModel @Inject constructor(
     ): MviBoundary<PrayerTimesViewAction, PrayerTimesAction, PrayerTimesResult> =
         when(intention) {
             PrayerTimesIntention.OnScreenStarted ->
-                action(PrayerTimesAction.LoadPrayerTimes(year = 2025))
+                action(PrayerTimesAction.LoadPrayerTimes(date = Date()))
             PrayerTimesIntention.OnTapShowDatePicker -> action(PrayerTimesAction.ShowDatePicker)
             PrayerTimesIntention.OnDismissDatePicker -> action(PrayerTimesAction.HideDatePicker)
         }

@@ -13,12 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Nightlight
-import androidx.compose.material.icons.filled.WbSunny
-import androidx.compose.material.icons.filled.WbTwilight
 import androidx.compose.material.icons.outlined.Nightlight
 import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material.icons.outlined.WbTwilight
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,6 +41,8 @@ import com.ibadalrahman.prayertimes.presenter.entity.Prayer
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesIntention
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
 import com.ibadalrahman.resources.R
+import org.ibadalrahman.fp.safeLet
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -102,52 +102,70 @@ fun DailyPrayerTimesView(
             modifier = Modifier.padding(vertical = 10.dp)
         )
 
-        Column(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            PrayerTime(
-                prayer = Prayer.FAJR,
-                time = Date(),
-                imageVector = Icons.Outlined.Nightlight,
-                withDivider = true,
-                verticalPadding = 8.dp
+        if (state.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .size(30.dp)
+                    .padding(10.dp),
+                color = MaterialTheme.colorScheme.primary
             )
-            PrayerTime(
-                prayer = Prayer.SUNRISE,
-                time = Date(),
-                imageVector = Icons.Outlined.WbTwilight,
-                withDivider = true,
-                verticalPadding = 8.dp
-            )
-            PrayerTime(
-                prayer = Prayer.DHUHR,
-                time = Date(),
-                imageVector = Icons.Outlined.WbSunny,
-                withDivider = true,
-                verticalPadding = 8.dp
-            )
-            PrayerTime(
-                prayer = Prayer.ASR,
-                time = Date(),
-                imageVector = Icons.Outlined.WbSunny,
-                withDivider = true,
-                verticalPadding = 8.dp
-            )
-            PrayerTime(
-                prayer = Prayer.MAGHRIB,
-                time = Date(),
-                imageVector = Icons.Outlined.WbTwilight,
-                withDivider = true,
-                verticalPadding = 8.dp
-            )
-            PrayerTime(
-                prayer = Prayer.ISHAA,
-                time = Date(),
-                imageVector = Icons.Outlined.Nightlight,
-                verticalPadding = 8.dp
-            )
+        } else {
+            safeLet(
+                state.prayerTimes?.fajr,
+                state.prayerTimes?.sunrise,
+                state.prayerTimes?.dhuhr,
+                state.prayerTimes?.asr,
+                state.prayerTimes?.maghrib,
+                state.prayerTimes?.ishaa
+            ) { fajr, sunrise, dhuhr, asr, maghrib, ishaa ->
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    PrayerTime(
+                        prayer = Prayer.FAJR,
+                        time = fajr,
+                        imageVector = Icons.Outlined.Nightlight,
+                        withDivider = true,
+                        verticalPadding = 8.dp
+                    )
+                    PrayerTime(
+                        prayer = Prayer.SUNRISE,
+                        time = sunrise,
+                        imageVector = Icons.Outlined.WbTwilight,
+                        withDivider = true,
+                        verticalPadding = 8.dp
+                    )
+                    PrayerTime(
+                        prayer = Prayer.DHUHR,
+                        time = dhuhr,
+                        imageVector = Icons.Outlined.WbSunny,
+                        withDivider = true,
+                        verticalPadding = 8.dp
+                    )
+                    PrayerTime(
+                        prayer = Prayer.ASR,
+                        time = asr,
+                        imageVector = Icons.Outlined.WbSunny,
+                        withDivider = true,
+                        verticalPadding = 8.dp
+                    )
+                    PrayerTime(
+                        prayer = Prayer.MAGHRIB,
+                        time = maghrib,
+                        imageVector = Icons.Outlined.WbTwilight,
+                        withDivider = true,
+                        verticalPadding = 8.dp
+                    )
+                    PrayerTime(
+                        prayer = Prayer.ISHAA,
+                        time = ishaa,
+                        imageVector = Icons.Outlined.Nightlight,
+                        verticalPadding = 8.dp
+                    )
+                }
+            }
         }
     }
 }
@@ -223,10 +241,12 @@ fun DatePickerModal(
 @Composable
 fun DateText(
     date: Date,
-    format: String = "HH:mm a",
+    format: String? = null,
     fontSize: TextUnit = TextUnit.Unspecified
 ) {
-    val formatter = SimpleDateFormat(format, Locale.getDefault())
+    val formatter = if (format != null) SimpleDateFormat(format, Locale.getDefault())
+    else DateFormat.getTimeInstance(DateFormat.SHORT)
+
     val formattedDate = formatter.format(date)
     Text(text = formattedDate, fontSize = fontSize)
 }

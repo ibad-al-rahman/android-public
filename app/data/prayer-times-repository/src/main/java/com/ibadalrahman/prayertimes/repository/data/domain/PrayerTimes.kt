@@ -1,10 +1,12 @@
 package com.ibadalrahman.prayertimes.repository.data.domain
 
+import java.util.Date
+
 data class PrayerTimes(
-    val fajr: String,
-    val sunrise: String,
-    val dhuhr: String,
-    val asr: String,
-    val maghrib: String,
-    val ishaa: String
+    val fajr: Date,
+    val sunrise: Date,
+    val dhuhr: Date,
+    val asr: Date,
+    val maghrib: Date,
+    val ishaa: Date
 )
