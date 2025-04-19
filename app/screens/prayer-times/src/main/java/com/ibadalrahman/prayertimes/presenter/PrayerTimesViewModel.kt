@@ -39,6 +39,8 @@ class PrayerTimesViewModel @Inject constructor(
                 action(PrayerTimesAction.LoadPrayerTimes(date = Date()))
             PrayerTimesIntention.OnTapShowDatePicker -> action(PrayerTimesAction.ShowDatePicker)
             PrayerTimesIntention.OnDismissDatePicker -> action(PrayerTimesAction.HideDatePicker)
+            is PrayerTimesIntention.OnDateSelected ->
+                action(PrayerTimesAction.OnDateSelected(date = intention.date))
         }
 
     override fun reduce(result: PrayerTimesResult) {

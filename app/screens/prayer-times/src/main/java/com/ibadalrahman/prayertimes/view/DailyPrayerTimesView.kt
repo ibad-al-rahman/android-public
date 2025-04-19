@@ -81,12 +81,19 @@ fun DailyPrayerTimesView(
             FilledTonalButton(onClick = {
                 intentionProcessor(PrayerTimesIntention.OnTapShowDatePicker)
             }) {
-                DateText(date = state.date, format = "dd/MM/yyyy", fontSize = 14.sp)
+                DateText(
+                    date = state.date,
+                    format = DateFormat.getDateInstance(DateFormat.MEDIUM),
+                    fontSize = 14.sp
+                )
             }
 
             if (state.isDatePickerVisible) {
                 DatePickerModal(
-                    onDateSelected = {},
+                    onDateSelected = {
+                        val date = it ?: Date()
+                        intentionProcessor(PrayerTimesIntention.OnDateSelected(date))
+                    },
                     onDismiss = {
                         intentionProcessor(PrayerTimesIntention.OnDismissDatePicker)
                     }
@@ -213,7 +220,7 @@ fun PrayerTime(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerModal(
-    onDateSelected: (Long?) -> Unit,
+    onDateSelected: (Date?) -> Unit,
     onDismiss: () -> Unit
 ) {
     val datePickerState = rememberDatePickerState()
@@ -222,7 +229,10 @@ fun DatePickerModal(
         onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
+                val date = datePickerState.selectedDateMillis?.let { millis ->
+                    Date(millis)
+                } ?: Date()
+                onDateSelected(date)
                 onDismiss()
             }) {
                 Text("OK")
@@ -241,12 +251,10 @@ fun DatePickerModal(
 @Composable
 fun DateText(
     date: Date,
-    format: String? = null,
+    format: DateFormat? = null,
     fontSize: TextUnit = TextUnit.Unspecified
 ) {
-    val formatter = if (format != null) SimpleDateFormat(format, Locale.getDefault())
-    else DateFormat.getTimeInstance(DateFormat.SHORT)
-
+    val formatter = format ?: DateFormat.getTimeInstance(DateFormat.SHORT)
     val formattedDate = formatter.format(date)
     Text(text = formattedDate, fontSize = fontSize)
 }
