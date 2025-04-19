@@ -24,6 +24,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/app/common" />
             <option value="$PROJECT_DIR$/app/common/base" />
+            <option value="$PROJECT_DIR$/app/common/fp" />
             <option value="$PROJECT_DIR$/app/common/mvi" />
             <option value="$PROJECT_DIR$/app/common/network" />
             <option value="$PROJECT_DIR$/app/common/resources" />

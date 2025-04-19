@@ -1,5 +1,6 @@
 package com.ibadalrahman.prayertimes.domain
 
+import android.icu.util.Calendar
 import com.ibadalrahman.mvi.BaseInteractor
 import com.ibadalrahman.prayertimes.domain.entity.PrayerTimesAction
 import com.ibadalrahman.prayertimes.domain.entity.PrayerTimesResult
@@ -21,26 +22,30 @@ class PrayerTimesInteractor @Inject constructor(
             }
             is PrayerTimesAction.LoadPrayerTimes -> {
                 emit(PrayerTimesResult.Loading)
+                val calendar = Calendar.getInstance()
+                calendar.time = action.date
+
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH) + 1
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
 
                 val remoteDigest = prayerTimesRepository
-                    .fetchDigest(year = action.year)
+                    .fetchDigest(year = year)
                     .getOrElse { return@flow }
 
-                val localDigest = prayerTimesRepository.getDigest(year = action.year)
+                val localDigest = prayerTimesRepository.getDigest(year = year)
 
                 if (remoteDigest != localDigest) {
                     prayerTimesRepository
-                        .fetchPrayerTimes(year = action.year)
+                        .fetchPrayerTimes(year = year)
                         .getOrElse { return@flow }
                 }
 
-                prayerTimesRepository.getDayPrayerTimes(year = 2025, month = 1, day = 1)
-                    .fold(
-                        onSuccess = { prayerTimes ->
-                            emit(PrayerTimesResult.PrayerTimesLoaded(prayerTimes = prayerTimes))
-                        },
-                        onFailure = {}
-                    )
+                val prayerTimes = prayerTimesRepository
+                    .getDayPrayerTimes(year = year, month = month, day = day)
+                    .getOrElse { return@flow }
+
+                emit(PrayerTimesResult.PrayerTimesLoaded(prayerTimes = prayerTimes))
             }
         }
     }

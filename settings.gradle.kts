@@ -26,6 +26,7 @@ rootProject.name = "PublicSector"
 
 include(":app")
 
+include(":app:common:fp")
 include(":app:common:mvi")
 include(":app:common:base")
 include(":app:common:network")

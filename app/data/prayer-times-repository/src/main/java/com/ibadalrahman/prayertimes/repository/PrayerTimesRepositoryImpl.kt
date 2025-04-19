@@ -23,7 +23,9 @@ class PrayerTimesRepositoryImpl @Inject constructor(
         val id = String.format(
             locale = Locale("en"), format = "%04d%02d%02d", year, month, day
         ).toInt()
-        return Result.success(localDatasource.findById(id = id).toDomain())
+        val prayerTimes = localDatasource.findById(id = id).toDomain()
+            ?: return Result.failure(IllegalArgumentException("No data found for the given date"))
+        return Result.success(prayerTimes)
     }
 
     override suspend fun fetchPrayerTimes(year: Int): Result<Unit> {
