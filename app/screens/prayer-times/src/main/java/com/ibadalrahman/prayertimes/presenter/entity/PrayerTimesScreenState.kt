@@ -10,7 +10,8 @@ data class PrayerTimesScreenState(
     val isLoading: Boolean,
     val date: Date,
     val isDatePickerVisible: Boolean,
-    val prayerTimes: PrayerTimesState?
+    val prayerTimes: PrayerTimesState?,
+    val event: String?,
 ) {
     companion object {
         val initialState: PrayerTimesScreenState
@@ -25,7 +26,8 @@ data class PrayerTimesScreenState(
                     asr = Date(),
                     maghrib = Date(),
                     ishaa = Date()
-                )
+                ),
+                event = null
             )
     }
 }
