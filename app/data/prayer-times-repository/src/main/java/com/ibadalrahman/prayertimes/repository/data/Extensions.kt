@@ -38,11 +38,12 @@ fun EventResponse.toEntity(): EventEntity = EventEntity(
 )
 
 fun DayPrayerTimesEntity.toDomain(): DayPrayerTimes? = safeLet(
-    this.prayerTimes.toDomain(this.gregorian)
-) { prayerTimes ->
+    SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(this.gregorian),
+    this.prayerTimes.toDomain(this.gregorian),
+) { gregorian, prayerTimes ->
     return DayPrayerTimes(
         id = this.id,
-        gregorian = this.gregorian,
+        gregorian = gregorian,
         hijri = this.hijri,
         prayerTimes = prayerTimes,
         weekId = this.weekId,

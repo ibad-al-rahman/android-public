@@ -3,6 +3,7 @@ package com.ibadalrahman.prayertimes.view
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,9 +44,7 @@ import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
 import com.ibadalrahman.resources.R
 import org.ibadalrahman.fp.safeLet
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 @Composable
 fun DailyPrayerTimesView(
@@ -61,9 +60,7 @@ fun DailyPrayerTimesView(
             .padding(horizontal = 10.dp)
             .verticalScroll(ScrollState(0))
     ) {
-        Spacer(
-            modifier = Modifier.height(30.dp)
-        )
+        Spacer(modifier = Modifier.height(30.dp))
 
         Row (
             verticalAlignment = Alignment.CenterVertically,
@@ -75,7 +72,7 @@ fun DailyPrayerTimesView(
         ) {
             Text(
                 text = stringResource(id = R.string.date),
-                fontSize = 14.sp
+                fontSize = 16.sp
             )
 
             FilledTonalButton(onClick = {
@@ -84,7 +81,7 @@ fun DailyPrayerTimesView(
                 DateText(
                     date = state.date,
                     format = DateFormat.getDateInstance(DateFormat.MEDIUM),
-                    fontSize = 14.sp
+                    fontSize = 16.sp
                 )
             }
 
@@ -110,12 +107,19 @@ fun DailyPrayerTimesView(
         )
 
         if (state.isLoading) {
-            CircularProgressIndicator(
+            Box(
                 modifier = Modifier
-                    .size(30.dp)
+                    .fillMaxSize()
                     .padding(10.dp),
-                color = MaterialTheme.colorScheme.primary
-            )
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(10.dp),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         } else {
             safeLet(
                 state.prayerTimes?.fajr,
@@ -174,6 +178,37 @@ fun DailyPrayerTimesView(
                 }
             }
         }
+
+        safeLet(state.event) { event ->
+            Spacer(modifier = Modifier.height(30.dp))
+            Text(
+                text = stringResource(id = R.string.timings).uppercase(),
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.padding(vertical = 10.dp)
+            )
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(8.dp)
+                ) {
+                    Text(
+                        text = event,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
+        }
     }
 }
 
@@ -201,15 +236,15 @@ fun PrayerTime(
                 contentDescription = prayer.name,
                 modifier = Modifier
                     .padding(end = 10.dp)
-                    .size(size = 14.dp)
+                    .size(size = 16.dp)
             )
             Text(
                 text = localizedPrayerName(prayer),
-                fontSize = 14.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Normal
             )
             Spacer(modifier = Modifier.weight(1f))
-            DateText(date = time, fontSize = 14.sp)
+            DateText(date = time, fontSize = 16.sp)
         }
         if (withDivider) {
             HorizontalDivider()

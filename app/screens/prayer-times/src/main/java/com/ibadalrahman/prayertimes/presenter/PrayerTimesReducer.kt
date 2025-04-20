@@ -2,6 +2,7 @@ package com.ibadalrahman.prayertimes.presenter
 
 import com.ibadalrahman.prayertimes.domain.entity.PrayerTimesResult
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
+import java.util.Locale
 
 object PrayerTimesReducer {
     fun reduce(
@@ -14,6 +15,7 @@ object PrayerTimesReducer {
         is PrayerTimesResult.PrayerTimesLoaded -> {
             prevState.copy(
                 isLoading = false,
+                date = result.prayerTimes.gregorian,
                 prayerTimes = prevState.prayerTimes?.copy(
                     fajr = result.prayerTimes.prayerTimes.fajr,
                     sunrise = result.prayerTimes.prayerTimes.sunrise,
@@ -21,7 +23,12 @@ object PrayerTimesReducer {
                     asr = result.prayerTimes.prayerTimes.asr,
                     maghrib = result.prayerTimes.prayerTimes.maghrib,
                     ishaa = result.prayerTimes.prayerTimes.ishaa
-                )
+                ),
+                event = if (Locale.getDefault().language == "en") {
+                    result.prayerTimes.event?.en
+                } else {
+                    result.prayerTimes.event?.ar
+                },
             )
         }
     }
