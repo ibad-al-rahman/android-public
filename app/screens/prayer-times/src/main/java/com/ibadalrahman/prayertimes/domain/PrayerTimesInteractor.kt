@@ -22,6 +22,12 @@ class PrayerTimesInteractor @Inject constructor(
             PrayerTimesAction.HideDatePicker -> {
                 flowOf(PrayerTimesResult.HideDatePicker)
             }
+            PrayerTimesAction.ShowDailyView -> {
+                flowOf(PrayerTimesResult.ShowDailyView)
+            }
+            PrayerTimesAction.ShowWeeklyView -> {
+                flowOf(PrayerTimesResult.ShowWeeklyView)
+            }
             is PrayerTimesAction.OnDateSelected -> getPrayerTimes(date = action.date)
             is PrayerTimesAction.LoadPrayerTimes -> getPrayerTimes(date = action.date)
         }

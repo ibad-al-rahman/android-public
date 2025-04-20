@@ -39,6 +39,8 @@ class PrayerTimesViewModel @Inject constructor(
                 action(PrayerTimesAction.LoadPrayerTimes(date = Date()))
             PrayerTimesIntention.OnTapShowDatePicker -> action(PrayerTimesAction.ShowDatePicker)
             PrayerTimesIntention.OnDismissDatePicker -> action(PrayerTimesAction.HideDatePicker)
+            PrayerTimesIntention.OnTapDailyView -> action(PrayerTimesAction.ShowDailyView)
+            PrayerTimesIntention.OnTapWeeklyView -> action(PrayerTimesAction.ShowWeeklyView)
             is PrayerTimesIntention.OnDateSelected ->
                 action(PrayerTimesAction.OnDateSelected(date = intention.date))
         }

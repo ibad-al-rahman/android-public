@@ -10,6 +10,7 @@ data class PrayerTimesScreenState(
     val isLoading: Boolean,
     val date: Date,
     val isDatePickerVisible: Boolean,
+    val prayerViewType: PrayerViewType,
     val prayerTimes: PrayerTimesState?,
     val event: String?,
 ) {
@@ -19,6 +20,7 @@ data class PrayerTimesScreenState(
                 isLoading = false,
                 date = Date(),
                 isDatePickerVisible = false,
+                prayerViewType = PrayerViewType.DAILY,
                 prayerTimes = PrayerTimesState(
                     fajr = Date(),
                     sunrise = Date(),
@@ -52,4 +54,11 @@ enum class Prayer {
     ASR,
     MAGHRIB,
     ISHAA
+}
+
+@Stable
+@Immutable
+enum class PrayerViewType {
+    DAILY,
+    WEEKLY
 }

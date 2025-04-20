@@ -2,6 +2,7 @@ package com.ibadalrahman.prayertimes.presenter
 
 import com.ibadalrahman.prayertimes.domain.entity.PrayerTimesResult
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
+import com.ibadalrahman.prayertimes.presenter.entity.PrayerViewType
 import java.util.Locale
 
 object PrayerTimesReducer {
@@ -12,6 +13,8 @@ object PrayerTimesReducer {
         PrayerTimesResult.Loading -> prevState.copy(isLoading = true)
         PrayerTimesResult.ShowDatePicker -> prevState.copy(isDatePickerVisible = true)
         PrayerTimesResult.HideDatePicker -> prevState.copy(isDatePickerVisible = false)
+        PrayerTimesResult.ShowDailyView -> prevState.copy(prayerViewType = PrayerViewType.DAILY)
+        PrayerTimesResult.ShowWeeklyView -> prevState.copy(prayerViewType = PrayerViewType.WEEKLY)
         is PrayerTimesResult.PrayerTimesLoaded -> {
             prevState.copy(
                 isLoading = false,
