@@ -5,8 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ibadalrahman.prayertimes.repository.data.local.entities.DayPrayerTimesEntity
+import com.ibadalrahman.prayertimes.repository.data.local.entities.WeekEntity
 
-@Database(entities = [DayPrayerTimesEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [DayPrayerTimesEntity::class, WeekEntity::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class PrayerTimesDatabase: RoomDatabase() {
     abstract fun prayerTimesDao(): PrayerTimesDao
 
