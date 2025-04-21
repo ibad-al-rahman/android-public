@@ -7,6 +7,6 @@ data class DayPrayerTimes(
     val gregorian: Date,
     val hijri: String,
     val prayerTimes: PrayerTimes,
-    val weekId: String,
+    val weekId: Int,
     val event: Event?
 )

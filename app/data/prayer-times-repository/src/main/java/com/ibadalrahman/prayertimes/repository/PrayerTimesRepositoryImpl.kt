@@ -4,6 +4,7 @@ import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
 import com.ibadalrahman.prayertimes.repository.data.local.PrayerTimesLocalDataSource
 import com.ibadalrahman.prayertimes.repository.data.remote.PrayerTimesRemoteDataSource
 import com.ibadalrahman.prayertimes.repository.data.remote.responses.DayPrayerTimesResponse
+import com.ibadalrahman.prayertimes.repository.data.remote.responses.WeekPrayerTimesResponse
 import com.ibadalrahman.prayertimes.repository.data.toDomain
 import com.ibadalrahman.prayertimes.repository.data.toEntity
 import java.util.Locale
@@ -23,29 +24,38 @@ class PrayerTimesRepositoryImpl @Inject constructor(
         val id = String.format(
             locale = Locale("en"), format = "%04d%02d%02d", year, month, day
         ).toInt()
-        val prayerTimes = localDatasource.findById(id = id).toDomain()
+        val prayerTimes = localDatasource.findDayPrayerTimeById(id = id).toDomain()
             ?: return Result.failure(IllegalArgumentException("No data found for the given date"))
         return Result.success(prayerTimes)
     }
 
     override suspend fun fetchPrayerTimes(year: Int): Result<Unit> {
-        remoteDataSource
+        val dailyPrayerTimes = remoteDataSource
             .getYearDailyPrayerTimes(year = year)
-            .onSuccess {
-                localDatasource.deleteAll()
-                localDatasource.insertAll(
-                    *it.year.map(DayPrayerTimesResponse::toEntity).toTypedArray()
-                )
-                localDatasource.setDigest(year = year, digest = it.sha1)
-            }
-            .onFailure {
-                return Result.failure(it)
-            }
+            .getOrElse { return Result.failure(it) }
+
+        val weekPrayerTimes = remoteDataSource
+            .getYearWeeklyPrayerTimes(year = year)
+            .getOrElse { return Result.failure(it) }
+
+        localDatasource.deleteAllDayPrayerTimes()
+        localDatasource.deleteAllWeekPrayerTimes()
+
+        localDatasource.insertDayPrayerTime(
+            *dailyPrayerTimes.year.map(DayPrayerTimesResponse::toEntity).toTypedArray()
+        )
+        localDatasource.insertWeekPrayerTime(
+            *weekPrayerTimes.year.map(WeekPrayerTimesResponse::toEntity).toTypedArray()
+        )
+
+        localDatasource.setDigest(year = year, digest = dailyPrayerTimes.sha1)
+
         return Result.success(Unit)
     }
 
     override suspend fun fetchDigest(year: Int): Result<String> =
         remoteDataSource.getYearSha1(year = year).map { it.sha1 }
 
-    override suspend fun getDigest(year: Int): String = localDatasource.getDigest(year = year)
+    override suspend fun getDigest(year: Int): String =
+        localDatasource.getDigest(year = year)
 }
