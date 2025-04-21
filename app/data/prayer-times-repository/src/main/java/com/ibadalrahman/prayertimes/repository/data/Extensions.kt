@@ -7,9 +7,13 @@ import com.ibadalrahman.prayertimes.repository.data.domain.PrayerTimes
 import com.ibadalrahman.prayertimes.repository.data.local.entities.DayPrayerTimesEntity
 import com.ibadalrahman.prayertimes.repository.data.local.entities.EventEntity
 import com.ibadalrahman.prayertimes.repository.data.local.entities.PrayerTimesEntity
+import com.ibadalrahman.prayertimes.repository.data.local.entities.WeekEntity
+import com.ibadalrahman.prayertimes.repository.data.local.entities.WeekHadithEntity
 import com.ibadalrahman.prayertimes.repository.data.remote.responses.DayPrayerTimesResponse
 import com.ibadalrahman.prayertimes.repository.data.remote.responses.EventResponse
 import com.ibadalrahman.prayertimes.repository.data.remote.responses.PrayerTimesResponse
+import com.ibadalrahman.prayertimes.repository.data.remote.responses.WeekHadithResponse
+import com.ibadalrahman.prayertimes.repository.data.remote.responses.WeekPrayerTimesResponse
 import org.ibadalrahman.fp.safeLet
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -35,6 +39,23 @@ fun PrayerTimesResponse.toEntity(): PrayerTimesEntity = PrayerTimesEntity(
 fun EventResponse.toEntity(): EventEntity = EventEntity(
     ar = this.ar,
     en = this.en
+)
+
+fun WeekPrayerTimesResponse.toEntity(): WeekEntity = WeekEntity(
+    id = this.id,
+    monId = this.mon?.id,
+    tueId = this.tue?.id,
+    wedId = this.wed?.id,
+    thuId = this.thu?.id,
+    friId = this.fri?.id,
+    satId = this.sat?.id,
+    sunId = this.sun?.id,
+    hadith = this.hadith?.toEntity()
+)
+
+fun WeekHadithResponse.toEntity(): WeekHadithEntity = WeekHadithEntity(
+    hadith = this.hadith,
+    note = this.note
 )
 
 fun DayPrayerTimesEntity.toDomain(): DayPrayerTimes? = safeLet(

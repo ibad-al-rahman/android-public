@@ -16,7 +16,7 @@ data class DayPrayerTimesEntity(
     @Embedded
     val prayerTimes: PrayerTimesEntity,
 
-    val weekId: String,
+    val weekId: Int,
 
     @Embedded
     val event: EventEntity?
