@@ -7,6 +7,6 @@ data class DayPrayerTimesResponse(
     @SerializedName("gregorian") val gregorian: String,
     @SerializedName("hijri") val hijri: String,
     @SerializedName("prayerTimes") val prayerTimes: PrayerTimesResponse,
-    @SerializedName("weekId") val weekId: String,
+    @SerializedName("weekId") val weekId: Int,
     @SerializedName("event") val event: EventResponse?
 )

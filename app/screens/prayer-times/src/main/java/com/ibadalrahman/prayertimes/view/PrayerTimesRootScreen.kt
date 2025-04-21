@@ -61,8 +61,11 @@ fun PrayerTimesRootScreen(viewModel: PrayerTimesViewModel) {
                 )
             }
 
-            if (state.prayerViewType == PrayerViewType.DAILY) {
-                DailyPrayerTimesView(state = state, intentionProcessor = intentionProcessor)
+            when (state.prayerViewType) {
+                PrayerViewType.DAILY ->
+                    DailyPrayerTimesView(state = state, intentionProcessor = intentionProcessor)
+                PrayerViewType.WEEKLY ->
+                    WeeklyPrayerTimesView(state = state, intentionProcessor = intentionProcessor)
             }
         }
     }
