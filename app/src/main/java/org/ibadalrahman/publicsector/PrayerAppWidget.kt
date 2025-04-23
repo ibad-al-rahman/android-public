@@ -287,7 +287,7 @@ class PrayerAppWidget : AppWidgetProvider() {
         val hijriDate = HijrahChronology.INSTANCE.date(inputFormatter.withChronology(HijrahChronology.INSTANCE).parse(prayerData.hijri))
 
 
-        val outputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy").withLocale(Locale.forLanguageTag("ar-LB"))
+        val outputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy").withLocale(getCurrentLocale(context))
         val gregorianDateFormatted = outputFormatter.format(gregorianDate)
         val hijriDateFormatted = outputFormatter.format(hijriDate)
 
