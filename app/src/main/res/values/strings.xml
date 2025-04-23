@@ -30,8 +30,10 @@
     <string name="friday">Fri</string>
     <string name="saturday">Sat</string>
     <string name="app_widget_description">This is an app widget description</string>
-    <string name="events">Events</string>
+    <string name="events">Holidays and Events</string>
     <string name="layout_direction">ltr</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
+    <string name="share">Share</string>
+    <string name="mawaqit">مواقيت الصلاة بحسب تقويم جماعة عباد الرحمٰن السنوي</string>
 </resources>

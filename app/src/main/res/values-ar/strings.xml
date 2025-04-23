@@ -11,7 +11,7 @@
     <string name="ishaa">العشاء</string>
     <string name="am">ص</string>
     <string name="pm">م</string>
-    <string name="date">التاريخ</string>
+    <string name="date">تاريخ</string>
     <string name="daily">يومي</string>
     <string name="weekly">أسبوعي</string>
     <string name="settings">الإعدادات</string>
@@ -31,8 +31,10 @@
     <string name="friday">الجمعة</string>
     <string name="saturday">السبت</string>
     <string name="app_widget_description">وصف الويدجت</string>
-    <string name="events">المناسبات</string>
+    <string name="events">الأعياد والمناسبات</string>
     <string name="layout_direction">rtl</string>
     <string name="light">فاتح</string>
     <string name="dark">داكن</string>
+    <string name="share">أنشر</string>
+    <string name="mawaqit">Prayer Times Based On Ibad Al-Rahman Yearly Calendar</string>
 </resources>

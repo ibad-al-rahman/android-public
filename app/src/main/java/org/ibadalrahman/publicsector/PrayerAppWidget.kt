@@ -32,6 +32,8 @@ import org.ibadalrahman.publicsector.main.view.displayTime
 import org.ibadalrahman.publicsector.main.view.getLocale
 import org.ibadalrahman.publicsector.main.view.getLocalizedPrayerName
 import java.text.SimpleDateFormat
+import java.time.chrono.HijrahChronology
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -277,8 +279,21 @@ class PrayerAppWidget : AppWidgetProvider() {
             .replace("pm", context.resources.getString(R.string.pm)))
     }
 
-    views.setTextViewText(R.id.date_hijri, prayerData.hijri)
-    views.setTextViewText(R.id.date_gregorian, prayerData.gregorian)
+//    format hijjri & gregorian dates
+    if(prayerData.hijri != "") {
+        val inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val gregorianDate = inputFormatter.parse(prayerData.gregorian)
+
+        val hijriDate = HijrahChronology.INSTANCE.date(inputFormatter.withChronology(HijrahChronology.INSTANCE).parse(prayerData.hijri))
+
+
+        val outputFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy").withLocale(Locale.forLanguageTag("ar-LB"))
+        val gregorianDateFormatted = outputFormatter.format(gregorianDate)
+        val hijriDateFormatted = outputFormatter.format(hijriDate)
+
+        views.setTextViewText(R.id.date_hijri, hijriDateFormatted)
+        views.setTextViewText(R.id.date_gregorian, gregorianDateFormatted)
+    }
 
         // Instruct the widget manager to update the widget
         if(prayerData.prayerTimes.size > 0) {
