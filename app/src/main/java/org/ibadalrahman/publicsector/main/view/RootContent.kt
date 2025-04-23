@@ -38,11 +38,12 @@ fun RootContent(
                 icon = Icons.Outlined.CalendarMonth,
                 selectedIcon = Icons.Filled.CalendarMonth,
             ),
-            TabBarItem(
-                route = Screen.Adhkar.route,
-                icon = Icons.Outlined.Book,
-                selectedIcon = Icons.Filled.Book,
-            ),
+//            TODO uncomment if we need adhkar tab back
+//            TabBarItem(
+//                route = Screen.Adhkar.route,
+//                icon = Icons.Outlined.Book,
+//                selectedIcon = Icons.Filled.Book,
+//            ),
             TabBarItem(
                 route = Screen.Settings.route,
                 icon = Icons.Outlined.Settings,

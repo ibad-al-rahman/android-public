@@ -21,6 +21,7 @@ import io.ktor.client.statement.HttpResponse
 import kotlinx.serialization.InternalSerializationApi
 import java.io.File
 import java.util.Calendar
+import java.util.Date
 import java.util.GregorianCalendar
 
 private const val BASE_URL =
@@ -42,6 +43,8 @@ class PrayerRepositoryImpl : PrayerRepository {
             Prayer(name = "Ishaa", icon = Icons.Default.Nightlight, time =dayData.prayerTimes.ishaa),
         )
 
+        val hadith = getHadithOfWeek(weekId = dayData.weekId!!, day = day)
+
         return PrayerData(
             id = dayData.id,
             gregorian = dayData.gregorian,
@@ -49,14 +52,16 @@ class PrayerRepositoryImpl : PrayerRepository {
             prayerTimes = prayersForDay,
             eventEn = dayData.event?.en ?: "",
             eventAr = dayData.event?.ar ?: "",
-            weekId = dayData.weekId
+            weekId = dayData.weekId,
+            hadith = hadith.hadith,
+            note = hadith.note ?: ""
 
         )
 
     }
 
     @OptIn(InternalSerializationApi::class)
-    override suspend fun getPrayersForWeek(week: Int): List<List<String>> {
+    override suspend fun getPrayersForWeek(week: Int): WeekData {
 
         var currentYear: Int = Calendar.getInstance().get(Calendar.YEAR)
         val yearPrayerData = getDataForYear(currentYear)
@@ -100,7 +105,7 @@ class PrayerRepositoryImpl : PrayerRepository {
 
 
 
-        return res.map { prayerData -> listOf(
+        val weekPrayers =  res.map { prayerData -> listOf(
             prayerData.prayerTimes.fajr,
             prayerData.prayerTimes.sunrise,
             prayerData.prayerTimes.dhuhr,
@@ -108,6 +113,16 @@ class PrayerRepositoryImpl : PrayerRepository {
             prayerData.prayerTimes.maghrib,
             prayerData.prayerTimes.ishaa,
         ) }
+
+//        NB: the param `week` passed to this function is the week number without year
+//        so to get the corresponding weekId:
+        val weekId = "$currentYear$week".toInt()
+        val hadith = getHadithOfWeek(weekId = weekId, dayYmd = currentWeek[0]).hadith
+
+        return WeekData(
+            prayers = weekPrayers,
+            hadith = hadith
+        )
     }
 
     @OptIn(InternalSerializationApi::class)
@@ -156,6 +171,54 @@ class PrayerRepositoryImpl : PrayerRepository {
 
         return dayData ?: PrayerDataSerializable() // equivalent to:  return if(dayData != null) dayData else PrayerDataSerializable()
     }
+
+
+
+    @OptIn(InternalSerializationApi::class)
+    suspend fun getHadithOfWeek(weekId: Int, day: String = "", dayYmd: String = ""): HadithSerializable {
+        var dayObj = Date()
+
+        if(day != "") {
+            var dayObj = SimpleDateFormat("dd/MM/yyyy", java.util.Locale.ROOT).parse(day)
+        }
+        else {
+            assert(dayYmd != "")
+            var dayObj = SimpleDateFormat("yyyyMMdd", java.util.Locale.ROOT).parse(dayYmd)
+        }
+
+        var yearObj = Calendar.getInstance()
+        if (dayObj != null) {
+            yearObj.time = dayObj
+        }
+        val year = yearObj.get(Calendar.YEAR)
+
+        val file = File(IOUtils.filesDir ?: File(""), "ibad_weeks_$year.json")
+
+        if(file.exists()) {
+//            if file exists already, read from the file
+            println("READING WEEKS DATA FROM STORAGE...")
+            val yearWeekData =  Json.decodeFromString<YearWeekDataSerializable>(file.readText())
+            val weekData = yearWeekData.weeks.find { it.id == weekId }
+            return weekData?.hadith ?: HadithSerializable()
+        }
+
+//        otherwise, fetch from API
+        println("FETCHING DATA FROM WEEKS API...")
+        println(BASE_URL + "/v1/year/weeks/$year.json")
+        val client = HttpClient(CIO)
+        val response: HttpResponse = client.get(BASE_URL + "/v1/year/weeks/$year.json")
+
+//        write response body to JSON file
+        if(file.createNewFile()) {
+            file.writeText(response.body())
+        }
+
+//        return object to caller
+        val yearWeekData =  Json.decodeFromString<YearWeekDataSerializable>(response.body())
+        val weekData = yearWeekData.weeks.find { it.id == weekId }
+        return weekData?.hadith ?: HadithSerializable()
+
+    }
 }
 
 @kotlinx.serialization.InternalSerializationApi
@@ -194,6 +257,34 @@ data class Event(
     val en: String? = null
 )
 
+@kotlinx.serialization.InternalSerializationApi
+@Serializable
+data class YearWeekDataSerializable (
+    val weeks: List<WeekDataSerializable>,
+    val sha1: String = ""
+)
+
+@kotlinx.serialization.InternalSerializationApi
+@Serializable
+data class WeekDataSerializable (
+    val id: Int,
+    val mon: PrayerDataSerializable? = PrayerDataSerializable(),
+    val tue: PrayerDataSerializable? = PrayerDataSerializable(),
+    val wed: PrayerDataSerializable? = PrayerDataSerializable(),
+    val thu: PrayerDataSerializable? = PrayerDataSerializable(),
+    val fri: PrayerDataSerializable? = PrayerDataSerializable(),
+    val sat: PrayerDataSerializable? = PrayerDataSerializable(),
+    val sun: PrayerDataSerializable? = PrayerDataSerializable(),
+    val hadith: HadithSerializable = HadithSerializable()
+)
+
+@kotlinx.serialization.InternalSerializationApi
+@Serializable
+data class HadithSerializable (
+    val hadith: String = "",
+    val note: String? = ""
+)
+
 // a non "@serializable" version of PrayerDataSerializable
 data class PrayerData(
     val id: Int = 0,
@@ -202,5 +293,12 @@ data class PrayerData(
     val prayerTimes: List<Prayer> = listOf(),
     val eventEn: String = "",
     val eventAr: String = "",
-    val weekId: Int? = null
+    val weekId: Int? = null,
+    val hadith: String = "",
+    val note: String = ""
+)
+
+data class WeekData (
+    val prayers: List<List<String>> = listOf(),
+    val hadith: String = ""
 )

@@ -1,6 +1,9 @@
 package org.ibadalrahman.publicsector.main.view
 
 import Prayer
+import android.content.Context
+import android.content.Intent
+import android.icu.text.DateFormat
 import android.provider.CalendarContract.Colors
 import android.text.format.DateUtils
 import androidx.compose.foundation.Image
@@ -20,7 +23,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.IosShare
 import androidx.compose.material.icons.filled.Nightlight
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material.icons.filled.WbTwilight
 import androidx.compose.material3.Divider
@@ -59,7 +64,11 @@ import org.ibadalrahman.publicsector.R
 import org.ibadalrahman.publicsector.main.model.PrayerData
 import org.ibadalrahman.publicsector.navigation.DatePickerModal
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
+import java.time.chrono.HijrahChronology
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -73,6 +82,7 @@ fun PrayerTimesDailyContent(
     prayerData: PrayerData = PrayerData(),
     onDateSelected: (String) -> Unit = {_ -> null}
 ) {
+    var context = LocalContext.current
     var showDatePicker by remember {
         mutableStateOf(false)
     }
@@ -140,18 +150,18 @@ fun PrayerTimesDailyContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background)
-                .padding(10.dp)
+                .padding(horizontal = 10.dp, vertical = 5.dp)
 //                .padding(start = 30.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
 
         ){
             Text(
                 text = stringResource(id = R.string.date),
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 modifier = Modifier.padding(horizontal = 20.dp)
             )
             FilledTonalButton(onClick = { showDatePicker = true }) {
                 Text(text = inputDate,
-                    fontSize = 18.sp)
+                    fontSize = 16.sp)
             }
             if(showDatePicker) {
                 DatePickerModal(
@@ -163,13 +173,34 @@ fun PrayerTimesDailyContent(
             }
         }
 
-        Text(
-            text = stringResource(id = R.string.timings).uppercase(),
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.secondary,
-            modifier = Modifier.padding(vertical = 10.dp)
+        Spacer(
+            modifier = Modifier.height(30.dp)
         )
+
+        Row {
+            Text(
+                text = stringResource(id = R.string.timings).uppercase(),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.padding(vertical = 10.dp).weight(1.0F)
+            )
+
+            Spacer(Modifier.weight(1.0F, true))
+            TextButton(
+                modifier = Modifier.weight(1.0F),
+                onClick = {
+                    sharePrayerTimes(prayerData, context)
+                }
+            ) {
+                Icon(Icons.Default.IosShare, stringResource(id = R.string.share))
+                Spacer(Modifier.width(5.dp))
+                Text(
+                    text = stringResource(id = R.string.share) + " ",
+                    textAlign = TextAlign.Right
+                )
+            }
+        }
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -180,12 +211,13 @@ fun PrayerTimesDailyContent(
                PrayerRow(prayer)
            }
         }
-        Spacer(
-            modifier = Modifier.height(40.dp)
-        )
+
+        EventsRow(prayerData)
+
+        Spacer(Modifier.height(30.dp))
         Text(
             text = stringResource(id = R.string.hadith).uppercase(),
-            fontSize = 15.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(vertical = 10.dp)
@@ -197,18 +229,16 @@ fun PrayerTimesDailyContent(
                 .padding(20.dp)
         ) {
             Text(
-                text = "انسخ الحديث هنا",
+                text = prayerData.hadith,
                 textAlign = TextAlign.Right,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 modifier = Modifier.fillMaxWidth()
             )
         }
 
-        Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(30.dp))
 
-        EventsRow(prayerData)
 
-        Spacer(Modifier.height(40.dp))
 
     }
 }
@@ -216,9 +246,12 @@ fun PrayerTimesDailyContent(
 @Composable
 fun EventsRow(prayerData: PrayerData) {
     if(prayerData.eventEn != "" && getLocale() == Locale.forLanguageTag("en")) {
+        Spacer(
+            modifier = Modifier.height(30.dp)
+        )
         Text(
             text = stringResource(id = R.string.events).uppercase(),
-            fontSize = 15.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(vertical = 10.dp)
@@ -232,7 +265,7 @@ fun EventsRow(prayerData: PrayerData) {
             Text(
                 text = prayerData.eventEn,
                 textAlign = TextAlign.Start,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -240,7 +273,7 @@ fun EventsRow(prayerData: PrayerData) {
     else if(prayerData.eventAr != "") {
         Text(
             text = stringResource(id = R.string.events).uppercase(),
-            fontSize = 15.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(vertical = 10.dp)
@@ -254,7 +287,7 @@ fun EventsRow(prayerData: PrayerData) {
             Text(
                 text = prayerData.eventAr,
                 textAlign = TextAlign.Start,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -290,7 +323,7 @@ fun PrayerRow(prayer: Prayer) {
         modifier = Modifier
             .fillMaxWidth()
             .background(bg)
-            .padding(20.dp)
+            .padding(horizontal = 15.dp, vertical = 15.dp)
     ) {
         var timeDiffString by remember { mutableStateOf("") }
         var prayerTimeSdf = SimpleDateFormat("hh:mm a",  java.util.Locale.ROOT)
@@ -304,16 +337,16 @@ fun PrayerRow(prayer: Prayer) {
             }
         }
         Icon(imageVector = prayer.icon, prayer.name, modifier = Modifier.padding(horizontal = 10.dp))
-        Text(text = getLocalizedPrayerName(prayer.name), fontSize = 18.sp, fontWeight = fw)
+        Text(text = getLocalizedPrayerName(prayer.name), fontSize = 16.sp, fontWeight = fw)
 
         if(prayer.highlight) {
-            Text(timeDiffString, color = MaterialTheme.colorScheme.onPrimaryContainer, fontSize = 18.sp, fontWeight = fw, modifier = Modifier.weight(1f).padding(horizontal = 20.dp), textAlign = TextAlign.End)
+            Text(timeDiffString, color = MaterialTheme.colorScheme.onPrimaryContainer, fontSize = 16.sp, fontWeight = fw, modifier = Modifier.weight(1f).padding(horizontal = 20.dp), textAlign = TextAlign.End)
         }
         else {
             Spacer(Modifier.weight(1f).fillMaxWidth().background(Color.White))
         }
 
-        Text(prayer.time.replace("am", stringResource(R.string.am)).replace("pm", stringResource(R.string.pm)), fontSize = 18.sp, fontWeight = fw)
+        Text(prayer.time.replace("am", stringResource(R.string.am)).replace("pm", stringResource(R.string.pm)), fontSize = 16.sp, fontWeight = fw)
     }
 }
 
@@ -348,4 +381,47 @@ fun getLocalizedPrayerName(name: String): String {
         "Ishaa" -> return stringResource(R.string.ishaa)
         else -> return name
     }
+}
+
+
+fun sharePrayerTimes(prayerData: PrayerData, context: Context) {
+
+    val inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val gregorianDate = inputFormatter.parse(prayerData.gregorian)
+
+    val hijriDate = HijrahChronology.INSTANCE.date(inputFormatter.withChronology(HijrahChronology.INSTANCE).parse(prayerData.hijri))
+
+
+    val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy").withLocale(Locale.forLanguageTag("ar-LB"))
+    val gregorianDateFormatted = formatter.format(gregorianDate)
+    val hijriDateFormatted = formatter.format(hijriDate)
+
+    val text_to_send = """
+        مواقيت الصلاة بحسب تقويم جماعة عباد الرحمٰن السنوي
+        ${hijriDateFormatted}
+        ${gregorianDateFormatted}
+
+        🌌 الفجر: ${prayerData.prayerTimes[0].time.replace("am", "ص").replace("pm", "م")} 🌌
+
+        🌄 الشروق: ${prayerData.prayerTimes[1].time.replace("am", "ص").replace("pm", "م")} 🌄
+
+        ☀ الظهر: ${prayerData.prayerTimes[2].time.replace("am", "ص").replace("pm", "م")} ☀
+
+        🌆 العصر: ${prayerData.prayerTimes[3].time.replace("am", "ص").replace("pm", "م")} 🌆
+
+        🌅 المغرب: ${prayerData.prayerTimes[4].time.replace("am", "ص").replace("pm", "م")} 🌅
+
+        🌃 العشاء: ${prayerData.prayerTimes[5].time.replace("am", "ص").replace("pm", "م")} 🌃
+
+    """.trimIndent()
+
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, text_to_send)
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(sendIntent, null)
+
+    context.startActivity(shareIntent)
+
 }

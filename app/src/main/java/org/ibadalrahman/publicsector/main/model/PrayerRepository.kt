@@ -5,5 +5,5 @@ import java.util.Date
 
 interface PrayerRepository {
      suspend fun getPrayersForDay(day: String) : PrayerData
-     suspend fun getPrayersForWeek(week: Int) : List<List<String>>
+     suspend fun getPrayersForWeek(week: Int) : WeekData
 }

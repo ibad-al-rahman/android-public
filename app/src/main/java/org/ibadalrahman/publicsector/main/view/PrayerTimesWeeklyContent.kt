@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,12 +30,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.ibadalrahman.publicsector.R
+import org.ibadalrahman.publicsector.main.model.WeekData
 
-@Preview
 @Composable
 fun PrayerTimesWeeklyContent(
     isLoading: Boolean = false,
-    prayers: List<List<String>> = listOf()
+    weekData: WeekData
 ) {
 
     val dayNames = arrayOf(
@@ -47,16 +48,6 @@ fun PrayerTimesWeeklyContent(
         stringResource(id = R.string.friday)
     )
 
-//    val prayerTimes = arrayOf(
-//        arrayOf(stringResource(id = R.string.saturday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-//        arrayOf(stringResource(id = R.string.sunday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-//        arrayOf(stringResource(id = R.string.monday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-//        arrayOf(stringResource(id = R.string.tuesday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-//        arrayOf(stringResource(id = R.string.wednesday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-//        arrayOf(stringResource(id = R.string.thursday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-//        arrayOf(stringResource(id = R.string.friday), "4:27 " + stringResource(R.string.am), "5:58 " + stringResource(R.string.am), "11:49 " + stringResource(R.string.am), "3:08 " + stringResource(R.string.pm), "5:44 " + stringResource(R.string.pm), "7:01 " + stringResource(R.string.pm)),
-//    )
-
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
@@ -64,9 +55,12 @@ fun PrayerTimesWeeklyContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.tertiaryContainer)
             .padding(
-                vertical = 30.dp,
-                horizontal = 20.dp
+                top = 30.dp,
+                bottom = 0.dp,
+                start = 20.dp,
+                end = 20.dp
             )
+            .verticalScroll(ScrollState(0))
     ) {
         Text(
             text = stringResource(id = R.string.timings).uppercase(),
@@ -93,7 +87,7 @@ fun PrayerTimesWeeklyContent(
                 Text(stringResource(id = R.string.ishaa), fontWeight = FontWeight.Bold, fontSize = 18.sp, modifier = Modifier.padding(8.dp).width(90.dp), textAlign = TextAlign.Center)
             }
 
-            prayers.forEachIndexed { idx, day ->
+            weekData.prayers.forEachIndexed { idx, day ->
                 HorizontalDivider( Modifier.width(710.dp))
                 Row(
                 ) {
@@ -121,11 +115,12 @@ fun PrayerTimesWeeklyContent(
                 .padding(20.dp)
         ) {
             Text(
-                text = "انسخ الحديث هنا",
+                text = weekData.hadith,
                 textAlign = TextAlign.Right,
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )
         }
+        Spacer(Modifier.height(30.dp))
     }
 }

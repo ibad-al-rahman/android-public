@@ -89,10 +89,10 @@ class MainActivityViewModel @Inject constructor(
         val week_no = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
 
         viewModelScope.launch {
-            val prayersWeek = repository.getPrayersForWeek(week_no)
+            val weekData = repository.getPrayersForWeek(week_no)
             _viewState.value = _viewState.value.copy(
                 isLoading = false,
-                prayersWeek = prayersWeek
+                weekData = weekData
             )
         }
 

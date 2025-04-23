@@ -9,7 +9,7 @@ enum class PrayerPage {
 
 data class ViewState (
     val prayerData: PrayerData  = PrayerData(),
-    val prayersWeek: List<List<String>>  = listOf(),
+    val weekData: WeekData = WeekData(),
     val inputDate: String = "",
     val nearestPrayerIndex: Int = -1,
     val showDatePicker: Boolean = false,

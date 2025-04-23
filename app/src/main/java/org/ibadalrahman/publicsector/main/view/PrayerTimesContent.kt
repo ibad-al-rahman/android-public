@@ -116,7 +116,7 @@ fun PrayerTimesContent(viewModel: MainActivityViewModel) {
 //        weekly
             PrayerTimesWeeklyContent(
                 isLoading = viewState.isLoading,
-                prayers = viewState.prayersWeek,
+                weekData = viewState.weekData,
             )
         }
     }
