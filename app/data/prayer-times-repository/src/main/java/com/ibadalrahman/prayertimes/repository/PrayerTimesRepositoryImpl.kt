@@ -1,6 +1,7 @@
 package com.ibadalrahman.prayertimes.repository
 
 import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
+import com.ibadalrahman.prayertimes.repository.data.domain.WeekPrayerTimes
 import com.ibadalrahman.prayertimes.repository.data.local.PrayerTimesLocalDataSource
 import com.ibadalrahman.prayertimes.repository.data.remote.PrayerTimesRemoteDataSource
 import com.ibadalrahman.prayertimes.repository.data.remote.responses.DayPrayerTimesResponse
@@ -27,6 +28,12 @@ class PrayerTimesRepositoryImpl @Inject constructor(
         val prayerTimes = localDatasource.findDayPrayerTimeById(id = id).toDomain()
             ?: return Result.failure(IllegalArgumentException("No data found for the given date"))
         return Result.success(prayerTimes)
+    }
+
+    override suspend fun getWeekPrayerTimes(weekId: Int): Result<WeekPrayerTimes> {
+        val weekPrayerTimes = localDatasource.findWeekPrayerTimeById(id = weekId).toDomain()
+            ?: return Result.failure(IllegalArgumentException("No data found for the given week"))
+        return Result.success(weekPrayerTimes)
     }
 
     override suspend fun fetchPrayerTimes(year: Int): Result<Unit> {

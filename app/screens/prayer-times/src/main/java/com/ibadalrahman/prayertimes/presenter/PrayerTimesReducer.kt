@@ -32,6 +32,7 @@ object PrayerTimesReducer {
                 } else {
                     result.prayerTimes.event?.ar
                 },
+                weekPrayerTimes = result.weekPrayerTimes
             )
         }
     }

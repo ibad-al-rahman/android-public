@@ -4,11 +4,14 @@ import android.content.SharedPreferences
 import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
 import com.ibadalrahman.prayertimes.repository.data.domain.Event
 import com.ibadalrahman.prayertimes.repository.data.domain.PrayerTimes
+import com.ibadalrahman.prayertimes.repository.data.domain.WeekHadith
+import com.ibadalrahman.prayertimes.repository.data.domain.WeekPrayerTimes
 import com.ibadalrahman.prayertimes.repository.data.local.entities.DayPrayerTimesEntity
 import com.ibadalrahman.prayertimes.repository.data.local.entities.EventEntity
 import com.ibadalrahman.prayertimes.repository.data.local.entities.PrayerTimesEntity
 import com.ibadalrahman.prayertimes.repository.data.local.entities.WeekEntity
 import com.ibadalrahman.prayertimes.repository.data.local.entities.WeekHadithEntity
+import com.ibadalrahman.prayertimes.repository.data.local.entities.WeekPrayerTimesEntity
 import com.ibadalrahman.prayertimes.repository.data.remote.responses.DayPrayerTimesResponse
 import com.ibadalrahman.prayertimes.repository.data.remote.responses.EventResponse
 import com.ibadalrahman.prayertimes.repository.data.remote.responses.PrayerTimesResponse
@@ -96,6 +99,33 @@ fun PrayerTimesEntity.toDomain(date: String): PrayerTimes? {
 fun EventEntity.toDomain(): Event = Event(
     en = this.en,
     ar = this.ar
+)
+
+fun WeekPrayerTimesEntity.toDomain(): WeekPrayerTimes? = safeLet(
+    this.mon?.toDomain(),
+    this.tue?.toDomain(),
+    this.wed?.toDomain(),
+    this.thu?.toDomain(),
+    this.fri?.toDomain(),
+    this.sat?.toDomain(),
+    this.sun?.toDomain()
+) { mon, tue, wed, thu, fri, sat, sun ->
+    return WeekPrayerTimes(
+        id = this.week.id,
+        mon = mon,
+        tue = tue,
+        wed = wed,
+        thu = thu,
+        fri = fri,
+        sat = sat,
+        sun = sun,
+        hadith = this.week.hadith?.toDomain()
+    )
+}
+
+fun WeekHadithEntity.toDomain(): WeekHadith = WeekHadith(
+    hadith = this.hadith,
+    note = this.note
 )
 
 fun SharedPreferences.getDigest(year: Int): String = this.getString("digest.$year", null) ?: ""
