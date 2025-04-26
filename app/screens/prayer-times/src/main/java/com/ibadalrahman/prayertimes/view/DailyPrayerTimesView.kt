@@ -182,7 +182,7 @@ fun DailyPrayerTimesView(
         safeLet(state.event) { event ->
             Spacer(modifier = Modifier.height(30.dp))
             Text(
-                text = stringResource(id = R.string.timings).uppercase(),
+                text = stringResource(id = R.string.events).uppercase(),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.secondary,
@@ -206,6 +206,36 @@ fun DailyPrayerTimesView(
                         fontWeight = FontWeight.Normal
                     )
                     Spacer(modifier = Modifier.weight(1f))
+                }
+            }
+        }
+
+        safeLet(state.weekPrayerTimes?.hadith) { hadith ->
+            Spacer(modifier = Modifier.height(30.dp))
+            Text(
+                text = stringResource(id = R.string.hadith).uppercase(),
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.padding(vertical = 10.dp)
+            )
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(8.dp)
+                ) {
+                    Text(
+                        text = hadith.hadith,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal
+                    )
                 }
             }
         }

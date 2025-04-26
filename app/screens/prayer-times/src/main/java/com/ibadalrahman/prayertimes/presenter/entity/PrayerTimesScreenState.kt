@@ -2,6 +2,7 @@ package com.ibadalrahman.prayertimes.presenter.entity
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import com.ibadalrahman.prayertimes.repository.data.domain.WeekPrayerTimes
 import java.util.Date
 
 @Stable
@@ -12,6 +13,7 @@ data class PrayerTimesScreenState(
     val isDatePickerVisible: Boolean,
     val prayerViewType: PrayerViewType,
     val prayerTimes: PrayerTimesState?,
+    val weekPrayerTimes: WeekPrayerTimes?,
     val event: String?,
 ) {
     companion object {
@@ -29,6 +31,7 @@ data class PrayerTimesScreenState(
                     maghrib = Date(),
                     ishaa = Date()
                 ),
+                weekPrayerTimes = null,
                 event = null
             )
     }

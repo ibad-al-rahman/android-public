@@ -57,6 +57,13 @@ class PrayerTimesInteractor @Inject constructor(
             .getDayPrayerTimes(year = year, month = month, day = day)
             .getOrElse { return@flow }
 
-        emit(PrayerTimesResult.PrayerTimesLoaded(prayerTimes = prayerTimes))
+        val weekPrayerTimes = prayerTimesRepository
+            .getWeekPrayerTimes(weekId = prayerTimes.weekId)
+            .getOrElse { return@flow }
+
+        emit(PrayerTimesResult.PrayerTimesLoaded(
+            prayerTimes = prayerTimes,
+            weekPrayerTimes = weekPrayerTimes
+        ))
     }
 }
