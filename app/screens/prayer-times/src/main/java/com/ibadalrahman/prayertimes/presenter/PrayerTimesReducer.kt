@@ -2,6 +2,7 @@ package com.ibadalrahman.prayertimes.presenter
 
 import com.ibadalrahman.prayertimes.domain.entity.PrayerTimesResult
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
+import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesState
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerViewType
 import java.util.Locale
 
@@ -32,7 +33,64 @@ object PrayerTimesReducer {
                 } else {
                     result.prayerTimes.event?.ar
                 },
-                weekPrayerTimes = result.weekPrayerTimes
+                weekPrayerTimes = prevState.weekPrayerTimes?.copy(
+                    sat = PrayerTimesState(
+                        fajr = result.weekPrayerTimes.sat.prayerTimes.fajr,
+                        sunrise = result.weekPrayerTimes.sat.prayerTimes.sunrise,
+                        dhuhr = result.weekPrayerTimes.sat.prayerTimes.dhuhr,
+                        asr = result.weekPrayerTimes.sat.prayerTimes.asr,
+                        maghrib = result.weekPrayerTimes.sat.prayerTimes.maghrib,
+                        ishaa = result.weekPrayerTimes.sat.prayerTimes.ishaa
+                    ),
+                    sun = PrayerTimesState(
+                        fajr = result.weekPrayerTimes.sun.prayerTimes.fajr,
+                        sunrise = result.weekPrayerTimes.sun.prayerTimes.sunrise,
+                        dhuhr = result.weekPrayerTimes.sun.prayerTimes.dhuhr,
+                        asr = result.weekPrayerTimes.sun.prayerTimes.asr,
+                        maghrib = result.weekPrayerTimes.sun.prayerTimes.maghrib,
+                        ishaa = result.weekPrayerTimes.sun.prayerTimes.ishaa
+                    ),
+                    mon = PrayerTimesState(
+                        fajr = result.weekPrayerTimes.mon.prayerTimes.fajr,
+                        sunrise = result.weekPrayerTimes.mon.prayerTimes.sunrise,
+                        dhuhr = result.weekPrayerTimes.mon.prayerTimes.dhuhr,
+                        asr = result.weekPrayerTimes.mon.prayerTimes.asr,
+                        maghrib = result.weekPrayerTimes.mon.prayerTimes.maghrib,
+                        ishaa = result.weekPrayerTimes.mon.prayerTimes.ishaa
+                    ),
+                    tue = PrayerTimesState(
+                        fajr = result.weekPrayerTimes.tue.prayerTimes.fajr,
+                        sunrise = result.weekPrayerTimes.tue.prayerTimes.sunrise,
+                        dhuhr = result.weekPrayerTimes.tue.prayerTimes.dhuhr,
+                        asr = result.weekPrayerTimes.tue.prayerTimes.asr,
+                        maghrib = result.weekPrayerTimes.tue.prayerTimes.maghrib,
+                        ishaa = result.weekPrayerTimes.tue.prayerTimes.ishaa
+                    ),
+                    wed = PrayerTimesState(
+                        fajr = result.weekPrayerTimes.wed.prayerTimes.fajr,
+                        sunrise = result.weekPrayerTimes.wed.prayerTimes.sunrise,
+                        dhuhr = result.weekPrayerTimes.wed.prayerTimes.dhuhr,
+                        asr = result.weekPrayerTimes.wed.prayerTimes.asr,
+                        maghrib = result.weekPrayerTimes.wed.prayerTimes.maghrib,
+                        ishaa = result.weekPrayerTimes.wed.prayerTimes.ishaa
+                    ),
+                    thu = PrayerTimesState(
+                        fajr = result.weekPrayerTimes.thu.prayerTimes.fajr,
+                        sunrise = result.weekPrayerTimes.thu.prayerTimes.sunrise,
+                        dhuhr = result.weekPrayerTimes.thu.prayerTimes.dhuhr,
+                        asr = result.weekPrayerTimes.thu.prayerTimes.asr,
+                        maghrib = result.weekPrayerTimes.thu.prayerTimes.maghrib,
+                        ishaa = result.weekPrayerTimes.thu.prayerTimes.ishaa
+                    ),
+                    fri = PrayerTimesState(
+                        fajr = result.weekPrayerTimes.fri.prayerTimes.fajr,
+                        sunrise = result.weekPrayerTimes.fri.prayerTimes.sunrise,
+                        dhuhr = result.weekPrayerTimes.fri.prayerTimes.dhuhr,
+                        asr = result.weekPrayerTimes.fri.prayerTimes.asr,
+                        maghrib = result.weekPrayerTimes.fri.prayerTimes.maghrib,
+                        ishaa = result.weekPrayerTimes.fri.prayerTimes.ishaa
+                    )
+                )
             )
         }
     }
