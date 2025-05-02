@@ -2,6 +2,7 @@ package com.ibadalrahman.prayertimes.presenter.entity
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
 import com.ibadalrahman.prayertimes.repository.data.domain.WeekPrayerTimes
 import java.util.Date
 
@@ -13,7 +14,7 @@ data class PrayerTimesScreenState(
     val isDatePickerVisible: Boolean,
     val prayerViewType: PrayerViewType,
     val prayerTimes: PrayerTimesState?,
-    val weekPrayerTimes: WeekPrayerTimes?,
+    val weekPrayerTimes: WeekPrayerTimesState?,
     val event: String?,
 ) {
     companion object {
@@ -35,6 +36,17 @@ data class PrayerTimesScreenState(
                 event = null
             )
     }
+
+    val compactedWeeks: List<PrayerTimesState>
+        get() = listOf(
+            this.weekPrayerTimes?.sat,
+            this.weekPrayerTimes?.sun,
+            this.weekPrayerTimes?.mon,
+            this.weekPrayerTimes?.tue,
+            this.weekPrayerTimes?.wed,
+            this.weekPrayerTimes?.thu,
+            this.weekPrayerTimes?.fri
+        ).mapNotNull { it }
 }
 
 @Stable
@@ -46,6 +58,26 @@ data class PrayerTimesState(
     val asr: Date,
     val maghrib: Date,
     val ishaa: Date
+)
+
+@Stable
+@Immutable
+data class WeekPrayerTimesState(
+    val sat: PrayerTimesState,
+    val sun: PrayerTimesState,
+    val mon: PrayerTimesState,
+    val tue: PrayerTimesState,
+    val wed: PrayerTimesState,
+    val thu: PrayerTimesState,
+    val fri: PrayerTimesState,
+    val hadithState: WeekHadithState
+)
+
+@Stable
+@Immutable
+data class WeekHadithState(
+    val hadith: String,
+    val note: String?
 )
 
 @Stable
