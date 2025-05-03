@@ -93,6 +93,18 @@ enum class Prayer {
 
 @Stable
 @Immutable
+enum class WeekDay {
+    SAT,
+    SUN,
+    MON,
+    TUE,
+    WED,
+    THU,
+    FRI
+}
+
+@Stable
+@Immutable
 enum class PrayerViewType {
     DAILY,
     WEEKLY

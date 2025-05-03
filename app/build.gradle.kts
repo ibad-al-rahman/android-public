@@ -18,12 +18,18 @@ android {
         applicationId = appId
         minSdk = GradleConfigs.minSdk
         targetSdk = GradleConfigs.compileSdk
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+    }
+
+    splits {
+        abi {
+            isEnable = false
         }
     }
 

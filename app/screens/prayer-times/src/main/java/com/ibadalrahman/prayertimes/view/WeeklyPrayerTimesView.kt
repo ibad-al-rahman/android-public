@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,9 +32,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ibadalrahman.prayertimes.presenter.entity.Prayer
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesIntention
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
+import com.ibadalrahman.prayertimes.presenter.entity.WeekDay
+import com.ibadalrahman.prayertimes.presenter.entity.WeekPrayerTimesState
 import com.ibadalrahman.resources.R
+import java.util.Date
 
 @Composable
 fun WeeklyPrayerTimesView(
@@ -63,42 +68,33 @@ fun WeeklyPrayerTimesView(
 
         Table(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
+                .fillMaxSize(),
+            rowModifier = Modifier.background(MaterialTheme.colorScheme.background),
             columnCount = 7,
-            rowCount = 1,
+            rowCount = 8,
             cellContent = { columnIndex, rowIndex ->
-                Text("Column: $columnIndex; Row: $rowIndex")
+                Box(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(8.dp)
+                ) {
+                    if (columnIndex == 0 && rowIndex == 0) {
+                        Text(text = stringResource(id = R.string.week))
+                    } else if (rowIndex == 0) {
+                        Text(text = localizedPrayerName(tableIdxToPrayer(columnIndex)))
+                    } else if (columnIndex == 0) {
+                        Text(text = localizedWeekDay(tableIdxToWeekDay(rowIndex)))
+                    } else {
+                        PrayerTimeCell(
+                            state = state.weekPrayerTimes,
+                            prayer = tableIdxToPrayer(columnIndex),
+                            weekDay = tableIdxToWeekDay(rowIndex)
+                        )
+                    }
+                }
             }
         )
-//        {
-//            item {
-//                Row {
-//                    TableCell(text = stringResource(R.string.week), weight = 1/7f)
-//                    TableCell(text = stringResource(R.string.fajr), weight = 1/7f)
-//                    TableCell(text = stringResource(R.string.sunrise), weight = 1/7f)
-//                    TableCell(text = stringResource(R.string.dhuhr), weight = 1/7f)
-//                    TableCell(text = stringResource(R.string.asr), weight = 1/7f)
-//                    TableCell(text = stringResource(R.string.maghrib), weight = 1/7f)
-//                    TableCell(text = stringResource(R.string.ishaa), weight = 1/7f)
-//                }
-//            }
-//        }
     }
-}
-
-@Composable
-fun CellText(text: String) {
-    Text(
-        text = text,
-        maxLines = 1,
-        softWrap = false,
-        overflow = TextOverflow.Visible,
-        fontWeight = FontWeight.Bold,
-        fontSize = 18.sp,
-        modifier = Modifier.padding(8.dp).padding(horizontal = 10.dp),
-        textAlign = TextAlign.Center
-    )
 }
 
 @Composable
@@ -150,14 +146,62 @@ fun Table(
 }
 
 @Composable
-fun RowScope.TableCell(
-    text: String,
-    weight: Float
+fun PrayerTimeCell(
+    state: WeekPrayerTimesState?,
+    prayer: Prayer,
+    weekDay: WeekDay
 ) {
-    Text(
-        text = text,
-        Modifier
-            .weight(weight)
-            .padding(8.dp)
-    )
+    val dayPrayerTime = when(weekDay) {
+        WeekDay.SAT -> state?.sat
+        WeekDay.SUN -> state?.sun
+        WeekDay.MON -> state?.mon
+        WeekDay.TUE -> state?.tue
+        WeekDay.WED -> state?.wed
+        WeekDay.THU -> state?.thu
+        WeekDay.FRI -> state?.fri
+    }
+    when(prayer) {
+        Prayer.FAJR -> DateText(date = dayPrayerTime?.fajr ?: Date())
+        Prayer.SUNRISE -> DateText(date = dayPrayerTime?.sunrise ?: Date())
+        Prayer.DHUHR -> DateText(date = dayPrayerTime?.dhuhr ?: Date())
+        Prayer.ASR -> DateText(date = dayPrayerTime?.asr ?: Date())
+        Prayer.MAGHRIB -> DateText(date = dayPrayerTime?.maghrib ?: Date())
+        Prayer.ISHAA -> DateText(date = dayPrayerTime?.ishaa ?: Date())
+    }
+}
+
+// Starting at 1 because the first row and column are reserved for "week" string
+@Composable
+fun tableIdxToPrayer(idx: Int): Prayer = when(idx) {
+    1 -> Prayer.FAJR
+    2 -> Prayer.SUNRISE
+    3 -> Prayer.DHUHR
+    4 -> Prayer.ASR
+    5 -> Prayer.MAGHRIB
+    6 -> Prayer.ISHAA
+    else -> Prayer.FAJR
+}
+
+// Starting at 1 because the first row and column are reserved for "week" string
+@Composable
+fun tableIdxToWeekDay(idx: Int): WeekDay = when(idx) {
+    1 -> WeekDay.SAT
+    2 -> WeekDay.SUN
+    3 -> WeekDay.MON
+    4 -> WeekDay.TUE
+    5 -> WeekDay.WED
+    6 -> WeekDay.THU
+    7 -> WeekDay.FRI
+    else -> WeekDay.SAT
+}
+
+@Composable
+fun localizedWeekDay(weekDay: WeekDay): String = when(weekDay) {
+    WeekDay.SAT -> stringResource(id = R.string.saturday)
+    WeekDay.SUN -> stringResource(id = R.string.sunday)
+    WeekDay.MON -> stringResource(id = R.string.monday)
+    WeekDay.TUE -> stringResource(id = R.string.tuesday)
+    WeekDay.WED -> stringResource(id = R.string.wednesday)
+    WeekDay.THU -> stringResource(id = R.string.thursday)
+    WeekDay.FRI -> stringResource(id = R.string.friday)
 }
