@@ -4,6 +4,7 @@ import com.ibadalrahman.prayertimes.domain.entity.PrayerTimesResult
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesState
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerViewType
+import com.ibadalrahman.prayertimes.presenter.entity.WeekHadithState
 import java.util.Locale
 
 object PrayerTimesReducer {
@@ -89,7 +90,10 @@ object PrayerTimesReducer {
                         asr = result.weekPrayerTimes.fri.prayerTimes.asr,
                         maghrib = result.weekPrayerTimes.fri.prayerTimes.maghrib,
                         ishaa = result.weekPrayerTimes.fri.prayerTimes.ishaa
-                    )
+                    ),
+                    hadithState = result.weekPrayerTimes.hadith?.let { hadith ->
+                        WeekHadithState(hadith = hadith.hadith, note = hadith.note)
+                    }
                 )
             )
         }
