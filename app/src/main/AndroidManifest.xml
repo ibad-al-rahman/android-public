@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -16,38 +17,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PublicSector"
-        tools:targetApi="31">
+        tools:targetApi="31"
+    >
         <receiver
             android:name=".PrayerAppWidget"
-            android:exported="false">
+            android:exported="false"
+        >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/prayer_app_widget_info" />
+                android:resource="@xml/prayer_app_widget_info"
+            />
         </receiver>
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
             android:enabled="false"
-            android:exported="false">
+            android:exported="false"
+        >
             <meta-data
                 android:name="autoStoreLocales"
-                android:value="true" />
+                android:value="true"
+            />
         </service>
 
         <activity
             android:name=".main.view.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.PublicSector">
+            android:theme="@style/Theme.PublicSector"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
