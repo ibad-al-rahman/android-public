@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -110,35 +111,61 @@ fun Table(
     cellContent: @Composable (columnIndex: Int, rowIndex: Int) -> Unit
 ) {
     val columnWidths = remember { mutableStateMapOf<Int, Int>() }
+    val density = LocalDensity.current
+    val firstColumnWidthDp = with(density) { (columnWidths[0] ?: 0).toDp() }
 
-    Box(modifier = modifier.then(Modifier.horizontalScroll(horizontalScrollState))) {
-        LazyColumn(state = verticalLazyListState) {
+    Box(modifier = modifier) {
+        // Fixed column
+        LazyColumn(
+            state = verticalLazyListState,
+            modifier = Modifier.align(Alignment.TopStart)
+        ) {
             items(rowCount) { rowIndex ->
                 Column {
                     beforeRow?.invoke(rowIndex)
-
                     Row(modifier = rowModifier) {
-                        (0 until columnCount).forEach { columnIndex ->
-                            Box(modifier = Modifier.layout { measurable, constraints ->
-                                val placeable = measurable.measure(constraints)
-
-                                val existingWidth = columnWidths[columnIndex] ?: 0
-                                val maxWidth = maxOf(existingWidth, placeable.width)
-
-                                if (maxWidth > existingWidth) {
-                                    columnWidths[columnIndex] = maxWidth
-                                }
-
-                                layout(width = maxWidth, height = placeable.height) {
-                                    placeable.placeRelative(0, 0)
-                                }
-                            }) {
-                                cellContent(columnIndex, rowIndex)
+                        Box(modifier = Modifier.layout { measurable, constraints ->
+                            val placeable = measurable.measure(constraints)
+                            val maxWidth = maxOf(columnWidths[0] ?: 0, placeable.width)
+                            columnWidths[0] = maxWidth
+                            layout(maxWidth, placeable.height) {
+                                placeable.placeRelative(0, 0)
                             }
+                        }) {
+                            cellContent(0, rowIndex)
                         }
                     }
-
                     afterRow?.invoke(rowIndex)
+                }
+            }
+        }
+
+        // Scrollable columns
+        Box(
+            modifier = Modifier
+                .padding(start = firstColumnWidthDp)
+                .horizontalScroll(horizontalScrollState)
+        ) {
+            LazyColumn(state = verticalLazyListState) {
+                items(rowCount) { rowIndex ->
+                    Column {
+                        beforeRow?.invoke(rowIndex)
+                        Row(modifier = rowModifier) {
+                            (1 until columnCount).forEach { columnIndex ->
+                                Box(modifier = Modifier.layout { measurable, constraints ->
+                                    val placeable = measurable.measure(constraints)
+                                    val maxWidth = maxOf(columnWidths[columnIndex] ?: 0, placeable.width)
+                                    columnWidths[columnIndex] = maxWidth
+                                    layout(maxWidth, placeable.height) {
+                                        placeable.placeRelative(0, 0)
+                                    }
+                                }) {
+                                    cellContent(columnIndex, rowIndex)
+                                }
+                            }
+                        }
+                        afterRow?.invoke(rowIndex)
+                    }
                 }
             }
         }
