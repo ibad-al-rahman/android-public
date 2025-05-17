@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Nightlight
@@ -19,11 +20,13 @@ import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material.icons.outlined.WbTwilight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -31,9 +34,12 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -67,21 +73,22 @@ fun DailyPrayerTimesView(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
                 .background(MaterialTheme.colorScheme.background)
-                .padding(horizontal = 10.dp)
+                .padding(horizontal = 20.dp, vertical = 10.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.date),
-                fontSize = 16.sp
+                style = MaterialTheme.typography.bodyLarge,
             )
 
-            FilledTonalButton(onClick = {
-                intentionProcessor(PrayerTimesIntention.OnTapShowDatePicker)
-            }) {
+            FilledTonalButton(
+                onClick = { intentionProcessor(PrayerTimesIntention.OnTapShowDatePicker) },
+                shape = RoundedCornerShape(12.dp),
+            ) {
                 DateText(
                     date = state.date,
-                    format = DateFormat.getDateInstance(DateFormat.MEDIUM),
-                    fontSize = 16.sp
+                    format = DateFormat.getDateInstance(DateFormat.MEDIUM)
                 )
             }
 
@@ -98,12 +105,13 @@ fun DailyPrayerTimesView(
             }
         }
 
+        Spacer(modifier = Modifier.height(30.dp))
         Text(
             text = stringResource(id = R.string.timings).uppercase(),
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.secondary,
-            modifier = Modifier.padding(vertical = 10.dp)
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            ),
+            modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp)
         )
 
         if (state.isLoading) {
@@ -132,48 +140,44 @@ fun DailyPrayerTimesView(
                 Column(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
                 ) {
                     PrayerTime(
                         prayer = Prayer.FAJR,
                         time = fajr,
                         imageVector = Icons.Outlined.Nightlight,
-                        withDivider = true,
-                        verticalPadding = 8.dp
+                        withDivider = true
                     )
                     PrayerTime(
                         prayer = Prayer.SUNRISE,
                         time = sunrise,
                         imageVector = Icons.Outlined.WbTwilight,
-                        withDivider = true,
-                        verticalPadding = 8.dp
+                        withDivider = true
                     )
                     PrayerTime(
                         prayer = Prayer.DHUHR,
                         time = dhuhr,
                         imageVector = Icons.Outlined.WbSunny,
-                        withDivider = true,
-                        verticalPadding = 8.dp
+                        withDivider = true
                     )
                     PrayerTime(
                         prayer = Prayer.ASR,
                         time = asr,
                         imageVector = Icons.Outlined.WbSunny,
-                        withDivider = true,
-                        verticalPadding = 8.dp
+                        withDivider = true
                     )
                     PrayerTime(
                         prayer = Prayer.MAGHRIB,
                         time = maghrib,
                         imageVector = Icons.Outlined.WbTwilight,
-                        withDivider = true,
-                        verticalPadding = 8.dp
+                        withDivider = true
                     )
                     PrayerTime(
                         prayer = Prayer.ISHAA,
                         time = ishaa,
-                        imageVector = Icons.Outlined.Nightlight,
-                        verticalPadding = 8.dp
+                        imageVector = Icons.Outlined.Nightlight
                     )
                 }
             }
@@ -183,27 +187,29 @@ fun DailyPrayerTimesView(
             Spacer(modifier = Modifier.height(30.dp))
             Text(
                 text = stringResource(id = R.string.events).uppercase(),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.padding(vertical = 10.dp)
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp)
             )
             Column(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp))
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
-                        .padding(8.dp)
+                        .padding(horizontal = 20.dp, vertical = 16.dp)
                 ) {
                     Text(
                         text = event,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontWeight = FontWeight.Medium
+                        ),
                     )
                     Spacer(modifier = Modifier.weight(1f))
                 }
@@ -214,32 +220,54 @@ fun DailyPrayerTimesView(
             Spacer(modifier = Modifier.height(30.dp))
             Text(
                 text = stringResource(id = R.string.hadith).uppercase(),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.padding(vertical = 10.dp)
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp)
             )
             Column(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp))
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.background)
-                        .padding(8.dp)
+                        .padding(horizontal = 20.dp, vertical = 16.dp)
                 ) {
                     Text(
                         text = hadith.hadith,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontWeight = FontWeight.Medium,
+                            textDirection = TextDirection.Rtl
+                        ),
+                    )
+                }
+            }
+
+            hadith.note?.let {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            textDirection = TextDirection.Rtl,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        ),
+                        modifier = Modifier.padding(top = 8.dp)
                     )
                     Spacer(modifier = Modifier.weight(1f))
                 }
             }
         }
+
+        // scrollable leeway
+        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 
@@ -248,8 +276,7 @@ fun PrayerTime(
     prayer: Prayer,
     time: Date,
     imageVector: ImageVector,
-    withDivider: Boolean = false,
-    verticalPadding: Dp = 8.dp
+    withDivider: Boolean = false
 ) {
     Column {
         Row(
@@ -257,25 +284,24 @@ fun PrayerTime(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background)
-                .padding(
-                    vertical = verticalPadding
-                )
-                .padding(horizontal = 10.dp)
+                .padding(horizontal = 20.dp, vertical = 16.dp)
         ) {
             Icon(
                 imageVector = imageVector,
                 contentDescription = prayer.name,
                 modifier = Modifier
-                    .padding(end = 10.dp)
-                    .size(size = 16.dp)
+                    .padding(end = 16.dp)
+                    .size(size = 20.dp)
             )
             Text(
                 text = localizedPrayerName(prayer),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.Medium
+                ),
             )
             Spacer(modifier = Modifier.weight(1f))
-            DateText(date = time, fontSize = 16.sp)
+            DateText(date = time, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         if (withDivider) {
             HorizontalDivider()
@@ -308,7 +334,22 @@ fun DatePickerModal(
             TextButton(onClick = onDismiss) {
                 Text("Cancel")
             }
-        }
+        },
+        colors = DatePickerDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            titleContentColor = MaterialTheme.colorScheme.onSurface,
+            headlineContentColor = MaterialTheme.colorScheme.onSurface,
+            weekdayContentColor = MaterialTheme.colorScheme.primary,
+            subheadContentColor = MaterialTheme.colorScheme.onSurface,
+            yearContentColor = MaterialTheme.colorScheme.onSurface,
+            selectedYearContentColor = MaterialTheme.colorScheme.onPrimary,
+            selectedYearContainerColor = MaterialTheme.colorScheme.primary,
+            dayContentColor = MaterialTheme.colorScheme.onSurface,
+            selectedDayContentColor = MaterialTheme.colorScheme.onPrimary,
+            selectedDayContainerColor = MaterialTheme.colorScheme.primary,
+            todayContentColor = MaterialTheme.colorScheme.primary,
+            todayDateBorderColor = MaterialTheme.colorScheme.primary
+        )
     ) {
         DatePicker(state = datePickerState)
     }
@@ -318,11 +359,16 @@ fun DatePickerModal(
 fun DateText(
     date: Date,
     format: DateFormat? = null,
-    fontSize: TextUnit = TextUnit.Unspecified
+    color: Color? = null,
 ) {
     val formatter = format ?: DateFormat.getTimeInstance(DateFormat.SHORT)
     val formattedDate = formatter.format(date)
-    Text(text = formattedDate, fontSize = fontSize)
+    Text(
+        text = formattedDate,
+        style = MaterialTheme.typography.bodyLarge.copy(
+            color = color ?: MaterialTheme.colorScheme.onPrimaryContainer
+        ),
+    )
 }
 
 @Composable

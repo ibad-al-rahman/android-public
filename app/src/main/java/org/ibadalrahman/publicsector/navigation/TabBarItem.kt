@@ -6,9 +6,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 @Immutable
 @Stable
-class TabBarItem constructor(
+class TabBarItem(
     val route: String,
     val icon: ImageVector,
     val selectedIcon: ImageVector,
+    val stringResourceId: Int? = null,
 )
-

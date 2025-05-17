@@ -2,74 +2,101 @@ package org.ibadalrahman.publicsector.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val primaryLight = Color(0xFF006879)
-val onPrimaryLight = Color(0xFFFFFFFF)
-val primaryContainerLight = Color(0xFFAAEDFF)
-val onPrimaryContainerLight = Color(0xFF004E5C)
-val secondaryLight = Color(0xFF4B6269)
-val onSecondaryLight = Color(0xFFFFFFFF)
-val secondaryContainerLight = Color(0xFFCEE7EE)
-val onSecondaryContainerLight = Color(0xFF334A51)
-val tertiaryLight = Color(0xFF565D7E)
-val onTertiaryLight = Color(0xFFFFFFFF)
-val tertiaryContainerLight = Color(0xFFF4F4F4)
-val onTertiaryContainerLight = Color(0xFF3E4565)
-val errorLight = Color(0xFFBA1A1A)
-val onErrorLight = Color(0xFFFFFFFF)
-val errorContainerLight = Color(0xFFFFDAD6)
-val onErrorContainerLight = Color(0xFF93000A)
-val backgroundLight = Color(0xFFF5FAFC)
-val onBackgroundLight = Color(0xFF171C1E)
-val surfaceLight = Color(0xFFF5FAFC)
-val onSurfaceLight = Color(0xFF171C1E)
-val surfaceVariantLight = Color(0xFFDBE4E7)
-val onSurfaceVariantLight = Color(0xFF3F484B)
-val outlineLight = Color(0xFF70797B)
-val outlineVariantLight = Color(0xFFBFC8CB)
-val scrimLight = Color(0xFF000000)
-val inverseSurfaceLight = Color(0xFF2C3133)
-val inverseOnSurfaceLight = Color(0xFFECF2F4)
-val inversePrimaryLight = Color(0xFF84D2E6)
-val surfaceDimLight = Color(0xFFD5DBDD)
-val surfaceBrightLight = Color(0xFFF5FAFC)
-val surfaceContainerLowestLight = Color(0xFFFFFFFF)
-val surfaceContainerLowLight = Color(0xFFEFF4F6)
-val surfaceContainerLight = Color(0xFFE9EFF1)
-val surfaceContainerHighLight = Color(0xFFE4E9EB)
-val surfaceContainerHighestLight = Color(0xFFDEE3E5)
+/* Light */
+//val accentColorLight = Color(0xFF1E398C)
+val primaryLight = Color(0xFF1E398C)
+val onPrimaryLight = Color.White
 
-val primaryDark = Color(0xFF84D2E6)
-val onPrimaryDark = Color(0xFF003640)
+val primaryContainerLight = Color(0xFFB2F0FA)
+val onPrimaryContainerLight = Color(0xFF000000)
+
+val secondaryLight = Color(0xFF6E6E73)
+val onSecondaryLight = Color.White
+
+val secondaryContainerLight = Color(0xFFE5E5EA)
+val onSecondaryContainerLight = Color(0xFF000000)
+
+val tertiaryLight = Color(0xFF5856D6)
+val onTertiaryLight = Color.White
+
+val tertiaryContainerLight = Color(0xFFF2F2F7)
+val onTertiaryContainerLight = Color(0xFF000000)
+
+val errorLight = Color(0xFFFF3B30)
+val onErrorLight = Color.White
+
+val errorContainerLight = Color(0xFFFFD1CC)
+val onErrorContainerLight = Color(0xFF000000)
+
+val backgroundLight = Color(0xFFFFFFFF)
+val onBackgroundLight = Color(0xFF000000)
+
+val surfaceLight = Color(0xFFF2F2F7)
+val onSurfaceLight = Color(0xFF000000)
+
+val surfaceVariantLight = Color(0xFFD1D1D6)
+val onSurfaceVariantLight = Color(0xFF3C3C43)
+
+val outlineLight = Color(0xFFC6C6C8)
+val outlineVariantLight = Color(0xFFE0E0E0)
+
+val scrimLight = Color(0xFF000000)
+
+val inverseSurfaceLight = Color(0xFF1C1C1E)
+val inverseOnSurfaceLight = Color.White
+val inversePrimaryLight = Color(0xFFA0DFFF)
+
+val surfaceDimLight = Color(0xFFD1D1D6)
+val surfaceBrightLight = Color(0xFFF2F2F7)
+
+val surfaceContainerLowestLight = Color(0xFFFFFFFF)
+val surfaceContainerLowLight = Color(0xFFF2F2F7)
+val surfaceContainerLight = Color(0xFFE5E5EA)
+val surfaceContainerHighLight = Color(0xFFD1D1D6)
+val surfaceContainerHighestLight = Color(0xFFC7C7CC)
+
+/* Dark */
+//val accentColorDark = Color(0xFF0597B0)
+
+val primaryDark = Color(0xFF0597B0)
+val onPrimaryDark = Color.Black
 val primaryContainerDark = Color(0xFF004E5C)
-val onPrimaryContainerDark = Color(0xFFAAEDFF)
-val secondaryDark = Color(0xFFB2CBD2)
-val onSecondaryDark = Color(0xFF1D343A)
-val secondaryContainerDark = Color(0xFF334A51)
-val onSecondaryContainerDark = Color(0xFFCEE7EE)
-val tertiaryDark = Color(0xFFBEC5EB)
-val onTertiaryDark = Color(0xFF282F4D)
-val tertiaryContainerDark = Color(0xFF3E4565)
-val onTertiaryContainerDark = Color(0xFFDDE1FF)
-val errorDark = Color(0xFFFFB4AB)
-val onErrorDark = Color(0xFF690005)
-val errorContainerDark = Color(0xFF93000A)
+val onPrimaryContainerDark = Color.White
+
+val secondaryDark = Color(0xFF636366)
+val onSecondaryDark = Color.White
+val secondaryContainerDark = Color(0xFF3A3A3C)
+val onSecondaryContainerDark = Color.White
+
+val tertiaryDark = Color(0xFF5E5CE6)
+val onTertiaryDark = Color.White
+val tertiaryContainerDark = Color(0xFF000000)
+val onTertiaryContainerDark = Color.White
+
+val errorDark = Color(0xFFFF453A)
+val onErrorDark = Color.Black
+val errorContainerDark = Color(0xFF5A0004)
 val onErrorContainerDark = Color(0xFFFFDAD6)
-val backgroundDark = Color(0xFF0F1416)
-val onBackgroundDark = Color(0xFFDEE3E5)
-val surfaceDark = Color(0xFF0F1416)
-val onSurfaceDark = Color(0xFFDEE3E5)
-val surfaceVariantDark = Color(0xFF3F484B)
-val onSurfaceVariantDark = Color(0xFFBFC8CB)
-val outlineDark = Color(0xFF899295)
-val outlineVariantDark = Color(0xFF3F484B)
+
+val backgroundDark = Color(0xFF1C1C1E)
+val onBackgroundDark = Color.White
+val surfaceDark = Color(0xFF1C1C1E)
+val onSurfaceDark = Color.White
+val surfaceVariantDark = Color(0xFF2C2C2E)
+val onSurfaceVariantDark = Color(0xFFCACACA)
+
+val outlineDark = Color(0xFF3C3C43)
+val outlineVariantDark = Color(0xFF545458)
 val scrimDark = Color(0xFF000000)
-val inverseSurfaceDark = Color(0xFFDEE3E5)
-val inverseOnSurfaceDark = Color(0xFF2C3133)
-val inversePrimaryDark = Color(0xFF006879)
-val surfaceDimDark = Color(0xFF0F1416)
-val surfaceBrightDark = Color(0xFF343A3C)
-val surfaceContainerLowestDark = Color(0xFF090F11)
-val surfaceContainerLowDark = Color(0xFF171C1E)
-val surfaceContainerDark = Color(0xFF1B2122)
-val surfaceContainerHighDark = Color(0xFF252B2D)
-val surfaceContainerHighestDark = Color(0xFF303637)
+
+val inverseSurfaceDark = Color(0xFFE5E5EA)
+val inverseOnSurfaceDark = Color(0xFF1C1C1E)
+val inversePrimaryDark = Color(0xFF66BFFF)
+
+val surfaceDimDark = Color(0xFF121212)
+val surfaceBrightDark = Color(0xFF2C2C2E)
+val surfaceContainerLowestDark = Color(0xFF0A0A0A)
+val surfaceContainerLowDark = Color(0xFF1C1C1E)
+val surfaceContainerDark = Color(0xFF2C2C2E)
+val surfaceContainerHighDark = Color(0xFF3A3A3C)
+val surfaceContainerHighestDark = Color(0xFF48484A)
