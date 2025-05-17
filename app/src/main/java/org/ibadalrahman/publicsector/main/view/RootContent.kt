@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -21,6 +22,7 @@ import org.ibadalrahman.publicsector.navigation.NavigationGraph
 import org.ibadalrahman.publicsector.navigation.Screen
 import org.ibadalrahman.publicsector.navigation.TabBarItem
 import org.ibadalrahman.publicsector.ui.theme.AppTheme
+import com.ibadalrahman.resources.R
 
 @Composable
 fun RootContent(
@@ -33,11 +35,13 @@ fun RootContent(
                 route = Screen.PrayerTimes.route,
                 icon = Icons.Outlined.CalendarMonth,
                 selectedIcon = Icons.Filled.CalendarMonth,
+                stringResourceId = R.string.timings
             ),
             TabBarItem(
                 route = Screen.Settings.route,
                 icon = Icons.Outlined.Settings,
                 selectedIcon = Icons.Filled.Settings,
+                stringResourceId = R.string.settings
             ),
         ).toList()
     }
