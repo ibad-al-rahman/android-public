@@ -35,7 +35,7 @@ val surfaceLight = Color(0xFFF2F2F7)
 val onSurfaceLight = Color(0xFF000000)
 
 val surfaceVariantLight = Color(0xFFD1D1D6)
-val onSurfaceVariantLight = Color(0xFF3C3C43)
+val onSurfaceVariantLight = Color(0xAA3C3C43)
 
 val outlineLight = Color(0xFFC6C6C8)
 val outlineVariantLight = Color(0xFFE0E0E0)

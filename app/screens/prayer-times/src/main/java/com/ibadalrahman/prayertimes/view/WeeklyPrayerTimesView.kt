@@ -76,11 +76,29 @@ fun WeeklyPrayerTimesView(
                         .padding(8.dp)
                 ) {
                     if (columnIndex == 0 && rowIndex == 0) {
-                        Text(text = stringResource(id = R.string.week))
+                        Text(
+                            text = stringResource(id = R.string.week),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                fontWeight = FontWeight.Bold,
+                            ),
+                        )
                     } else if (rowIndex == 0) {
-                        Text(text = localizedPrayerName(tableIdxToPrayer(columnIndex)))
+                        Text(
+                            text = localizedPrayerName(tableIdxToPrayer(columnIndex)),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                fontWeight = FontWeight.Bold,
+                            ),
+                        )
                     } else if (columnIndex == 0) {
-                        Text(text = localizedWeekDay(tableIdxToWeekDay(rowIndex)))
+                        Text(
+                            text = localizedWeekDay(tableIdxToWeekDay(rowIndex)),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                fontWeight = FontWeight.Bold,
+                            ),
+                        )
                     } else {
                         PrayerTimeCell(
                             state = state.weekPrayerTimes,

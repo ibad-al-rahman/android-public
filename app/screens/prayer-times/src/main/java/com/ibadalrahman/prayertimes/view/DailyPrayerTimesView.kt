@@ -2,6 +2,7 @@ package com.ibadalrahman.prayertimes.view
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +27,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -40,10 +40,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDirection
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ibadalrahman.prayertimes.presenter.entity.Prayer
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesIntention
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
@@ -63,7 +60,7 @@ fun DailyPrayerTimesView(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.tertiaryContainer)
-            .padding(horizontal = 10.dp)
+            .padding(horizontal = 20.dp)
             .verticalScroll(ScrollState(0))
     ) {
         Spacer(modifier = Modifier.height(30.dp))
@@ -207,7 +204,7 @@ fun DailyPrayerTimesView(
                     Text(
                         text = event,
                         style = MaterialTheme.typography.bodyLarge.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             fontWeight = FontWeight.Medium
                         ),
                     )
@@ -240,7 +237,7 @@ fun DailyPrayerTimesView(
                     Text(
                         text = hadith.hadith,
                         style = MaterialTheme.typography.bodyLarge.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             fontWeight = FontWeight.Medium,
                             textDirection = TextDirection.Rtl
                         ),
@@ -296,7 +293,7 @@ fun PrayerTime(
             Text(
                 text = localizedPrayerName(prayer),
                 style = MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.Medium
                 ),
             )
@@ -304,7 +301,18 @@ fun PrayerTime(
             DateText(date = time, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         if (withDivider) {
-            HorizontalDivider()
+            val color = if (isSystemInDarkTheme()) {
+                Color(0x223A3A3C)
+            } else {
+                Color(0x22D1D1D6)
+            }
+
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp),
+                color = color
+            )
         }
     }
 }
