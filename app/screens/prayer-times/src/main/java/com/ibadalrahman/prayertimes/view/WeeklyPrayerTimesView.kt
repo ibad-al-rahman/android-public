@@ -12,11 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ibadalrahman.prayertimes.presenter.entity.Prayer
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesIntention
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
@@ -58,6 +55,7 @@ fun WeeklyPrayerTimesView(
                 start = 20.dp,
                 end = 20.dp
             )
+            .verticalScroll(ScrollState(0))
     ) {
         Text(
             text = stringResource(id = R.string.timings).uppercase(),
@@ -170,7 +168,6 @@ fun WeeklyPrayerTimesView(
 fun Table(
     modifier: Modifier = Modifier,
     rowModifier: Modifier = Modifier,
-    verticalLazyListState: LazyListState = rememberLazyListState(),
     horizontalScrollState: ScrollState = rememberScrollState(),
     columnCount: Int,
     rowCount: Int,
@@ -184,11 +181,10 @@ fun Table(
 
     Box(modifier = modifier) {
         // Fixed column
-        LazyColumn(
-            state = verticalLazyListState,
+        Column(
             modifier = Modifier.align(Alignment.TopStart)
         ) {
-            items(rowCount) { rowIndex ->
+            for (rowIndex in 0..rowCount) {
                 Column {
                     beforeRow?.invoke(rowIndex)
                     Row(modifier = rowModifier) {
@@ -214,8 +210,8 @@ fun Table(
                 .padding(start = firstColumnWidthDp)
                 .horizontalScroll(horizontalScrollState)
         ) {
-            LazyColumn(state = verticalLazyListState) {
-                items(rowCount) { rowIndex ->
+            Column {
+                for (rowIndex in 0..rowCount) {
                     Column {
                         beforeRow?.invoke(rowIndex)
                         Row(modifier = rowModifier) {
