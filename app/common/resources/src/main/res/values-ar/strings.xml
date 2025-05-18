@@ -32,5 +32,14 @@
     <string name="saturday">السبت</string>
     <string name="app_widget_description">وصف الويدجت</string>
     <string name="events">المناسبات</string>
+    <string name="share">أنشر</string>
+    <string name="share_msg_header">مواقيت الصلاة بحسب تقويم جماعة عباد الرحمٰن السنوي</string>
+    <string name="share_msg_date">%s\n%s</string>
+    <string name="share_msg_fajr">🌌 الفجر: %s 🌌</string>
+    <string name="share_msg_sunrise">🌄 الشروق: %s 🌄</string>
+    <string name="share_msg_dhuhr">☀️ الظهر: %s ☀️</string>
+    <string name="share_msg_asr">🌆 العصر: %s 🌆</string>
+    <string name="share_msg_maghrib">🌅 المغرب: %s 🌅</string>
+    <string name="share_msg_ishaa">🌃 العشاء: %s 🌃</string>
     <string name="layout_direction">rtl</string>
 </resources>

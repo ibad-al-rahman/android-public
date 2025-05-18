@@ -1,10 +1,13 @@
 package com.ibadalrahman.prayertimes.domain
 
+import android.content.Context
 import android.icu.util.Calendar
 import com.ibadalrahman.mvi.BaseInteractor
 import com.ibadalrahman.prayertimes.domain.entity.PrayerTimesAction
 import com.ibadalrahman.prayertimes.domain.entity.PrayerTimesResult
+import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
 import com.ibadalrahman.prayertimes.repository.PrayerTimesRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
@@ -14,8 +17,13 @@ import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import com.ibadalrahman.resources.R
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.ZoneId
 
 class PrayerTimesInteractor @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val prayerTimesRepository: PrayerTimesRepository
 ): BaseInteractor<PrayerTimesAction, PrayerTimesResult> {
     override suspend fun resultFrom(action: PrayerTimesAction): Flow<PrayerTimesResult> =
@@ -34,6 +42,7 @@ class PrayerTimesInteractor @Inject constructor(
             }
             is PrayerTimesAction.OnDateSelected -> getPrayerTimes(date = action.date)
             is PrayerTimesAction.LoadPrayerTimes -> getPrayerTimes(date = action.date)
+            is PrayerTimesAction.Share -> prepareShareText(state = action.state)
         }
 
     private fun getPrayerTimes(date: Date): Flow<PrayerTimesResult> = flow {
@@ -72,8 +81,7 @@ class PrayerTimesInteractor @Inject constructor(
             parse(prayerTimes.hijri)
         )
 
-        val formatter = DateTimeFormatter
-            .ofPattern("dd MMMM yyyy")
+        val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
         val hijriDateFormatted = localizeDigitsInText(
             formatter.format(hijriDate), Locale.getDefault()
@@ -84,6 +92,34 @@ class PrayerTimesInteractor @Inject constructor(
             prayerTimes = prayerTimesWithHijri,
             weekPrayerTimes = weekPrayerTimes
         ))
+    }
+
+    private fun prepareShareText(state: PrayerTimesScreenState) = flow {
+        if (state.prayerTimes == null) {
+            return@flow
+        }
+
+        val localDate = state.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+
+        val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.getDefault())
+        val gregorianDateFormatted = localizeDigitsInText(
+            localDate.format(dateFormatter), Locale.getDefault()
+        )
+
+        val timeFormatter = DateFormat.getTimeInstance(DateFormat.SHORT)
+
+        val text = listOf(
+            context.getString(R.string.share_msg_header),
+            context.getString(R.string.share_msg_date, gregorianDateFormatted, state.prayerTimes.hijriDate),
+            context.getString(R.string.share_msg_fajr, timeFormatter.format(state.prayerTimes.fajr)),
+            context.getString(R.string.share_msg_sunrise, timeFormatter.format(state.prayerTimes.sunrise)),
+            context.getString(R.string.share_msg_dhuhr, timeFormatter.format(state.prayerTimes.dhuhr)),
+            context.getString(R.string.share_msg_asr, timeFormatter.format(state.prayerTimes.asr)),
+            context.getString(R.string.share_msg_maghrib, timeFormatter.format(state.prayerTimes.maghrib)),
+            context.getString(R.string.share_msg_ishaa, timeFormatter.format(state.prayerTimes.ishaa)),
+        ).joinToString("\n\n")
+
+        emit(PrayerTimesResult.ShareTextProcessed(text = text))
     }
 
     private fun localizeDigitsInText(text: String, locale: Locale): String {

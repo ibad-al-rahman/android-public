@@ -105,5 +105,6 @@ object PrayerTimesReducer {
                 )
             )
         }
+        is PrayerTimesResult.ShareTextProcessed -> prevState
     }
 }

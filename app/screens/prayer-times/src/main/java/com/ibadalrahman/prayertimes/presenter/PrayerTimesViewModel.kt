@@ -35,6 +35,8 @@ class PrayerTimesViewModel @Inject constructor(
         intention: PrayerTimesIntention
     ): MviBoundary<PrayerTimesViewAction, PrayerTimesAction, PrayerTimesResult> =
         when(intention) {
+            is PrayerTimesIntention.OnTapShare ->
+                action(PrayerTimesAction.Share(state = intention.state))
             PrayerTimesIntention.OnScreenStarted ->
                 action(PrayerTimesAction.LoadPrayerTimes(date = Date()))
             PrayerTimesIntention.OnTapShowDatePicker -> action(PrayerTimesAction.ShowDatePicker)
@@ -49,5 +51,8 @@ class PrayerTimesViewModel @Inject constructor(
         updateState { PrayerTimesReducer.reduce(prevState = this, result = result) }
     }
 
-    override fun viewActionFrom(result: PrayerTimesResult): PrayerTimesViewAction? = null
+    override fun viewActionFrom(result: PrayerTimesResult): PrayerTimesViewAction? = when(result) {
+        is PrayerTimesResult.ShareTextProcessed -> PrayerTimesViewAction.Share(text = result.text)
+        else -> null
+    }
 }
