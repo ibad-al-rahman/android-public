@@ -16,7 +16,7 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ibadalrahman.prayertimes.view.PrayerTimesRootScreen
-import org.ibadalrahman.publicsector.main.view.SettingsContent
+import com.ibadalrahman.settings.view.SettingsRootScreen
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -53,7 +53,7 @@ fun NavGraphBuilder.addPrayerTimesScreen(
 
 fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
     composable(Screen.Settings.route) {
-        SettingsContent()
+        SettingsRootScreen(viewModel = hiltViewModel())
     }
 }
 

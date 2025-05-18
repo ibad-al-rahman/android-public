@@ -90,6 +90,7 @@ dependencies {
     implementation(projects.app.common.mvi)
     implementation(projects.app.common.resources)
     implementation(projects.app.screens.prayerTimes)
+    implementation(projects.app.screens.settings)
 
     testImplementation(libs.junit)
 
