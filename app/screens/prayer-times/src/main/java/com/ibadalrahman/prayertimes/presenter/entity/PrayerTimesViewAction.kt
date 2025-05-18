@@ -1,3 +1,5 @@
 package com.ibadalrahman.prayertimes.presenter.entity
 
-sealed interface PrayerTimesViewAction { }
+sealed interface PrayerTimesViewAction {
+    data class Share(val text: String): PrayerTimesViewAction
+}

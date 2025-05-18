@@ -1,6 +1,7 @@
 package org.ibadalrahman.publicsector.navigation
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Text
@@ -12,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ibadalrahman.prayertimes.view.PrayerTimesRootScreen
 import org.ibadalrahman.publicsector.main.view.SettingsContent
@@ -33,7 +35,19 @@ fun NavGraphBuilder.addPrayerTimesScreen(
     navController: NavHostController
 ) {
     composable(Screen.PrayerTimes.route) {
-        PrayerTimesRootScreen(viewModel = hiltViewModel())
+        val context = LocalContext.current
+        PrayerTimesRootScreen(
+            viewModel = hiltViewModel(),
+            onShare = {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, it)
+                    type = "text/plain"
+                }
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                context.startActivity(shareIntent)
+            }
+        )
     }
 }
 

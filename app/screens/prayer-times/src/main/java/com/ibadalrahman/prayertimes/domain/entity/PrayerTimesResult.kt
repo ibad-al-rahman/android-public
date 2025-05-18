@@ -13,4 +13,5 @@ sealed interface PrayerTimesResult {
         val prayerTimes: DayPrayerTimes,
         val weekPrayerTimes: WeekPrayerTimes
     ): PrayerTimesResult
+    data class ShareTextProcessed(val text: String): PrayerTimesResult
 }

@@ -31,5 +31,14 @@
     <string name="saturday">Sat</string>
     <string name="app_widget_description">This is an app widget description</string>
     <string name="events">Events</string>
+    <string name="share">Share</string>
+    <string name="share_msg_header">Prayer times according to the annual calendar of Ibad al-Rahman</string>
+    <string name="share_msg_date">%s\n%s</string>
+    <string name="share_msg_fajr">🌌 Fajr: %s 🌌</string>
+    <string name="share_msg_sunrise">🌄 Sunrise: %s 🌄</string>
+    <string name="share_msg_dhuhr">☀️ Dhuhr: %s ☀️</string>
+    <string name="share_msg_asr">🌆 Asr: %s 🌆</string>
+    <string name="share_msg_maghrib">🌅 Maghrib: %s 🌅</string>
+    <string name="share_msg_ishaa">🌃 Ishaa: %s 🌃</string>
     <string name="layout_direction">ltr</string>
 </resources>

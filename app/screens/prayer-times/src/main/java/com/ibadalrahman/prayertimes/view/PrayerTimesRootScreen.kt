@@ -11,21 +11,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import com.ibadalrahman.mvi.BaseScreen
 import com.ibadalrahman.mvi.ObserveLifecycleEvents
 import com.ibadalrahman.prayertimes.presenter.PrayerTimesViewModel
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesIntention
+import com.ibadalrahman.prayertimes.presenter.entity.PrayerTimesViewAction
 import com.ibadalrahman.prayertimes.presenter.entity.PrayerViewType
 import com.ibadalrahman.resources.R
 
 @Composable
-fun PrayerTimesRootScreen(viewModel: PrayerTimesViewModel) {
+fun PrayerTimesRootScreen(
+    viewModel: PrayerTimesViewModel,
+    onShare: (String) -> Unit,
+) {
     BaseScreen(
         viewModel = viewModel,
-        viewActionProcessor = { _ -> }
+        viewActionProcessor = { viewAction ->
+            when (viewAction) {
+                is PrayerTimesViewAction.Share -> {
+                    onShare(viewAction.text)
+                }
+            }
+        }
     ) { state, intentionProcessor ->
         ObserveLifecycleEvents (
             onStart = { intentionProcessor(PrayerTimesIntention.OnScreenStarted) }
