@@ -25,6 +25,7 @@ data class PrayerTimesScreenState(
                 isDatePickerVisible = false,
                 prayerViewType = PrayerViewType.DAILY,
                 prayerTimes = PrayerTimesState(
+                    hijriDate = "",
                     fajr = Date(),
                     sunrise = Date(),
                     dhuhr = Date(),
@@ -34,6 +35,7 @@ data class PrayerTimesScreenState(
                 ),
                 weekPrayerTimes = WeekPrayerTimesState(
                     sat = PrayerTimesState(
+                        hijriDate = "",
                         fajr = Date(),
                         sunrise = Date(),
                         dhuhr = Date(),
@@ -42,6 +44,7 @@ data class PrayerTimesScreenState(
                         ishaa = Date()
                     ),
                     sun = PrayerTimesState(
+                        hijriDate = "",
                         fajr = Date(),
                         sunrise = Date(),
                         dhuhr = Date(),
@@ -50,6 +53,7 @@ data class PrayerTimesScreenState(
                         ishaa = Date()
                     ),
                     mon = PrayerTimesState(
+                        hijriDate = "",
                         fajr = Date(),
                         sunrise = Date(),
                         dhuhr = Date(),
@@ -58,6 +62,7 @@ data class PrayerTimesScreenState(
                         ishaa = Date()
                     ),
                     tue = PrayerTimesState(
+                        hijriDate = "",
                         fajr = Date(),
                         sunrise = Date(),
                         dhuhr = Date(),
@@ -66,6 +71,7 @@ data class PrayerTimesScreenState(
                         ishaa = Date()
                     ),
                     wed = PrayerTimesState(
+                        hijriDate = "",
                         fajr = Date(),
                         sunrise = Date(),
                         dhuhr = Date(),
@@ -74,6 +80,7 @@ data class PrayerTimesScreenState(
                         ishaa = Date()
                     ),
                     thu = PrayerTimesState(
+                        hijriDate = "",
                         fajr = Date(),
                         sunrise = Date(),
                         dhuhr = Date(),
@@ -82,6 +89,7 @@ data class PrayerTimesScreenState(
                         ishaa = Date()
                     ),
                     fri = PrayerTimesState(
+                        hijriDate = "",
                         fajr = Date(),
                         sunrise = Date(),
                         dhuhr = Date(),
@@ -110,6 +118,7 @@ data class PrayerTimesScreenState(
 @Stable
 @Immutable
 data class PrayerTimesState(
+    val hijriDate: String,
     val fajr: Date,
     val sunrise: Date,
     val dhuhr: Date,
