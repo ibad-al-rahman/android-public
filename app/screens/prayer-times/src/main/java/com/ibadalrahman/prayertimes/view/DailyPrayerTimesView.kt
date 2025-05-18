@@ -101,6 +101,15 @@ fun DailyPrayerTimesView(
                 )
             }
         }
+        safeLet(state.prayerTimes?.hijriDate) { hijriDate ->
+            Text(
+                text = hijriDate,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                modifier = Modifier.padding(top = 8.dp, start = 20.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.height(30.dp))
         Text(

@@ -8,7 +8,11 @@ import com.ibadalrahman.prayertimes.repository.PrayerTimesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import java.text.DecimalFormatSymbols
+import java.time.chrono.HijrahChronology
+import java.time.format.DateTimeFormatter
 import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 class PrayerTimesInteractor @Inject constructor(
@@ -61,9 +65,36 @@ class PrayerTimesInteractor @Inject constructor(
             .getWeekPrayerTimes(weekId = prayerTimes.weekId)
             .getOrElse { return@flow }
 
+        val inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+        val hijriDate = HijrahChronology.INSTANCE.date(
+            inputFormatter.withChronology(HijrahChronology.INSTANCE).
+            parse(prayerTimes.hijri)
+        )
+
+        val formatter = DateTimeFormatter
+            .ofPattern("dd MMMM yyyy")
+
+        val hijriDateFormatted = localizeDigitsInText(
+            formatter.format(hijriDate), Locale.getDefault()
+        )
+        val prayerTimesWithHijri = prayerTimes.copy(hijri = hijriDateFormatted)
+
         emit(PrayerTimesResult.PrayerTimesLoaded(
-            prayerTimes = prayerTimes,
+            prayerTimes = prayerTimesWithHijri,
             weekPrayerTimes = weekPrayerTimes
         ))
+    }
+
+    private fun localizeDigitsInText(text: String, locale: Locale): String {
+        val symbols = DecimalFormatSymbols(locale)
+        val zeroDigit = symbols.zeroDigit
+        return text.map { c ->
+            if (c in '0'..'9') {
+                (zeroDigit + (c - '0'))
+            } else {
+                c
+            }
+        }.joinToString("")
     }
 }

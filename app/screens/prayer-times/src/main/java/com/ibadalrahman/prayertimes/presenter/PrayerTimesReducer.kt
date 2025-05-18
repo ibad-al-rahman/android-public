@@ -22,6 +22,7 @@ object PrayerTimesReducer {
                 isLoading = false,
                 date = result.prayerTimes.gregorian,
                 prayerTimes = prevState.prayerTimes?.copy(
+                    hijriDate = result.prayerTimes.hijri,
                     fajr = result.prayerTimes.prayerTimes.fajr,
                     sunrise = result.prayerTimes.prayerTimes.sunrise,
                     dhuhr = result.prayerTimes.prayerTimes.dhuhr,
@@ -36,6 +37,7 @@ object PrayerTimesReducer {
                 },
                 weekPrayerTimes = prevState.weekPrayerTimes?.copy(
                     sat = PrayerTimesState(
+                        hijriDate = result.weekPrayerTimes.sat.hijri,
                         fajr = result.weekPrayerTimes.sat.prayerTimes.fajr,
                         sunrise = result.weekPrayerTimes.sat.prayerTimes.sunrise,
                         dhuhr = result.weekPrayerTimes.sat.prayerTimes.dhuhr,
@@ -44,6 +46,7 @@ object PrayerTimesReducer {
                         ishaa = result.weekPrayerTimes.sat.prayerTimes.ishaa
                     ),
                     sun = PrayerTimesState(
+                        hijriDate = result.weekPrayerTimes.sun.hijri,
                         fajr = result.weekPrayerTimes.sun.prayerTimes.fajr,
                         sunrise = result.weekPrayerTimes.sun.prayerTimes.sunrise,
                         dhuhr = result.weekPrayerTimes.sun.prayerTimes.dhuhr,
@@ -52,6 +55,7 @@ object PrayerTimesReducer {
                         ishaa = result.weekPrayerTimes.sun.prayerTimes.ishaa
                     ),
                     mon = PrayerTimesState(
+                        hijriDate = result.weekPrayerTimes.mon.hijri,
                         fajr = result.weekPrayerTimes.mon.prayerTimes.fajr,
                         sunrise = result.weekPrayerTimes.mon.prayerTimes.sunrise,
                         dhuhr = result.weekPrayerTimes.mon.prayerTimes.dhuhr,
@@ -60,6 +64,7 @@ object PrayerTimesReducer {
                         ishaa = result.weekPrayerTimes.mon.prayerTimes.ishaa
                     ),
                     tue = PrayerTimesState(
+                        hijriDate = result.weekPrayerTimes.tue.hijri,
                         fajr = result.weekPrayerTimes.tue.prayerTimes.fajr,
                         sunrise = result.weekPrayerTimes.tue.prayerTimes.sunrise,
                         dhuhr = result.weekPrayerTimes.tue.prayerTimes.dhuhr,
@@ -68,6 +73,7 @@ object PrayerTimesReducer {
                         ishaa = result.weekPrayerTimes.tue.prayerTimes.ishaa
                     ),
                     wed = PrayerTimesState(
+                        hijriDate = result.weekPrayerTimes.wed.hijri,
                         fajr = result.weekPrayerTimes.wed.prayerTimes.fajr,
                         sunrise = result.weekPrayerTimes.wed.prayerTimes.sunrise,
                         dhuhr = result.weekPrayerTimes.wed.prayerTimes.dhuhr,
@@ -76,6 +82,7 @@ object PrayerTimesReducer {
                         ishaa = result.weekPrayerTimes.wed.prayerTimes.ishaa
                     ),
                     thu = PrayerTimesState(
+                        hijriDate = result.weekPrayerTimes.thu.hijri,
                         fajr = result.weekPrayerTimes.thu.prayerTimes.fajr,
                         sunrise = result.weekPrayerTimes.thu.prayerTimes.sunrise,
                         dhuhr = result.weekPrayerTimes.thu.prayerTimes.dhuhr,
@@ -84,6 +91,7 @@ object PrayerTimesReducer {
                         ishaa = result.weekPrayerTimes.thu.prayerTimes.ishaa
                     ),
                     fri = PrayerTimesState(
+                        hijriDate = result.weekPrayerTimes.fri.hijri,
                         fajr = result.weekPrayerTimes.fri.prayerTimes.fajr,
                         sunrise = result.weekPrayerTimes.fri.prayerTimes.sunrise,
                         dhuhr = result.weekPrayerTimes.fri.prayerTimes.dhuhr,
