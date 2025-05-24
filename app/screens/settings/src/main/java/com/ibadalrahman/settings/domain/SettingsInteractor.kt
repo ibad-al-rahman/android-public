@@ -16,5 +16,7 @@ class SettingsInteractor @Inject constructor(
         when (action) {
             is SettingsAction.ChangeLanguage ->
                 flowOf(SettingsResult.LanguageChanged(action.language))
+            is SettingsAction.ChangeTheme ->
+                flowOf(SettingsResult.ThemeChanged(action.theme))
         }
 }

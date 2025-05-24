@@ -36,6 +36,9 @@ class SettingsViewModel @Inject constructor(
         is SettingsIntention.ChangeLanguage -> action(SettingsAction.ChangeLanguage(
             language = intention.language
         ))
+        is SettingsIntention.ChangeTheme -> action(SettingsAction.ChangeTheme(
+            theme = intention.theme
+        ))
     }
 
     override fun reduce(result: SettingsResult) {
@@ -45,6 +48,9 @@ class SettingsViewModel @Inject constructor(
     override fun viewActionFrom(result: SettingsResult): SettingsViewAction? = when (result) {
         is SettingsResult.LanguageChanged -> SettingsViewAction.ChangeLanguage(
             language = result.language
+        )
+        is SettingsResult.ThemeChanged -> SettingsViewAction.ChangeTheme(
+            theme = result.theme
         )
     }
 }

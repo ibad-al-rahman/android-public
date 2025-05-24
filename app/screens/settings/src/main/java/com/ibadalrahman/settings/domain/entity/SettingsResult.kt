@@ -4,4 +4,5 @@ import com.ibadalrahman.settings.presenter.entity.Language
 
 sealed interface SettingsResult {
     data class LanguageChanged(val language: Language) : SettingsResult
+    data class ThemeChanged(val theme: Int) : SettingsResult
 }
