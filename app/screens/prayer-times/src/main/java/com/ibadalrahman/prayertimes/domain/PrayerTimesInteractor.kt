@@ -19,7 +19,6 @@ import java.util.Locale
 import javax.inject.Inject
 import com.ibadalrahman.resources.R
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.ZoneId
 
 class PrayerTimesInteractor @Inject constructor(

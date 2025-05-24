@@ -1,7 +1,11 @@
 package org.ibadalrahman.publicsector.navigation
 
 import android.annotation.SuppressLint
+import android.app.LocaleManager
 import android.content.Intent
+import android.os.Build
+import android.os.LocaleList
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.Text
@@ -14,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ibadalrahman.prayertimes.view.PrayerTimesRootScreen
 import com.ibadalrahman.settings.view.SettingsRootScreen
@@ -53,7 +58,19 @@ fun NavGraphBuilder.addPrayerTimesScreen(
 
 fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
     composable(Screen.Settings.route) {
-        SettingsRootScreen(viewModel = hiltViewModel())
+        val context = LocalContext.current
+        SettingsRootScreen(
+            viewModel = hiltViewModel(),
+            changeLanguage = { languageCode ->
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    context.getSystemService(LocaleManager::class.java)
+                        .applicationLocales = LocaleList.forLanguageTags(languageCode)
+                }
+                else {
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
+                }
+            }
+        )
     }
 }
 
@@ -65,7 +82,6 @@ fun DatePickerModal(
     onDismiss: () -> Unit
 ) {
     val datePickerState = rememberDatePickerState()
-
 
     DatePickerDialog(
         onDismissRequest = onDismiss,

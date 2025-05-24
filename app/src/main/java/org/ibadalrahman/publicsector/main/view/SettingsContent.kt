@@ -233,9 +233,9 @@ fun setDarkMode(enabled: Boolean) {
 
 @Composable
 fun LanguageSelector() {
+    val select = stringResource(id = R.string.select)
+    val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
-    var context = LocalContext.current
-    var select = stringResource(id = R.string.select)
     var selectedLanguage by remember { mutableStateOf(select) }
 
     TextButton(
@@ -276,9 +276,6 @@ fun LanguageSelector() {
             }
         }
     }
-
-
-
 }
 
 
