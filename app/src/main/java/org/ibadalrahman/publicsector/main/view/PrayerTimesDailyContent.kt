@@ -130,10 +130,10 @@ fun PrayerTimesDailyContent(
             horizontalArrangement = Arrangement.Center
 
         ) {
-            Image(
-                painterResource(R.drawable.ibad_logo_transparent),
-                contentDescription = "",
-                modifier = Modifier.width(100.dp))
+//            Image(
+//                painterResource(R.drawable.ibad_logo_transparent),
+//                contentDescription = "",
+//                modifier = Modifier.width(100.dp))
         }
 
 //        Box(modifier = Modifier
