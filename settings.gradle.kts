@@ -36,3 +36,5 @@ include(":app:data:prayer-times-repository")
 
 include(":app:screens:prayer-times")
 include(":app:screens:settings")
+
+include(":app:widgets:prayer-times")
