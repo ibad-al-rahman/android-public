@@ -19,6 +19,10 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import androidx.glance.GlanceTheme
+import androidx.glance.action.clickable
+import androidx.glance.appwidget.action.actionStartActivity
+import android.content.ComponentName
+import android.content.Intent
 import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
 import com.ibadalrahman.prayertimes.repository.data.domain.PrayerTimes
 import com.ibadalrahman.resources.R
@@ -50,8 +54,21 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
 
     @Composable
     fun PrayerTimesWidget(dayPrayerTimes: DayPrayerTimes?) {
+        val context = LocalContext.current
+        val intent = Intent().apply {
+            component = ComponentName(
+                context.packageName,
+                "org.ibadalrahman.publicsector.main.view.MainActivity"
+            )
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        
         Scaffold(
-            modifier = GlanceModifier.padding(16.dp)
+            modifier = GlanceModifier
+                .padding(16.dp)
+                .clickable(
+                    onClick = actionStartActivity(intent)
+                )
         ) {
             if (dayPrayerTimes != null) {
                 Column(
