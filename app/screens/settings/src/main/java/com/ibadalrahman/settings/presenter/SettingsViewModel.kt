@@ -32,13 +32,19 @@ class SettingsViewModel @Inject constructor(
 ) {
     override fun router(
         intention: SettingsIntention
-    ): MviBoundary<SettingsViewAction, SettingsAction, SettingsResult> {
-        return MviBoundary.Result(SettingsResult.NoOp)
+    ): MviBoundary<SettingsViewAction, SettingsAction, SettingsResult> = when(intention) {
+        is SettingsIntention.ChangeLanguage -> action(SettingsAction.ChangeLanguage(
+            language = intention.language
+        ))
     }
 
     override fun reduce(result: SettingsResult) {
         updateState { SettingsReducer.reduce(prevState = this, result = result) }
     }
 
-    override fun viewActionFrom(result: SettingsResult): SettingsViewAction? = null
+    override fun viewActionFrom(result: SettingsResult): SettingsViewAction? = when (result) {
+        is SettingsResult.LanguageChanged -> SettingsViewAction.ChangeLanguage(
+            language = result.language
+        )
+    }
 }
