@@ -40,5 +40,6 @@
     <string name="share_msg_asr">🌆 Asr: %s 🌆</string>
     <string name="share_msg_maghrib">🌅 Maghrib: %s 🌅</string>
     <string name="share_msg_ishaa">🌃 Ishaa: %s 🌃</string>
+    <string name="loading_prayer_times">Loading prayer times...</string>
     <string name="layout_direction">ltr</string>
 </resources>
