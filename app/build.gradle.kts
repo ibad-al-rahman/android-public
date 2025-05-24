@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.dagger.hilt.android)
     alias(libs.plugins.jetbrains.kotlin.compose)
-    alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.google.gsm.google.services)
 }
 
@@ -82,9 +81,6 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.appcompat)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.cio)
 
     implementation(projects.app.common.base)
     implementation(projects.app.common.mvi)
