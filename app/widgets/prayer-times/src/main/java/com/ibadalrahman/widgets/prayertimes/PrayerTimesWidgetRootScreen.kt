@@ -63,9 +63,9 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                             color = GlanceTheme.colors.onSurface
                         )
                     )
-
+                    
                     Spacer(modifier = GlanceModifier.padding(8.dp))
-
+                    
                     PrayerTimeRow(
                         label = localizedString(R.string.fajr),
                         time = dayPrayerTimes.prayerTimes.fajr
@@ -111,7 +111,8 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
     private fun PrayerTimeRow(label: String, time: Date) {
         Row(
             modifier = GlanceModifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalAlignment = Alignment.Start
         ) {

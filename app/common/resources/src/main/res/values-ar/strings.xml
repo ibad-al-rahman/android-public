@@ -42,5 +42,6 @@
     <string name="share_msg_maghrib">🌅 المغرب: %s 🌅</string>
     <string name="share_msg_ishaa">🌃 العشاء: %s 🌃</string>
     <string name="loading_prayer_times">جاري تحميل أوقات الصلاة...</string>
+    <string name="next_prayer">الصلاة التالية</string>
     <string name="layout_direction">rtl</string>
 </resources>
