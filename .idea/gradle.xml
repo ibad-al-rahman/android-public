@@ -33,6 +33,8 @@
             <option value="$PROJECT_DIR$/app/screens" />
             <option value="$PROJECT_DIR$/app/screens/prayer-times" />
             <option value="$PROJECT_DIR$/app/screens/settings" />
+            <option value="$PROJECT_DIR$/app/widgets" />
+            <option value="$PROJECT_DIR$/app/widgets/prayer-times" />
             <option value="$PROJECT_DIR$/buildSrc" />
           </set>
         </option>

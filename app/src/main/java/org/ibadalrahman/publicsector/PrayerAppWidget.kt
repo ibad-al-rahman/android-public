@@ -1,6 +1,5 @@
 package org.ibadalrahman.publicsector
 
-import Prayer
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -8,29 +7,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.LayoutDirection
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.RemoteViews
 import android.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.stringResource
-import androidx.core.os.ConfigurationCompat
-import androidx.core.os.LocaleListCompat
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import org.ibadalrahman.publicsector.databinding.PrayerAppWidgetBinding
 import org.ibadalrahman.publicsector.main.model.PrayerData
 import org.ibadalrahman.publicsector.main.model.PrayerRepositoryImpl
 import org.ibadalrahman.publicsector.main.view.MainActivity
 import org.ibadalrahman.publicsector.main.view.computeTimeDiffFromNow
-import org.ibadalrahman.publicsector.main.view.displayTime
-import org.ibadalrahman.publicsector.main.view.getLocale
-import org.ibadalrahman.publicsector.main.view.getLocalizedPrayerName
 import java.text.SimpleDateFormat
 import java.time.chrono.HijrahChronology
 import java.time.format.DateTimeFormatter
@@ -38,7 +22,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
-import kotlin.collections.get
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -332,9 +315,3 @@ class PrayerAppWidget : AppWidgetProvider() {
     }
 
 }
-
-
-
-
-
-
