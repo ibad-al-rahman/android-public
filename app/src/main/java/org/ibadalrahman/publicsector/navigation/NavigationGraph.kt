@@ -69,6 +69,16 @@ fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
                 else {
                     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
                 }
+            },
+            changeTheme = { theme ->
+                when (theme) {
+                    AppCompatDelegate.MODE_NIGHT_NO ->
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    AppCompatDelegate.MODE_NIGHT_YES ->
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    else ->
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                }
             }
         )
     }

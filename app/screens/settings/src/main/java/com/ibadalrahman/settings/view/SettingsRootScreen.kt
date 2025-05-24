@@ -25,16 +25,16 @@ import com.ibadalrahman.settings.presenter.entity.SettingsViewAction
 @Composable
 fun SettingsRootScreen(
     viewModel: SettingsViewModel,
-    changeLanguage: (String) -> Unit
+    changeLanguage: (String) -> Unit,
+    changeTheme: (Int) -> Unit
 ) {
     val layoutDirection = LocalLayoutDirection.current
     BaseScreen(
         viewModel = viewModel,
         viewActionProcessor = { viewAction ->
             when (viewAction) {
-                is SettingsViewAction.ChangeLanguage -> {
-                    changeLanguage(viewAction.language.code)
-                }
+                is SettingsViewAction.ChangeLanguage -> changeLanguage(viewAction.language.code)
+                is SettingsViewAction.ChangeTheme -> changeTheme(viewAction.theme)
             }
         }
     ) { state, intentionProcessor ->

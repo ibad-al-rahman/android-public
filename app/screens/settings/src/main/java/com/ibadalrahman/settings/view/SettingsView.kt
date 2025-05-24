@@ -1,5 +1,6 @@
 package com.ibadalrahman.settings.view
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material.icons.filled.FontDownload
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.OpenInNew
@@ -22,6 +24,7 @@ import androidx.compose.material.icons.filled.OpenInNewOff
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -72,7 +75,15 @@ fun SettingsView(
             modifier = Modifier.padding(vertical = 10.dp)
         )
 
-        LanguageSelector(intentionProcessor = intentionProcessor)
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.background)
+        ) {
+            LanguageSelector(intentionProcessor = intentionProcessor)
+            HorizontalDivider()
+            ThemeSelector(intentionProcessor = intentionProcessor)
+        }
 
         Spacer(modifier = Modifier.height(40.dp))
 
@@ -150,8 +161,6 @@ fun LanguageSelector(intentionProcessor: (intention: SettingsIntention) -> Unit)
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = 20.dp, vertical = 10.dp)
             .clickable { expanded = !expanded }
     ) {
@@ -195,6 +204,76 @@ fun LanguageSelector(intentionProcessor: (intention: SettingsIntention) -> Unit)
                         text = { Text("العربية") },
                         onClick = {
                             intentionProcessor(SettingsIntention.ChangeLanguage(Language.Ar))
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ThemeSelector(intentionProcessor: (intention: SettingsIntention) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 10.dp)
+            .clickable { expanded = !expanded }
+    ) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Contrast,
+                contentDescription = stringResource(id = R.string.language),
+                modifier = Modifier.padding(end = 16.dp),
+            )
+            Text(
+                text = stringResource(id = R.string.appearance),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.Medium
+                ),
+            )
+            Spacer(modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+            )
+            Box {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = stringResource(id = R.string.select),
+                )
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Dark") },
+                        onClick = {
+                            intentionProcessor(
+                                SettingsIntention.ChangeTheme(AppCompatDelegate.MODE_NIGHT_YES)
+                            )
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Light") },
+                        onClick = {
+                            intentionProcessor(
+                                SettingsIntention.ChangeTheme(AppCompatDelegate.MODE_NIGHT_NO)
+                            )
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("System") },
+                        onClick = {
+                            intentionProcessor(
+                                SettingsIntention.ChangeTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                            )
                         }
                     )
                 }
