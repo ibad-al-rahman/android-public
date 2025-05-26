@@ -21,8 +21,17 @@ import androidx.glance.GlanceTheme
 import androidx.glance.action.clickable
 import androidx.glance.background
 import androidx.glance.appwidget.action.actionStartActivity
+import androidx.glance.Image
+import androidx.glance.ImageProvider
+import androidx.glance.layout.Box
+import androidx.glance.layout.ContentScale
+import androidx.glance.layout.size
+import androidx.glance.unit.ColorProvider
+import androidx.compose.ui.graphics.toArgb
 import android.content.ComponentName
 import android.content.Intent
+import androidx.compose.ui.graphics.Color
+import androidx.glance.layout.fillMaxSize
 import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
 import com.ibadalrahman.resources.R
 import dagger.hilt.EntryPoint
@@ -106,9 +115,27 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                         )
                     }
                     Column(
-                        modifier = GlanceModifier.defaultWeight()
+                        modifier = GlanceModifier.defaultWeight(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Hello World")
+                        Box(
+                            modifier = GlanceModifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Image(
+                                provider = ImageProvider(R.drawable.ic_launcher_watermark),
+                                contentDescription = "App Icon Watermark",
+                                modifier = GlanceModifier.fillMaxSize()
+                            )
+
+                            Text(
+                                text = "Hello world",
+                                style = TextStyle(
+                                    color = GlanceTheme.colors.onSurface
+                                )
+                            )
+                        }
                     }
                 }
             } else {
