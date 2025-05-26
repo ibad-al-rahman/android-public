@@ -4,7 +4,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -26,9 +25,7 @@ import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxHeight
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.height
 import androidx.glance.layout.padding
-import androidx.glance.layout.width
 import androidx.glance.text.Text
 import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
 import com.ibadalrahman.resources.R
@@ -166,6 +163,33 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                                     )
                                 )
                                 Spacer(modifier = GlanceModifier.defaultWeight())
+
+                                val nextPrayer = getNextPrayer(dayPrayerTimes)
+                                if (nextPrayer != null) {
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        modifier = GlanceModifier.padding(bottom = 12.dp)
+                                    ) {
+                                        Text(
+                                            text = localizedString(R.string.next_prayer),
+                                            style = WidgetGlanceTypography.labelSmall.copy(
+                                                color = WidgetGlanceColorScheme.onSurfaceVariant
+                                            )
+                                        )
+                                        Text(
+                                            text = getPrayerName(nextPrayer.first),
+                                            style = WidgetGlanceTypography.titleMedium.copy(
+                                                color = WidgetGlanceColorScheme.primary
+                                            )
+                                        )
+                                        Text(
+                                            text = formatTime(nextPrayer.second),
+                                            style = WidgetGlanceTypography.bodyMedium.copy(
+                                                color = WidgetGlanceColorScheme.onSurface
+                                            )
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -226,6 +250,18 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
         return LocalContext.current.getString(resId)
     }
 
+    @Composable
+    private fun getPrayerName(prayer: Prayer): String {
+        return when (prayer) {
+            Prayer.FAJR -> localizedString(R.string.fajr)
+            Prayer.SUNRISE -> localizedString(R.string.sunrise)
+            Prayer.DHUHR -> localizedString(R.string.dhuhr)
+            Prayer.ASR -> localizedString(R.string.asr)
+            Prayer.MAGHRIB -> localizedString(R.string.maghrib)
+            Prayer.ISHAA -> localizedString(R.string.ishaa)
+        }
+    }
+
     private fun formatTime(date: Date): String {
         val formatter =  DateFormat.getTimeInstance(DateFormat.SHORT)
         return formatter.format(date)
@@ -254,6 +290,26 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
         }
 
         return Prayer.ISHAA
+    }
+
+    private fun getNextPrayer(dayPrayerTimes: DayPrayerTimes): Pair<Prayer, Date>? {
+        val now = Date()
+        val prayerTimes = listOf(
+            Prayer.FAJR to dayPrayerTimes.prayerTimes.fajr,
+            Prayer.SUNRISE to dayPrayerTimes.prayerTimes.sunrise,
+            Prayer.DHUHR to dayPrayerTimes.prayerTimes.dhuhr,
+            Prayer.ASR to dayPrayerTimes.prayerTimes.asr,
+            Prayer.MAGHRIB to dayPrayerTimes.prayerTimes.maghrib,
+            Prayer.ISHAA to dayPrayerTimes.prayerTimes.ishaa
+        )
+
+        for ((prayer, time) in prayerTimes) {
+            if (time.after(now)) {
+                return prayer to time
+            }
+        }
+
+        return null
     }
 
     enum class Prayer {
