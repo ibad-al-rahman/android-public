@@ -17,7 +17,6 @@ import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import androidx.glance.GlanceTheme
 import androidx.glance.action.clickable
 import androidx.glance.background
 import androidx.glance.appwidget.action.actionStartActivity
@@ -27,6 +26,7 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.ContentScale
 import androidx.glance.layout.size
 import androidx.glance.unit.ColorProvider
+import androidx.glance.appwidget.cornerRadius
 import androidx.compose.ui.graphics.toArgb
 import android.content.ComponentName
 import android.content.Intent
@@ -34,6 +34,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.glance.layout.fillMaxSize
 import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
 import com.ibadalrahman.resources.R
+import com.ibadalrahman.widgets.prayertimes.theme.WidgetGlanceTheme
+import com.ibadalrahman.widgets.prayertimes.theme.WidgetGlanceColorScheme
+import com.ibadalrahman.widgets.prayertimes.theme.WidgetGlanceTypography
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
@@ -55,7 +58,9 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
         }
 
         provideContent {
-            PrayerTimesWidget(dayPrayerTimes = dayPrayerTimes)
+            WidgetGlanceTheme {
+                PrayerTimesWidget(dayPrayerTimes = dayPrayerTimes)
+            }
         }
     }
 
@@ -72,6 +77,7 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
 
         Scaffold(
             modifier = GlanceModifier
+                .background(WidgetGlanceColorScheme.background)
                 .clickable(
                     onClick = actionStartActivity(intent)
                 )
@@ -131,8 +137,8 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
 
                             Text(
                                 text = "Hello world",
-                                style = TextStyle(
-                                    color = GlanceTheme.colors.onSurface
+                                style = WidgetGlanceTypography.bodyMedium.copy(
+                                    color = WidgetGlanceColorScheme.onSurface
                                 )
                             )
                         }
@@ -145,8 +151,8 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                 ) {
                     Text(
                         text = localizedString(R.string.loading_prayer_times),
-                        style = TextStyle(
-                            color = GlanceTheme.colors.onSurface
+                        style = WidgetGlanceTypography.bodyMedium.copy(
+                            color = WidgetGlanceColorScheme.onSurface
                         )
                     )
                 }
@@ -163,7 +169,8 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                 .then(
                     if (isActive) {
                         GlanceModifier
-                            .background(GlanceTheme.colors.primary)
+                            .cornerRadius(12.dp)
+                            .background(WidgetGlanceColorScheme.primary)
                             .padding(horizontal = 12.dp, vertical = 1.dp)
                     } else {
                         GlanceModifier.padding(horizontal = 12.dp, vertical = 1.dp)
@@ -174,15 +181,15 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
         ) {
             Text(
                 text = label,
-                style = TextStyle(
-                    color = if (isActive) GlanceTheme.colors.onPrimary else GlanceTheme.colors.onSurface
+                style = WidgetGlanceTypography.bodySmall.copy(
+                    color = if (isActive) WidgetGlanceColorScheme.onPrimary else WidgetGlanceColorScheme.onSurface
                 )
             )
             Spacer(modifier = GlanceModifier.defaultWeight())
             Text(
                 text = formatTime(time),
-                style = TextStyle(
-                    color = if (isActive) GlanceTheme.colors.onPrimary else GlanceTheme.colors.onSurface
+                style = WidgetGlanceTypography.bodySmall.copy(
+                    color = if (isActive) WidgetGlanceColorScheme.onPrimary else WidgetGlanceColorScheme.onSurface
                 )
             )
         }
