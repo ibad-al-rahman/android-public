@@ -36,30 +36,6 @@ class PrayerTimesWidgetViewModel @Inject constructor(
         return Result.success(dailyPrayerTimes.copy(hijri = hijriDateFormatted))
     }
 
-    suspend fun getTomorrowPrayerTimes(): Result<DayPrayerTimes> {
-        val tomorrow = Date()
-        val calendar = Calendar.getInstance()
-        calendar.time = tomorrow
-        calendar.add(Calendar.DAY_OF_MONTH, 1)
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH) + 1
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val dailyPrayerTimes = prayerTimesRepository
-            .getDayPrayerTimes(year, month, day)
-            .getOrElse { return Result.failure(it) }
-        val inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val hijriDate = HijrahChronology.INSTANCE.date(
-            inputFormatter.withChronology(HijrahChronology.INSTANCE).
-            parse(dailyPrayerTimes.hijri)
-        )
-        val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
-        val hijriDateFormatted = localizeDigitsInText(
-            formatter.format(hijriDate), Locale.getDefault()
-        )
-
-        return Result.success(dailyPrayerTimes.copy(hijri = hijriDateFormatted))
-    }
-
     private fun localizeDigitsInText(text: String, locale: Locale): String {
         val symbols = DecimalFormatSymbols(locale)
         val zeroDigit = symbols.zeroDigit
