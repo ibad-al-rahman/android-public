@@ -14,7 +14,7 @@ import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.components.Scaffold
-import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -52,24 +52,16 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
             vm.getPrayerTimes().getOrNull()
         }
 
-        val tomorrowPrayerTimes = withContext(Dispatchers.IO) {
-            vm.getTomorrowPrayerTimes().getOrNull()
-        }
-
         provideContent {
             WidgetGlanceTheme {
-                PrayerTimesWidget(
-                    dayPrayerTimes = dayPrayerTimes,
-                    tomorrowPrayerTimes = tomorrowPrayerTimes
-                )
+                PrayerTimesWidget(dayPrayerTimes = dayPrayerTimes)
             }
         }
     }
 
     @Composable
     fun PrayerTimesWidget(
-        dayPrayerTimes: DayPrayerTimes?,
-        tomorrowPrayerTimes: DayPrayerTimes?
+        dayPrayerTimes: DayPrayerTimes?
     ) {
         val context = LocalContext.current
         val intent = Intent().apply {
@@ -81,20 +73,6 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
         }
 
         Scaffold(
-            titleBar = {
-                Row(modifier = GlanceModifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp, horizontal = 22.dp)
-                ) {
-                    Text(
-                        text = localizedString(R.string.timings),
-                        style = WidgetGlanceTypography.titleLarge.copy(
-                            color = WidgetGlanceColorScheme.onSurface
-                        )
-                    )
-                    Spacer(modifier = GlanceModifier.defaultWeight())
-                }
-            },
             modifier = GlanceModifier
                 .background(WidgetGlanceColorScheme.background)
                 .clickable(
@@ -102,42 +80,48 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                 )
         ) {
             if (dayPrayerTimes != null) {
-                Row(modifier = GlanceModifier
-                    .fillMaxWidth()
+                Row(
+                    modifier = GlanceModifier
+                        .fillMaxWidth()
+                        .padding(12.dp)
                 ) {
-                    Column(modifier = GlanceModifier.defaultWeight()) {
-                        val currentPrayer = getCurrentPrayer(dayPrayerTimes)
-
-                        PrayerTimeRow(
-                            label = localizedString(R.string.fajr),
-                            time = dayPrayerTimes.prayerTimes.fajr,
-                            isActive = currentPrayer == Prayer.FAJR
-                        )
-                        PrayerTimeRow(
-                            label = localizedString(R.string.sunrise),
-                            time = dayPrayerTimes.prayerTimes.sunrise,
-                            isActive = currentPrayer == Prayer.SUNRISE
-                        )
-                        PrayerTimeRow(
-                            label = localizedString(R.string.dhuhr),
-                            time = dayPrayerTimes.prayerTimes.dhuhr,
-                            isActive = currentPrayer == Prayer.DHUHR
-                        )
-                        PrayerTimeRow(
-                            label = localizedString(R.string.asr),
-                            time = dayPrayerTimes.prayerTimes.asr,
-                            isActive = currentPrayer == Prayer.ASR
-                        )
-                        PrayerTimeRow(
-                            label = localizedString(R.string.maghrib),
-                            time = dayPrayerTimes.prayerTimes.maghrib,
-                            isActive = currentPrayer == Prayer.MAGHRIB
-                        )
-                        PrayerTimeRow(
-                            label = localizedString(R.string.ishaa),
-                            time = dayPrayerTimes.prayerTimes.ishaa,
-                            isActive = currentPrayer == Prayer.ISHAA
-                        )
+                    LazyColumn(modifier = GlanceModifier.defaultWeight()) {
+                        item {
+                            PrayerTimeRow(
+                                label = localizedString(R.string.fajr),
+                                time = dayPrayerTimes.prayerTimes.fajr
+                            )
+                        }
+                        item {
+                            PrayerTimeRow(
+                                label = localizedString(R.string.sunrise),
+                                time = dayPrayerTimes.prayerTimes.sunrise
+                            )
+                        }
+                        item {
+                            PrayerTimeRow(
+                                label = localizedString(R.string.dhuhr),
+                                time = dayPrayerTimes.prayerTimes.dhuhr
+                            )
+                        }
+                        item {
+                            PrayerTimeRow(
+                                label = localizedString(R.string.asr),
+                                time = dayPrayerTimes.prayerTimes.asr
+                            )
+                        }
+                        item {
+                            PrayerTimeRow(
+                                label = localizedString(R.string.maghrib),
+                                time = dayPrayerTimes.prayerTimes.maghrib
+                            )
+                        }
+                        item {
+                            PrayerTimeRow(
+                                label = localizedString(R.string.ishaa),
+                                time = dayPrayerTimes.prayerTimes.ishaa
+                            )
+                        }
                     }
 
                     Column(
@@ -174,31 +158,23 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                                 )
                                 Spacer(modifier = GlanceModifier.defaultWeight())
 
-                                val nextPrayer = getNextPrayer(dayPrayerTimes, tomorrowPrayerTimes)
-                                if (nextPrayer != null) {
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        modifier = GlanceModifier.padding(bottom = 12.dp)
-                                    ) {
-                                        Text(
-                                            text = localizedString(R.string.next_prayer),
-                                            style = WidgetGlanceTypography.labelSmall.copy(
-                                                color = WidgetGlanceColorScheme.onSurfaceVariant
-                                            )
+                                val currentPrayer = getCurrentPrayer(dayPrayerTimes)
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = GlanceModifier.padding(bottom = 12.dp)
+                                ) {
+                                    Text(
+                                        text = localizedString(R.string.current_prayer_time),
+                                        style = WidgetGlanceTypography.labelSmall.copy(
+                                            color = WidgetGlanceColorScheme.onSurfaceVariant
                                         )
-                                        Text(
-                                            text = getPrayerName(nextPrayer.first),
-                                            style = WidgetGlanceTypography.titleMedium.copy(
-                                                color = WidgetGlanceColorScheme.primary
-                                            )
+                                    )
+                                    Text(
+                                        text = getPrayerName(currentPrayer),
+                                        style = WidgetGlanceTypography.titleMedium.copy(
+                                            color = WidgetGlanceColorScheme.primary
                                         )
-                                        Text(
-                                            text = formatTime(nextPrayer.second),
-                                            style = WidgetGlanceTypography.bodyMedium.copy(
-                                                color = WidgetGlanceColorScheme.onSurface
-                                            )
-                                        )
-                                    }
+                                    )
                                 }
                             }
                         }
@@ -221,35 +197,25 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
     }
 
     @Composable
-    private fun PrayerTimeRow(label: String, time: Date, isActive: Boolean = false) {
+    private fun PrayerTimeRow(label: String, time: Date) {
         Row(
             modifier = GlanceModifier
                 .fillMaxWidth()
-                .padding(vertical = 2.dp)
-                .then(
-                    if (isActive) {
-                        GlanceModifier
-                            .cornerRadius(12.dp)
-                            .background(WidgetGlanceColorScheme.primary)
-                            .padding(horizontal = 12.dp, vertical = 1.dp)
-                    } else {
-                        GlanceModifier.padding(horizontal = 12.dp, vertical = 1.dp)
-                    }
-                ),
+                .padding(vertical = 3.dp, horizontal = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalAlignment = Alignment.Start
         ) {
             Text(
                 text = label,
                 style = WidgetGlanceTypography.bodySmall.copy(
-                    color = if (isActive) WidgetGlanceColorScheme.onPrimary else WidgetGlanceColorScheme.onSurface
+                    color = WidgetGlanceColorScheme.onSurface
                 )
             )
             Spacer(modifier = GlanceModifier.defaultWeight())
             Text(
                 text = formatTime(time),
                 style = WidgetGlanceTypography.bodySmall.copy(
-                    color = if (isActive) WidgetGlanceColorScheme.onPrimary else WidgetGlanceColorScheme.onSurface
+                    color = WidgetGlanceColorScheme.onSurface
                 )
             )
         }
@@ -300,34 +266,6 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
         }
 
         return Prayer.ISHAA
-    }
-
-    private fun getNextPrayer(
-        dayPrayerTimes: DayPrayerTimes,
-        tomorrowPrayerTimes: DayPrayerTimes?
-    ): Pair<Prayer, Date>? {
-        val now = Date()
-        val prayerTimes = listOf(
-            Prayer.FAJR to dayPrayerTimes.prayerTimes.fajr,
-            Prayer.SUNRISE to dayPrayerTimes.prayerTimes.sunrise,
-            Prayer.DHUHR to dayPrayerTimes.prayerTimes.dhuhr,
-            Prayer.ASR to dayPrayerTimes.prayerTimes.asr,
-            Prayer.MAGHRIB to dayPrayerTimes.prayerTimes.maghrib,
-            Prayer.ISHAA to dayPrayerTimes.prayerTimes.ishaa
-        )
-
-        for ((prayer, time) in prayerTimes) {
-            if (time.after(now)) {
-                return prayer to time
-            }
-        }
-
-        // If all today's prayers have passed, return tomorrow's Fajr
-        return if (tomorrowPrayerTimes != null) {
-            Prayer.FAJR to tomorrowPrayerTimes.prayerTimes.fajr
-        } else {
-            null
-        }
     }
 
     enum class Prayer {
