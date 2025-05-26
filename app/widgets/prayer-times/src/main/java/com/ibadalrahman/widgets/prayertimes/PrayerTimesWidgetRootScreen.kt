@@ -31,9 +31,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
+import java.text.DateFormat
 import java.util.Date
-import java.util.Locale
 
 class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -69,50 +68,48 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                 )
         ) {
             if (dayPrayerTimes != null) {
-                Column(
-                    modifier = GlanceModifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = formatHijriDate(dayPrayerTimes.hijri),
-                        style = TextStyle(
-                            color = GlanceTheme.colors.onSurface
+                Row(modifier = GlanceModifier.fillMaxWidth()) {
+                    Column(
+                        modifier = GlanceModifier.defaultWeight()
+                    ) {
+                        val currentPrayer = getCurrentPrayer(dayPrayerTimes)
+
+                        PrayerTimeRow(
+                            label = localizedString(R.string.fajr),
+                            time = dayPrayerTimes.prayerTimes.fajr,
+                            isActive = currentPrayer == Prayer.FAJR
                         )
-                    )
-
-                    Spacer(modifier = GlanceModifier.padding(8.dp))
-
-                    val currentPrayer = getCurrentPrayer(dayPrayerTimes)
-
-                    PrayerTimeRow(
-                        label = localizedString(R.string.fajr),
-                        time = dayPrayerTimes.prayerTimes.fajr,
-                        isActive = currentPrayer == Prayer.FAJR
-                    )
-                    PrayerTimeRow(
-                        label = localizedString(R.string.sunrise),
-                        time = dayPrayerTimes.prayerTimes.sunrise,
-                        isActive = currentPrayer == Prayer.SUNRISE
-                    )
-                    PrayerTimeRow(
-                        label = localizedString(R.string.dhuhr),
-                        time = dayPrayerTimes.prayerTimes.dhuhr,
-                        isActive = currentPrayer == Prayer.DHUHR
-                    )
-                    PrayerTimeRow(
-                        label = localizedString(R.string.asr),
-                        time = dayPrayerTimes.prayerTimes.asr,
-                        isActive = currentPrayer == Prayer.ASR
-                    )
-                    PrayerTimeRow(
-                        label = localizedString(R.string.maghrib),
-                        time = dayPrayerTimes.prayerTimes.maghrib,
-                        isActive = currentPrayer == Prayer.MAGHRIB
-                    )
-                    PrayerTimeRow(
-                        label = localizedString(R.string.ishaa),
-                        time = dayPrayerTimes.prayerTimes.ishaa,
-                        isActive = currentPrayer == Prayer.ISHAA
-                    )
+                        PrayerTimeRow(
+                            label = localizedString(R.string.sunrise),
+                            time = dayPrayerTimes.prayerTimes.sunrise,
+                            isActive = currentPrayer == Prayer.SUNRISE
+                        )
+                        PrayerTimeRow(
+                            label = localizedString(R.string.dhuhr),
+                            time = dayPrayerTimes.prayerTimes.dhuhr,
+                            isActive = currentPrayer == Prayer.DHUHR
+                        )
+                        PrayerTimeRow(
+                            label = localizedString(R.string.asr),
+                            time = dayPrayerTimes.prayerTimes.asr,
+                            isActive = currentPrayer == Prayer.ASR
+                        )
+                        PrayerTimeRow(
+                            label = localizedString(R.string.maghrib),
+                            time = dayPrayerTimes.prayerTimes.maghrib,
+                            isActive = currentPrayer == Prayer.MAGHRIB
+                        )
+                        PrayerTimeRow(
+                            label = localizedString(R.string.ishaa),
+                            time = dayPrayerTimes.prayerTimes.ishaa,
+                            isActive = currentPrayer == Prayer.ISHAA
+                        )
+                    }
+                    Column(
+                        modifier = GlanceModifier.defaultWeight()
+                    ) {
+                        Text("Hello World")
+                    }
                 }
             } else {
                 Column(
@@ -170,12 +167,8 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
     }
 
     private fun formatTime(date: Date): String {
-        val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val formatter =  DateFormat.getTimeInstance(DateFormat.SHORT)
         return formatter.format(date)
-    }
-
-    private fun formatHijriDate(hijri: String): String {
-        return hijri
     }
 
     private fun getCurrentPrayer(dayPrayerTimes: DayPrayerTimes): Prayer {
