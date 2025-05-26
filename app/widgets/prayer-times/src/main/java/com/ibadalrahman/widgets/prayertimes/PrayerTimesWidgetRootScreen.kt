@@ -52,15 +52,25 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
             vm.getPrayerTimes().getOrNull()
         }
 
+        val tomorrowPrayerTimes = withContext(Dispatchers.IO) {
+            vm.getTomorrowPrayerTimes().getOrNull()
+        }
+
         provideContent {
             WidgetGlanceTheme {
-                PrayerTimesWidget(dayPrayerTimes = dayPrayerTimes)
+                PrayerTimesWidget(
+                    dayPrayerTimes = dayPrayerTimes,
+                    tomorrowPrayerTimes = tomorrowPrayerTimes
+                )
             }
         }
     }
 
     @Composable
-    fun PrayerTimesWidget(dayPrayerTimes: DayPrayerTimes?) {
+    fun PrayerTimesWidget(
+        dayPrayerTimes: DayPrayerTimes?,
+        tomorrowPrayerTimes: DayPrayerTimes?
+    ) {
         val context = LocalContext.current
         val intent = Intent().apply {
             component = ComponentName(
@@ -164,7 +174,7 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                                 )
                                 Spacer(modifier = GlanceModifier.defaultWeight())
 
-                                val nextPrayer = getNextPrayer(dayPrayerTimes)
+                                val nextPrayer = getNextPrayer(dayPrayerTimes, tomorrowPrayerTimes)
                                 if (nextPrayer != null) {
                                     Column(
                                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -292,7 +302,10 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
         return Prayer.ISHAA
     }
 
-    private fun getNextPrayer(dayPrayerTimes: DayPrayerTimes): Pair<Prayer, Date>? {
+    private fun getNextPrayer(
+        dayPrayerTimes: DayPrayerTimes,
+        tomorrowPrayerTimes: DayPrayerTimes?
+    ): Pair<Prayer, Date>? {
         val now = Date()
         val prayerTimes = listOf(
             Prayer.FAJR to dayPrayerTimes.prayerTimes.fajr,
@@ -309,7 +322,12 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
             }
         }
 
-        return null
+        // If all today's prayers have passed, return tomorrow's Fajr
+        return if (tomorrowPrayerTimes != null) {
+            Prayer.FAJR to tomorrowPrayerTimes.prayerTimes.fajr
+        } else {
+            null
+        }
     }
 
     enum class Prayer {
