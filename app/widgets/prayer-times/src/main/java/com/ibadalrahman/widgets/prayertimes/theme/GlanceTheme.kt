@@ -8,7 +8,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceComposable
 import androidx.glance.GlanceTheme
-import androidx.glance.LocalContext
 import androidx.glance.color.DayNightColorProvider
 import androidx.glance.material3.ColorProviders
 import androidx.glance.text.FontWeight
