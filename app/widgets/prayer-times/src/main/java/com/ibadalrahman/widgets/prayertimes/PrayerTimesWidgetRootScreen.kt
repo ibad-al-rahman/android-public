@@ -1,41 +1,39 @@
 package com.ibadalrahman.widgets.prayertimes
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.Image
+import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.components.Scaffold
+import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
+import androidx.glance.background
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
-import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.padding
-import androidx.glance.text.Text
-import androidx.glance.text.TextStyle
-import androidx.glance.action.clickable
-import androidx.glance.background
-import androidx.glance.appwidget.action.actionStartActivity
-import androidx.glance.Image
-import androidx.glance.ImageProvider
-import androidx.glance.layout.Box
-import androidx.glance.layout.ContentScale
-import androidx.glance.layout.size
-import androidx.glance.unit.ColorProvider
-import androidx.glance.appwidget.cornerRadius
-import androidx.compose.ui.graphics.toArgb
-import android.content.ComponentName
-import android.content.Intent
-import androidx.compose.ui.graphics.Color
+import androidx.glance.layout.fillMaxHeight
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.fillMaxWidth
+import androidx.glance.layout.height
+import androidx.glance.layout.padding
+import androidx.glance.layout.width
+import androidx.glance.text.Text
 import com.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
 import com.ibadalrahman.resources.R
-import com.ibadalrahman.widgets.prayertimes.theme.WidgetGlanceTheme
 import com.ibadalrahman.widgets.prayertimes.theme.WidgetGlanceColorScheme
+import com.ibadalrahman.widgets.prayertimes.theme.WidgetGlanceTheme
 import com.ibadalrahman.widgets.prayertimes.theme.WidgetGlanceTypography
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
@@ -76,6 +74,20 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
         }
 
         Scaffold(
+            titleBar = {
+                Row(modifier = GlanceModifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp, horizontal = 22.dp)
+                ) {
+                    Text(
+                        text = localizedString(R.string.timings),
+                        style = WidgetGlanceTypography.titleLarge.copy(
+                            color = WidgetGlanceColorScheme.onSurface
+                        )
+                    )
+                    Spacer(modifier = GlanceModifier.defaultWeight())
+                }
+            },
             modifier = GlanceModifier
                 .background(WidgetGlanceColorScheme.background)
                 .clickable(
@@ -83,10 +95,10 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                 )
         ) {
             if (dayPrayerTimes != null) {
-                Row(modifier = GlanceModifier.fillMaxWidth()) {
-                    Column(
-                        modifier = GlanceModifier.defaultWeight()
-                    ) {
+                Row(modifier = GlanceModifier
+                    .fillMaxWidth()
+                ) {
+                    Column(modifier = GlanceModifier.defaultWeight()) {
                         val currentPrayer = getCurrentPrayer(dayPrayerTimes)
 
                         PrayerTimeRow(
@@ -120,10 +132,11 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                             isActive = currentPrayer == Prayer.ISHAA
                         )
                     }
+
                     Column(
                         modifier = GlanceModifier.defaultWeight(),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.Vertical.Bottom
                     ) {
                         Box(
                             modifier = GlanceModifier.fillMaxSize(),
@@ -135,12 +148,25 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
                                 modifier = GlanceModifier.fillMaxSize()
                             )
 
-                            Text(
-                                text = "Hello world",
-                                style = WidgetGlanceTypography.bodyMedium.copy(
-                                    color = WidgetGlanceColorScheme.onSurface
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = GlanceModifier.fillMaxHeight()
+                            ) {
+                                Text(
+                                    text = formatGregorianDate(dayPrayerTimes.gregorian),
+                                    style = WidgetGlanceTypography.bodyMedium.copy(
+                                        color = WidgetGlanceColorScheme.onSurface
+                                    )
                                 )
-                            )
+                                Text(
+                                    text = dayPrayerTimes.hijri,
+                                    style = WidgetGlanceTypography.bodySmall.copy(
+                                        color = WidgetGlanceColorScheme.onSurfaceVariant
+                                    )
+                                )
+                                Spacer(modifier = GlanceModifier.defaultWeight())
+                            }
                         }
                     }
                 }
@@ -202,6 +228,11 @@ class PrayerTimesWidgetRootScreen: GlanceAppWidget() {
 
     private fun formatTime(date: Date): String {
         val formatter =  DateFormat.getTimeInstance(DateFormat.SHORT)
+        return formatter.format(date)
+    }
+
+    private fun formatGregorianDate(date: Date): String {
+        val formatter = DateFormat.getDateInstance(DateFormat.MEDIUM)
         return formatter.format(date)
     }
 
