@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:background="@android:color/white"
+    android:background="@android:color/black"
 >
     <!-- Left Half - Prayer Names and Times -->
     <LinearLayout
@@ -29,7 +29,7 @@
                 android:layout_weight="1"
                 android:text="Fajr"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
             <TextView
                 android:id="@+id/time1"
@@ -37,10 +37,10 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
         </LinearLayout>
-
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:layout_weight="1"
                 android:text="Sunrise"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
             <TextView
                 android:id="@+id/time2"
@@ -62,10 +62,10 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
         </LinearLayout>
-
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 android:layout_weight="1"
                 android:text="Dhuhr"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
             <TextView
                 android:id="@+id/time3"
@@ -87,10 +87,10 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
         </LinearLayout>
-
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                 android:layout_weight="1"
                 android:text="Asr"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
             <TextView
                 android:id="@+id/time4"
@@ -112,10 +112,10 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
         </LinearLayout>
-
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                 android:layout_weight="1"
                 android:text="Maghrib"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
             <TextView
                 android:id="@+id/time5"
@@ -137,10 +137,10 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
         </LinearLayout>
-
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
                 android:layout_weight="1"
                 android:text="Isha"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
             <TextView
                 android:id="@+id/time6"
@@ -162,11 +162,11 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
             />
         </LinearLayout>
     </LinearLayout>
-
+    
     <!-- Right Half - Date Display -->
     <FrameLayout
         android:layout_width="0dp"
@@ -181,7 +181,7 @@
             android:src="@drawable/ic_launcher_watermark"
             android:scaleType="center"
         />
-
+        
         <!-- Date Text -->
         <TextView
             android:id="@+id/date_text"
@@ -189,7 +189,7 @@
             android:layout_height="match_parent"
             android:text="01/01/2024"
             android:textSize="18sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textStyle="bold"
             android:gravity="center"
         />
