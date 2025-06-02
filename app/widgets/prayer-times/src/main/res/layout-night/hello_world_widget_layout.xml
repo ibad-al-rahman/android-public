@@ -181,17 +181,69 @@
             android:src="@drawable/ic_launcher_watermark"
             android:scaleType="center"
         />
-        
-        <!-- Date Text -->
-        <TextView
-            android:id="@+id/date_text"
+
+        <!-- Content Container -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="01/01/2024"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:gravity="center"
-        />
+            android:orientation="vertical"
+        >
+            <!-- Date at Top -->
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="01/01/2024"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"
+            />
+            
+            <!-- Spacer -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text=""
+            />
+            
+            <!-- Next Prayer Info at Bottom -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+            >
+                <TextView
+                    android:id="@+id/next_prayer_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Next Prayer"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                />
+                <TextView
+                    android:id="@+id/next_prayer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dhuhr"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                />
+                <Chronometer
+                    android:id="@+id/next_prayer_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/white"
+                    android:format="in %s"
+                />
+            </LinearLayout>
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>
