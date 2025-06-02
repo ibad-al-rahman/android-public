@@ -3,30 +3,47 @@ package com.ibadalrahman.widgets.prayertimes
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.util.Log
 import android.widget.RemoteViews
-import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.EntryPoint
+import dagger.hilt.EntryPoints
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@AndroidEntryPoint
 class HelloWorldWidgetProvider: AppWidgetProvider() {
-    @Inject
-    lateinit var viewModel: HelloWorldWidgetViewModel
+    companion object {
+        private const val TAG = "HelloWorldWidget"
+    }
+    
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface WidgetEntryPoint {
+        fun viewModel(): HelloWorldWidgetViewModel
+    }
 
     private val job = SupervisorJob()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
 
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
+        Log.d(TAG, "onUpdate called with ${appWidgetIds.size} widgets")
+        
         appWidgetIds.forEach { appWidgetId ->
             coroutineScope.launch {
-                updateWidget(context, appWidgetManager, appWidgetId)
+                try {
+                    Log.d(TAG, "Updating widget $appWidgetId")
+                    updateWidget(context, appWidgetManager, appWidgetId)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error updating widget $appWidgetId", e)
+                    showErrorWidget(context, appWidgetManager, appWidgetId, e.message ?: "Unknown error")
+                }
             }
         }
     }
@@ -36,27 +53,109 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         job.cancel()
     }
 
-    private fun updateWidget(
+    private suspend fun updateWidget(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
     ) {
         val views = RemoteViews(context.packageName, R.layout.hello_world_widget_layout)
 
-        // Get data from ViewModel
-        val leftTexts = viewModel.getLeftTexts()
-        val rightText = viewModel.getRightText()
+        try {
+            Log.d(TAG, "Getting ViewModel from EntryPoint")
+            
+            val entryPoint = EntryPoints.get(
+                context.applicationContext,
+                WidgetEntryPoint::class.java
+            )
+            val viewModel = entryPoint.viewModel()
+            
+            Log.d(TAG, "Fetching prayer times from ViewModel")
+            
+            // Get prayer times from ViewModel
+            viewModel.getPrayerTimes().fold(
+                onSuccess = { prayerData ->
+                    Log.d(TAG, "Successfully fetched prayer times: ${prayerData.prayerTimes.size} prayers")
+                    
+                    // Update prayer names and times
+                    val prayers = HelloWorldWidgetViewModel.Prayer.values()
+                    prayers.forEachIndexed { index, prayer ->
+                        val time = prayerData.prayerTimes[prayer] ?: ""
+                        val localizedTime = viewModel.getLocalizedTime(time)
+                        
+                        Log.d(TAG, "Prayer ${prayer.name}: $time (localized: $localizedTime)")
+                        
+                        when (index) {
+                            0 -> {
+                                views.setTextViewText(R.id.text1, context.getString(prayer.stringResId))
+                                views.setTextViewText(R.id.time1, localizedTime)
+                            }
+                            1 -> {
+                                views.setTextViewText(R.id.text2, context.getString(prayer.stringResId))
+                                views.setTextViewText(R.id.time2, localizedTime)
+                            }
+                            2 -> {
+                                views.setTextViewText(R.id.text3, context.getString(prayer.stringResId))
+                                views.setTextViewText(R.id.time3, localizedTime)
+                            }
+                            3 -> {
+                                views.setTextViewText(R.id.text4, context.getString(prayer.stringResId))
+                                views.setTextViewText(R.id.time4, localizedTime)
+                            }
+                            4 -> {
+                                views.setTextViewText(R.id.text5, context.getString(prayer.stringResId))
+                                views.setTextViewText(R.id.time5, localizedTime)
+                            }
+                            5 -> {
+                                views.setTextViewText(R.id.text6, context.getString(prayer.stringResId))
+                                views.setTextViewText(R.id.time6, localizedTime)
+                            }
+                        }
+                    }
+                },
+                onFailure = { error ->
+                    Log.e(TAG, "Failed to fetch prayer times", error)
+                    // Show error state
+                    views.setTextViewText(R.id.text1, "Error loading")
+                    views.setTextViewText(R.id.text2, "prayer times")
+                    views.setTextViewText(R.id.text3, error.message ?: "")
+                    views.setTextViewText(R.id.text4, "")
+                    views.setTextViewText(R.id.text5, "")
+                    views.setTextViewText(R.id.text6, "")
+                    views.setTextViewText(R.id.time1, "")
+                    views.setTextViewText(R.id.time2, "")
+                    views.setTextViewText(R.id.time3, "")
+                    views.setTextViewText(R.id.time4, "")
+                    views.setTextViewText(R.id.time5, "")
+                    views.setTextViewText(R.id.time6, "")
+                }
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "Exception in updateWidget", e)
+            throw e
+        }
 
-        // Update left side texts
-        views.setTextViewText(R.id.text1, leftTexts.getOrNull(0) ?: "")
-        views.setTextViewText(R.id.text2, leftTexts.getOrNull(1) ?: "")
-        views.setTextViewText(R.id.text3, leftTexts.getOrNull(2) ?: "")
-        views.setTextViewText(R.id.text4, leftTexts.getOrNull(3) ?: "")
-        views.setTextViewText(R.id.text5, leftTexts.getOrNull(4) ?: "")
-
-        // Update right side text
-        views.setTextViewText(R.id.hello_world_text, rightText)
-
+        appWidgetManager.updateAppWidget(appWidgetId, views)
+    }
+    
+    private fun showErrorWidget(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        errorMessage: String
+    ) {
+        val views = RemoteViews(context.packageName, R.layout.hello_world_widget_layout)
+        views.setTextViewText(R.id.text1, "Error:")
+        views.setTextViewText(R.id.text2, errorMessage)
+        views.setTextViewText(R.id.text3, "")
+        views.setTextViewText(R.id.text4, "")
+        views.setTextViewText(R.id.text5, "")
+        views.setTextViewText(R.id.text6, "")
+        views.setTextViewText(R.id.time1, "")
+        views.setTextViewText(R.id.time2, "")
+        views.setTextViewText(R.id.time3, "")
+        views.setTextViewText(R.id.time4, "")
+        views.setTextViewText(R.id.time5, "")
+        views.setTextViewText(R.id.time6, "")
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 }
