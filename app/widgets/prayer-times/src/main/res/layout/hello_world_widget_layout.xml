@@ -17,10 +17,14 @@
         android:paddingEnd="8dp"
     >
         <LinearLayout
+            android:id="@+id/prayer_row_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
         >
             <TextView
                 android:id="@+id/text1"
@@ -42,10 +46,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/prayer_row_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
         >
             <TextView
                 android:id="@+id/text2"
@@ -67,10 +75,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/prayer_row_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
         >
             <TextView
                 android:id="@+id/text3"
@@ -92,10 +104,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/prayer_row_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
         >
             <TextView
                 android:id="@+id/text4"
@@ -117,10 +133,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/prayer_row_5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
         >
             <TextView
                 android:id="@+id/text5"
@@ -142,10 +162,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/prayer_row_6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
         >
             <TextView
                 android:id="@+id/text6"
