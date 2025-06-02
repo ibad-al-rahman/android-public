@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:background="@android:color/white"
 >
-    <!-- Left Half - Prayer Names -->
+    <!-- Left Half - Prayer Names and Times -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -16,140 +16,175 @@
         android:gravity="center_vertical"
         android:paddingEnd="8dp"
     >
-        <TextView
-            android:id="@+id/text1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fajr"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
+            android:orientation="horizontal"
             android:padding="4dp"
-        />
+        >
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fajr"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+            <TextView
+                android:id="@+id/time1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+        </LinearLayout>
         
-        <TextView
-            android:id="@+id/text2"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dhuhr"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
+            android:orientation="horizontal"
             android:padding="4dp"
-        />
+        >
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sunrise"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+            <TextView
+                android:id="@+id/time2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+        </LinearLayout>
         
-        <TextView
-            android:id="@+id/text3"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Asr"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
+            android:orientation="horizontal"
             android:padding="4dp"
-        />
+        >
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dhuhr"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+            <TextView
+                android:id="@+id/time3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+        </LinearLayout>
         
-        <TextView
-            android:id="@+id/text4"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Maghrib"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
+            android:orientation="horizontal"
             android:padding="4dp"
-        />
+        >
+            <TextView
+                android:id="@+id/text4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Asr"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+            <TextView
+                android:id="@+id/time4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+        </LinearLayout>
         
-        <TextView
-            android:id="@+id/text5"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Maghrib"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
+            android:orientation="horizontal"
             android:padding="4dp"
-        />
+        >
+            <TextView
+                android:id="@+id/text5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Maghrib"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+            <TextView
+                android:id="@+id/time5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+        </LinearLayout>
         
-        <TextView
-            android:id="@+id/text6"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Isha"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
+            android:orientation="horizontal"
             android:padding="4dp"
-        />
+        >
+            <TextView
+                android:id="@+id/text6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Isha"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+            <TextView
+                android:id="@+id/time6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+            />
+        </LinearLayout>
     </LinearLayout>
     
-    <!-- Right Half - Prayer Times -->
+    <!-- Right Half - Date Display -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:paddingStart="8dp"
     >
         <TextView
-            android:id="@+id/time1"
+            android:id="@+id/date_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textSize="14sp"
+            android:text="01/01/2024"
+            android:textSize="18sp"
             android:textColor="@android:color/black"
-            android:padding="4dp"
-            android:gravity="end"
-        />
-        
-        <TextView
-            android:id="@+id/time2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
-            android:padding="4dp"
-            android:gravity="end"
-        />
-        
-        <TextView
-            android:id="@+id/time3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
-            android:padding="4dp"
-            android:gravity="end"
-        />
-        
-        <TextView
-            android:id="@+id/time4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
-            android:padding="4dp"
-            android:gravity="end"
-        />
-        
-        <TextView
-            android:id="@+id/time5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
-            android:padding="4dp"
-            android:gravity="end"
-        />
-        
-        <TextView
-            android:id="@+id/time6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
-            android:padding="4dp"
-            android:gravity="end"
+            android:textStyle="bold"
+            android:gravity="center"
         />
     </LinearLayout>
 </LinearLayout>

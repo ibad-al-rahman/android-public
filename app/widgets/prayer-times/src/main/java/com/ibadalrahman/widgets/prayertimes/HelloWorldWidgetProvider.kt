@@ -76,6 +76,9 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                 onSuccess = { prayerData ->
                     Log.d(TAG, "Successfully fetched prayer times: ${prayerData.prayerTimes.size} prayers")
                     
+                    // Update date
+                    views.setTextViewText(R.id.date_text, prayerData.date)
+                    
                     // Update prayer names and times
                     val prayers = HelloWorldWidgetViewModel.Prayer.values()
                     prayers.forEachIndexed { index, prayer ->
@@ -115,6 +118,7 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                 onFailure = { error ->
                     Log.e(TAG, "Failed to fetch prayer times", error)
                     // Show error state
+                    views.setTextViewText(R.id.date_text, "")
                     views.setTextViewText(R.id.text1, "Error loading")
                     views.setTextViewText(R.id.text2, "prayer times")
                     views.setTextViewText(R.id.text3, error.message ?: "")
@@ -144,6 +148,7 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         errorMessage: String
     ) {
         val views = RemoteViews(context.packageName, R.layout.hello_world_widget_layout)
+        views.setTextViewText(R.id.date_text, "")
         views.setTextViewText(R.id.text1, "Error:")
         views.setTextViewText(R.id.text2, errorMessage)
         views.setTextViewText(R.id.text3, "")
