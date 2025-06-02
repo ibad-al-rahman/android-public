@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application>
         <receiver
-            android:name=".PrayerTimesWidgetReceiver"
+            android:name=".PrayerTimesMediumWidgetProvider"
             android:exported="true"
         >
             <intent-filter>
@@ -10,20 +10,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/prayer_times_widget_info"
-            />
-        </receiver>
-
-        <receiver
-            android:name=".HelloWorldWidgetProvider"
-            android:exported="true"
-        >
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/hello_world_widget_info"
+                android:resource="@xml/prayer_times_medium_widget_info"
             />
         </receiver>
     </application>

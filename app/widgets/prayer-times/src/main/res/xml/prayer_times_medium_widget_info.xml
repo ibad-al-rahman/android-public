@@ -4,8 +4,8 @@
     android:targetCellWidth="4"
     android:targetCellHeight="2"
     android:updatePeriodMillis="0"
-    android:initialLayout="@layout/hello_world_widget_layout"
+    android:initialLayout="@layout/prayer_times_medium_widget_layout"
     android:resizeMode="none"
     android:widgetCategory="home_screen"
-    android:previewImage="@android:drawable/ic_menu_add"
+    android:previewImage="@layout/glance_default_loading_layout"
 />
