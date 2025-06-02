@@ -44,5 +44,6 @@
     <string name="loading_prayer_times">جاري تحميل أوقات الصلاة...</string>
     <string name="next_prayer">الصلاة التالية</string>
     <string name="current_prayer_time">نحن الآن في وقت صلاة</string>
+    <string name="prayer_after">بعد:</string>
     <string name="layout_direction">rtl</string>
 </resources>

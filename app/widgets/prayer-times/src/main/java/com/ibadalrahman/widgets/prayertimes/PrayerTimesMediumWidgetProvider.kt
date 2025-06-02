@@ -8,7 +8,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import android.view.View
 import android.widget.RemoteViews
+import androidx.core.text.TextUtilsCompat
+import androidx.core.view.ViewCompat
+import java.util.Locale
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
@@ -31,6 +35,25 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
 
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
+
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+
+        // Handle locale change broadcasts
+        when (intent.action) {
+            Intent.ACTION_LOCALE_CHANGED -> {
+                Log.d(TAG, "Locale changed, updating all widgets")
+                // Update all widgets when locale changes
+                val appWidgetManager = AppWidgetManager.getInstance(context)
+                val thisWidget = android.content.ComponentName(context, PrayerTimesMediumWidgetProvider::class.java)
+                val appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget)
+
+                if (appWidgetIds.isNotEmpty()) {
+                    onUpdate(context, appWidgetManager, appWidgetIds)
+                }
+            }
+        }
+    }
 
     override fun onUpdate(
         context: Context,
@@ -88,6 +111,9 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
     ) {
         val views = RemoteViews(context.packageName, R.layout.prayer_times_medium_widget_layout)
 
+        // Apply RTL layout direction if current locale is RTL
+        applyLayoutDirection(views)
+
         // Set up click intent to open the app
         val intent = Intent(context, Class.forName("org.ibadalrahman.publicsector.main.view.MainActivity"))
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -133,9 +159,10 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                     // Update next prayer info
                     prayerData.nextPrayer?.let { nextPrayer ->
                         val prayerName = getLocalizedPrayerName(context, nextPrayer.prayerName)
+                        val afterText = context.getString(com.ibadalrahman.resources.R.string.prayer_after)
 
                         views.setTextViewText(R.id.next_prayer_label, prayerName)
-                        views.setTextViewText(R.id.next_prayer_name, " after:")
+                        views.setTextViewText(R.id.next_prayer_name, " $afterText")
                         views.setChronometerCountDown(R.id.next_prayer_time, true)
                         views.setChronometer(R.id.next_prayer_time, nextPrayer.chronometerBaseTime, null, true)
 
@@ -267,6 +294,21 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
+    private fun applyLayoutDirection(views: RemoteViews) {
+        val currentLocale = Locale.getDefault()
+        val isRtl = TextUtilsCompat.getLayoutDirectionFromLocale(currentLocale) == View.LAYOUT_DIRECTION_RTL
+
+        Log.d(TAG, "Current locale: ${currentLocale.language}, isRtl: $isRtl")
+
+        if (isRtl) {
+            // Apply RTL layout direction to the root container
+            views.setInt(R.id.widget_root, "setLayoutDirection", View.LAYOUT_DIRECTION_RTL)
+        } else {
+            // Ensure LTR layout direction for non-RTL locales
+            views.setInt(R.id.widget_root, "setLayoutDirection", View.LAYOUT_DIRECTION_LTR)
+        }
+    }
+
     private fun getLocalizedPrayerName(context: Context, prayerName: String): String {
         return when (prayerName) {
             PrayerTimesMediumWidgetViewModel.Prayer.FAJR.name -> context.getString(com.ibadalrahman.resources.R.string.fajr)
@@ -286,6 +328,9 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
         errorMessage: String
     ) {
         val views = RemoteViews(context.packageName, R.layout.prayer_times_medium_widget_layout)
+
+        // Apply RTL layout direction if current locale is RTL
+        applyLayoutDirection(views)
 
         // Set up click intent to open the app
         val intent = Intent(context, Class.forName("org.ibadalrahman.publicsector.main.view.MainActivity"))
