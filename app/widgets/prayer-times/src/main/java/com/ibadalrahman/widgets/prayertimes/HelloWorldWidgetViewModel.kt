@@ -1,12 +1,15 @@
 package com.ibadalrahman.widgets.prayertimes
 
 import com.ibadalrahman.prayertimes.repository.PrayerTimesRepository
+import com.ibadalrahman.prayertimes.repository.data.domain.PrayerTimes
 import com.ibadalrahman.resources.R
+import kotlinx.coroutines.runBlocking
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HelloWorldWidgetViewModel @Inject constructor(
@@ -36,7 +39,19 @@ class HelloWorldWidgetViewModel @Inject constructor(
             )
 
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            Result.success(PrayerData(prayerTimesMap, dateFormat.format(dailyPrayerTimes.gregorian)))
+            
+            // Calculate next prayer
+            val nextPrayerInfo = findNextPrayer(
+                dailyPrayerTimes.prayerTimes,
+                prayerTimesRepository,
+                year, month, day
+            )
+            
+            Result.success(PrayerData(
+                prayerTimesMap, 
+                dateFormat.format(dailyPrayerTimes.gregorian),
+                nextPrayerInfo
+            ))
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -56,7 +71,13 @@ class HelloWorldWidgetViewModel @Inject constructor(
 
     data class PrayerData(
         val prayerTimes: Map<Prayer, String>,
-        val date: String
+        val date: String,
+        val nextPrayer: NextPrayerInfo?
+    )
+    
+    data class NextPrayerInfo(
+        val prayerName: String,
+        val chroneterBaseTime: Long
     )
 
     enum class Prayer(val stringResId: Int) {
@@ -66,5 +87,62 @@ class HelloWorldWidgetViewModel @Inject constructor(
         ASR(R.string.asr),
         MAGHRIB(R.string.maghrib),
         ISHAA(R.string.ishaa)
+    }
+    
+    private fun findNextPrayer(
+        prayerTimes: PrayerTimes,
+        repository: PrayerTimesRepository,
+        year: Int,
+        month: Int,
+        day: Int
+    ): NextPrayerInfo? {
+        val now = Date()
+        val prayerList = listOf(
+            Prayer.FAJR to prayerTimes.fajr,
+            Prayer.SUNRISE to prayerTimes.sunrise,
+            Prayer.DHUHR to prayerTimes.dhuhr,
+            Prayer.ASR to prayerTimes.asr,
+            Prayer.MAGHRIB to prayerTimes.maghrib,
+            Prayer.ISHAA to prayerTimes.ishaa
+        )
+        
+        // Find next prayer today
+        for ((prayer, time) in prayerList) {
+            if (time.after(now)) {
+                // Calculate base time for countdown chronometer
+                val baseTime = android.os.SystemClock.elapsedRealtime() + (time.time - now.time)
+                
+                return NextPrayerInfo(
+                    prayerName = prayer.name,
+                    chroneterBaseTime = baseTime
+                )
+            }
+        }
+        
+        // If no prayer left today, get tomorrow's Fajr
+        return try {
+            val tomorrowCalendar = Calendar.getInstance().apply {
+                add(Calendar.DAY_OF_MONTH, 1)
+            }
+            val tomorrowPrayerTimes = runBlocking {
+                repository.getDayPrayerTimes(
+                    tomorrowCalendar.get(Calendar.YEAR),
+                    tomorrowCalendar.get(Calendar.MONTH) + 1,
+                    tomorrowCalendar.get(Calendar.DAY_OF_MONTH)
+                ).getOrNull()
+            }
+            
+            tomorrowPrayerTimes?.let {
+                // Calculate base time for countdown chronometer
+                val baseTime = android.os.SystemClock.elapsedRealtime() + (it.prayerTimes.fajr.time - now.time)
+                
+                NextPrayerInfo(
+                    prayerName = Prayer.FAJR.name,
+                    chroneterBaseTime = baseTime
+                )
+            }
+        } catch (e: Exception) {
+            null
+        }
     }
 }

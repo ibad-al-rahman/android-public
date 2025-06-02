@@ -35,6 +35,9 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
     ) {
         Log.d(TAG, "onUpdate called with ${appWidgetIds.size} widgets")
         
+        // Schedule periodic updates
+        HelloWorldWidgetUpdateWorker.scheduleUpdates(context)
+        
         appWidgetIds.forEach { appWidgetId ->
             coroutineScope.launch {
                 try {
@@ -48,9 +51,17 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         }
     }
 
+    override fun onEnabled(context: Context) {
+        super.onEnabled(context)
+        Log.d(TAG, "onEnabled - First widget added")
+        HelloWorldWidgetUpdateWorker.scheduleUpdates(context)
+    }
+    
     override fun onDisabled(context: Context) {
         super.onDisabled(context)
+        Log.d(TAG, "onDisabled - Last widget removed")
         job.cancel()
+        HelloWorldWidgetUpdateWorker.cancelUpdates(context)
     }
 
     private suspend fun updateWidget(
@@ -78,6 +89,18 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                     
                     // Update date
                     views.setTextViewText(R.id.date_text, prayerData.date)
+                    
+                    // Update next prayer info
+                    prayerData.nextPrayer?.let { nextPrayer ->
+                        views.setTextViewText(R.id.next_prayer_label, context.getString(com.ibadalrahman.resources.R.string.next_prayer))
+                        views.setTextViewText(R.id.next_prayer_name, getLocalizedPrayerName(context, nextPrayer.prayerName))
+                        views.setChronometerCountDown(R.id.next_prayer_time, true)
+                        views.setChronometer(R.id.next_prayer_time, nextPrayer.chroneterBaseTime, null, true)
+                    } ?: run {
+                        views.setTextViewText(R.id.next_prayer_label, "")
+                        views.setTextViewText(R.id.next_prayer_name, "")
+                        views.setChronometer(R.id.next_prayer_time, 0, null, false)
+                    }
                     
                     // Update prayer names and times
                     val prayers = HelloWorldWidgetViewModel.Prayer.values()
@@ -119,6 +142,9 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                     Log.e(TAG, "Failed to fetch prayer times", error)
                     // Show error state
                     views.setTextViewText(R.id.date_text, "")
+                    views.setTextViewText(R.id.next_prayer_label, "")
+                    views.setTextViewText(R.id.next_prayer_name, "")
+                    views.setChronometer(R.id.next_prayer_time, 0, null, false)
                     views.setTextViewText(R.id.text1, "Error loading")
                     views.setTextViewText(R.id.text2, "prayer times")
                     views.setTextViewText(R.id.text3, error.message ?: "")
@@ -141,6 +167,18 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
     
+    private fun getLocalizedPrayerName(context: Context, prayerName: String): String {
+        return when (prayerName) {
+            HelloWorldWidgetViewModel.Prayer.FAJR.name -> context.getString(com.ibadalrahman.resources.R.string.fajr)
+            HelloWorldWidgetViewModel.Prayer.SUNRISE.name -> context.getString(com.ibadalrahman.resources.R.string.sunrise)
+            HelloWorldWidgetViewModel.Prayer.DHUHR.name -> context.getString(com.ibadalrahman.resources.R.string.dhuhr)
+            HelloWorldWidgetViewModel.Prayer.ASR.name -> context.getString(com.ibadalrahman.resources.R.string.asr)
+            HelloWorldWidgetViewModel.Prayer.MAGHRIB.name -> context.getString(com.ibadalrahman.resources.R.string.maghrib)
+            HelloWorldWidgetViewModel.Prayer.ISHAA.name -> context.getString(com.ibadalrahman.resources.R.string.ishaa)
+            else -> prayerName
+        }
+    }
+    
     private fun showErrorWidget(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -149,6 +187,9 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
     ) {
         val views = RemoteViews(context.packageName, R.layout.hello_world_widget_layout)
         views.setTextViewText(R.id.date_text, "")
+        views.setTextViewText(R.id.next_prayer_label, "")
+        views.setTextViewText(R.id.next_prayer_name, "")
+        views.setChronometer(R.id.next_prayer_time, 0, null, false)
         views.setTextViewText(R.id.text1, "Error:")
         views.setTextViewText(R.id.text2, errorMessage)
         views.setTextViewText(R.id.text3, "")
