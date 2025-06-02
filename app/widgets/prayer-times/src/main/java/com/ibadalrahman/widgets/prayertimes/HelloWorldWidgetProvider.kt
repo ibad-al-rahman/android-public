@@ -114,10 +114,9 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                     // Update next prayer info
                     prayerData.nextPrayer?.let { nextPrayer ->
                         val prayerName = getLocalizedPrayerName(context, nextPrayer.prayerName)
-                        val prayerNameWithAfter = "$prayerName after:"
                         
-                        views.setTextViewText(R.id.next_prayer_label, prayerNameWithAfter)
-                        views.setTextViewText(R.id.next_prayer_name, "")
+                        views.setTextViewText(R.id.next_prayer_label, prayerName)
+                        views.setTextViewText(R.id.next_prayer_name, " after:")
                         views.setChronometerCountDown(R.id.next_prayer_time, true)
                         views.setChronometer(R.id.next_prayer_time, nextPrayer.chroneterBaseTime, null, true)
                         
