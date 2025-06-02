@@ -14,7 +14,7 @@ import dagger.assisted.AssistedInject
 import java.util.concurrent.TimeUnit
 
 @HiltWorker
-class HelloWorldWidgetUpdateWorker @AssistedInject constructor(
+class PrayerTimesMediumWidgetUpdateWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters
 ): CoroutineWorker(context, workerParams) {
@@ -23,12 +23,12 @@ class HelloWorldWidgetUpdateWorker @AssistedInject constructor(
         return try {
             // Get all widget IDs
             val appWidgetManager = AppWidgetManager.getInstance(context)
-            val componentName = ComponentName(context, HelloWorldWidgetProvider::class.java)
+            val componentName = ComponentName(context, PrayerTimesMediumWidgetProvider::class.java)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(componentName)
 
             // Send update broadcast
             if (appWidgetIds.isNotEmpty()) {
-                val intent = android.content.Intent(context, HelloWorldWidgetProvider::class.java).apply {
+                val intent = android.content.Intent(context, PrayerTimesMediumWidgetProvider::class.java).apply {
                     action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
                     putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
                 }
@@ -42,10 +42,10 @@ class HelloWorldWidgetUpdateWorker @AssistedInject constructor(
     }
 
     companion object {
-        const val WORK_NAME = "HelloWorldWidgetUpdateWork"
+        const val WORK_NAME = "PrayerTimesMediumWidgetUpdateWork"
 
         fun scheduleUpdates(context: Context) {
-            val workRequest = PeriodicWorkRequestBuilder<HelloWorldWidgetUpdateWorker>(
+            val workRequest = PeriodicWorkRequestBuilder<PrayerTimesMediumWidgetUpdateWorker>(
                 1, TimeUnit.MINUTES
             ).build()
 

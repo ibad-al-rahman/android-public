@@ -8,13 +8,12 @@ import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.time.chrono.HijrahChronology
 import java.time.format.DateTimeFormatter
-import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-class HelloWorldWidgetViewModel @Inject constructor(
+class PrayerTimesMediumWidgetViewModel @Inject constructor(
     private val prayerTimesRepository: PrayerTimesRepository
 ) {
     suspend fun getPrayerTimes(): Result<PrayerData> {
@@ -41,7 +40,7 @@ class HelloWorldWidgetViewModel @Inject constructor(
             )
 
             val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
-            
+
             // Format Hijri date
             val formattedHijriDate = formatHijriDate(dailyPrayerTimes.hijri)
 
@@ -77,7 +76,7 @@ class HelloWorldWidgetViewModel @Inject constructor(
             }
         }.joinToString("")
     }
-    
+
     private fun formatHijriDate(hijriDateString: String): String {
         return try {
             // Parse the hijri date string (assuming format "dd/MM/yyyy")
@@ -86,14 +85,14 @@ class HelloWorldWidgetViewModel @Inject constructor(
                 val day = dateParts[0].toInt()
                 val month = dateParts[1].toInt()
                 val year = dateParts[2].toInt()
-                
+
                 // Create LocalDate and convert to Hijri
                 val hijriDate = HijrahChronology.INSTANCE.date(year, month, day)
-                
+
                 // Format as "d MMMM yyyy"
                 val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.getDefault())
                 val formattedDate = hijriDate.format(formatter)
-                
+
                 // Localize digits
                 localizeDigitsInText(formattedDate)
             } else {
@@ -105,13 +104,13 @@ class HelloWorldWidgetViewModel @Inject constructor(
             hijriDateString
         }
     }
-    
+
     private fun localizeDigitsInText(text: String): String {
         val locale = Locale.getDefault()
         val symbols = DecimalFormatSymbols(locale)
         val zeroDigit = symbols.zeroDigit.code
         val latinZero = '0'.code
-        
+
         return text.map { char ->
             if (char.isDigit()) {
                 (zeroDigit + (char.code - latinZero)).toChar()
@@ -131,7 +130,7 @@ class HelloWorldWidgetViewModel @Inject constructor(
 
     data class NextPrayerInfo(
         val prayerName: String,
-        val chroneterBaseTime: Long
+        val chronometerBaseTime: Long
     )
 
     enum class Prayer(val stringResId: Int) {
@@ -186,7 +185,7 @@ class HelloWorldWidgetViewModel @Inject constructor(
 
                 return NextPrayerInfo(
                     prayerName = prayer.name,
-                    chroneterBaseTime = baseTime
+                    chronometerBaseTime = baseTime
                 )
             }
         }
@@ -210,7 +209,7 @@ class HelloWorldWidgetViewModel @Inject constructor(
 
                 NextPrayerInfo(
                     prayerName = Prayer.FAJR.name,
-                    chroneterBaseTime = baseTime
+                    chronometerBaseTime = baseTime
                 )
             }
         } catch (e: Exception) {

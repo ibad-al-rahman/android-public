@@ -18,15 +18,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class HelloWorldWidgetProvider: AppWidgetProvider() {
+class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
     companion object {
-        private const val TAG = "HelloWorldWidget"
+        private const val TAG = "PrayerTimesMediumWidget"
     }
-    
+
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface WidgetEntryPoint {
-        fun viewModel(): HelloWorldWidgetViewModel
+        fun viewModel(): PrayerTimesMediumWidgetViewModel
     }
 
     private val job = SupervisorJob()
@@ -38,10 +38,10 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         appWidgetIds: IntArray
     ) {
         Log.d(TAG, "onUpdate called with ${appWidgetIds.size} widgets")
-        
+
         // Schedule periodic updates
-        HelloWorldWidgetUpdateWorker.scheduleUpdates(context)
-        
+        PrayerTimesMediumWidgetUpdateWorker.scheduleUpdates(context)
+
         appWidgetIds.forEach { appWidgetId ->
             coroutineScope.launch {
                 try {
@@ -58,29 +58,25 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
         Log.d(TAG, "onEnabled - First widget added")
-        HelloWorldWidgetUpdateWorker.scheduleUpdates(context)
+        PrayerTimesMediumWidgetUpdateWorker.scheduleUpdates(context)
     }
-    
+
     override fun onDisabled(context: Context) {
         super.onDisabled(context)
         Log.d(TAG, "onDisabled - Last widget removed")
         job.cancel()
-        HelloWorldWidgetUpdateWorker.cancelUpdates(context)
-        
+        PrayerTimesMediumWidgetUpdateWorker.cancelUpdates(context)
+
         // Cancel any scheduled alarms
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, HelloWorldWidgetProvider::class.java).apply {
+        val intent = Intent(context, PrayerTimesMediumWidgetProvider::class.java).apply {
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
         }
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             0,
             intent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            }
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         alarmManager.cancel(pendingIntent)
     }
@@ -90,8 +86,8 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
     ) {
-        val views = RemoteViews(context.packageName, R.layout.hello_world_widget_layout)
-        
+        val views = RemoteViews(context.packageName, R.layout.prayer_times_medium_widget_layout)
+
         // Set up click intent to open the app
         val intent = Intent(context, Class.forName("org.ibadalrahman.publicsector.main.view.MainActivity"))
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -99,30 +95,26 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
             context,
             0,
             intent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            }
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
 
         try {
             Log.d(TAG, "Getting ViewModel from EntryPoint")
-            
+
             val entryPoint = EntryPoints.get(
                 context.applicationContext,
                 WidgetEntryPoint::class.java
             )
             val viewModel = entryPoint.viewModel()
-            
+
             Log.d(TAG, "Fetching prayer times from ViewModel")
-            
+
             // Get prayer times from ViewModel
             viewModel.getPrayerTimes().fold(
                 onSuccess = { prayerData ->
                     Log.d(TAG, "Successfully fetched prayer times: ${prayerData.prayerTimes.size} prayers")
-                    
+
                     // Update dates
                     val dateParts = prayerData.date.split(" ")
                     if (dateParts.size >= 3) {
@@ -130,32 +122,32 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                         views.setTextViewText(R.id.gregorian_month, dateParts[1])
                         views.setTextViewText(R.id.gregorian_year, dateParts[2])
                     }
-                    
+
                     val hijriParts = prayerData.hijriDate.split(" ")
                     if (hijriParts.size >= 3) {
                         views.setTextViewText(R.id.hijri_day, hijriParts[0])
                         views.setTextViewText(R.id.hijri_month, hijriParts[1])
                         views.setTextViewText(R.id.hijri_year, hijriParts[2])
                     }
-                    
+
                     // Update next prayer info
                     prayerData.nextPrayer?.let { nextPrayer ->
                         val prayerName = getLocalizedPrayerName(context, nextPrayer.prayerName)
-                        
+
                         views.setTextViewText(R.id.next_prayer_label, prayerName)
                         views.setTextViewText(R.id.next_prayer_name, " after:")
                         views.setChronometerCountDown(R.id.next_prayer_time, true)
-                        views.setChronometer(R.id.next_prayer_time, nextPrayer.chroneterBaseTime, null, true)
-                        
+                        views.setChronometer(R.id.next_prayer_time, nextPrayer.chronometerBaseTime, null, true)
+
                         // Schedule an update when the prayer time arrives
-                        val updateTime = System.currentTimeMillis() + (nextPrayer.chroneterBaseTime - android.os.SystemClock.elapsedRealtime())
+                        val updateTime = System.currentTimeMillis() + (nextPrayer.chronometerBaseTime - android.os.SystemClock.elapsedRealtime())
                         scheduleWidgetUpdate(context, updateTime)
                     } ?: run {
                         views.setTextViewText(R.id.next_prayer_label, "")
                         views.setTextViewText(R.id.next_prayer_name, "")
                         views.setChronometer(R.id.next_prayer_time, 0, null, false)
                     }
-                    
+
                     // First, clear all backgrounds
                     views.setInt(R.id.prayer_row_1, "setBackgroundResource", 0)
                     views.setInt(R.id.prayer_row_2, "setBackgroundResource", 0)
@@ -163,15 +155,15 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                     views.setInt(R.id.prayer_row_4, "setBackgroundResource", 0)
                     views.setInt(R.id.prayer_row_5, "setBackgroundResource", 0)
                     views.setInt(R.id.prayer_row_6, "setBackgroundResource", 0)
-                    
+
                     // Update prayer names and times
-                    val prayers = HelloWorldWidgetViewModel.Prayer.values()
+                    val prayers = PrayerTimesMediumWidgetViewModel.Prayer.entries.toTypedArray()
                     prayers.forEachIndexed { index, prayer ->
                         val time = prayerData.prayerTimes[prayer] ?: ""
                         val localizedTime = viewModel.getLocalizedTime(time)
-                        
+
                         Log.d(TAG, "Prayer ${prayer.name}: $time (localized: $localizedTime)")
-                        
+
                         // Apply highlight if this is the current prayer
                         val isCurrentPrayer = prayerData.currentPrayer == prayer
                         if (isCurrentPrayer) {
@@ -188,7 +180,7 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                                 views.setInt(it, "setBackgroundResource", R.drawable.prayer_time_highlight_background)
                             }
                         }
-                        
+
                         when (index) {
                             0 -> {
                                 views.setTextViewText(R.id.text1, context.getString(prayer.stringResId))
@@ -274,27 +266,27 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
-    
+
     private fun getLocalizedPrayerName(context: Context, prayerName: String): String {
         return when (prayerName) {
-            HelloWorldWidgetViewModel.Prayer.FAJR.name -> context.getString(com.ibadalrahman.resources.R.string.fajr)
-            HelloWorldWidgetViewModel.Prayer.SUNRISE.name -> context.getString(com.ibadalrahman.resources.R.string.sunrise)
-            HelloWorldWidgetViewModel.Prayer.DHUHR.name -> context.getString(com.ibadalrahman.resources.R.string.dhuhr)
-            HelloWorldWidgetViewModel.Prayer.ASR.name -> context.getString(com.ibadalrahman.resources.R.string.asr)
-            HelloWorldWidgetViewModel.Prayer.MAGHRIB.name -> context.getString(com.ibadalrahman.resources.R.string.maghrib)
-            HelloWorldWidgetViewModel.Prayer.ISHAA.name -> context.getString(com.ibadalrahman.resources.R.string.ishaa)
+            PrayerTimesMediumWidgetViewModel.Prayer.FAJR.name -> context.getString(com.ibadalrahman.resources.R.string.fajr)
+            PrayerTimesMediumWidgetViewModel.Prayer.SUNRISE.name -> context.getString(com.ibadalrahman.resources.R.string.sunrise)
+            PrayerTimesMediumWidgetViewModel.Prayer.DHUHR.name -> context.getString(com.ibadalrahman.resources.R.string.dhuhr)
+            PrayerTimesMediumWidgetViewModel.Prayer.ASR.name -> context.getString(com.ibadalrahman.resources.R.string.asr)
+            PrayerTimesMediumWidgetViewModel.Prayer.MAGHRIB.name -> context.getString(com.ibadalrahman.resources.R.string.maghrib)
+            PrayerTimesMediumWidgetViewModel.Prayer.ISHAA.name -> context.getString(com.ibadalrahman.resources.R.string.ishaa)
             else -> prayerName
         }
     }
-    
+
     private fun showErrorWidget(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
         errorMessage: String
     ) {
-        val views = RemoteViews(context.packageName, R.layout.hello_world_widget_layout)
-        
+        val views = RemoteViews(context.packageName, R.layout.prayer_times_medium_widget_layout)
+
         // Set up click intent to open the app
         val intent = Intent(context, Class.forName("org.ibadalrahman.publicsector.main.view.MainActivity"))
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -302,14 +294,10 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
             context,
             0,
             intent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            }
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
-        
+
         views.setTextViewText(R.id.gregorian_day, "")
         views.setTextViewText(R.id.gregorian_month, "")
         views.setTextViewText(R.id.gregorian_year, "")
@@ -333,10 +321,10 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         views.setTextViewText(R.id.time6, "")
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
-    
+
     private fun scheduleWidgetUpdate(context: Context, updateTimeMillis: Long) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        
+
         // Check if we can schedule exact alarms
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {
@@ -346,76 +334,57 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                 return
             }
         }
-        
-        val intent = Intent(context, HelloWorldWidgetProvider::class.java).apply {
+
+        val intent = Intent(context, PrayerTimesMediumWidgetProvider::class.java).apply {
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(
-                android.content.ComponentName(context, HelloWorldWidgetProvider::class.java)
+                android.content.ComponentName(context, PrayerTimesMediumWidgetProvider::class.java)
             )
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
         }
-        
+
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             0,
             intent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            }
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        
+
         // Cancel any existing alarm
         alarmManager.cancel(pendingIntent)
-        
+
         // Set new alarm
         try {
-            when {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
-                    alarmManager.setExactAndAllowWhileIdle(
-                        AlarmManager.RTC_WAKEUP,
-                        updateTimeMillis,
-                        pendingIntent
-                    )
-                }
-                else -> {
-                    alarmManager.setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        updateTimeMillis,
-                        pendingIntent
-                    )
-                }
-            }
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                updateTimeMillis,
+                pendingIntent
+            )
             Log.d(TAG, "Scheduled exact widget update at ${java.util.Date(updateTimeMillis)}")
         } catch (e: SecurityException) {
             Log.e(TAG, "Failed to schedule exact alarm", e)
             scheduleInexactUpdate(context, alarmManager, updateTimeMillis)
         }
     }
-    
+
     private fun scheduleInexactUpdate(context: Context, alarmManager: AlarmManager, updateTimeMillis: Long) {
-        val intent = Intent(context, HelloWorldWidgetProvider::class.java).apply {
+        val intent = Intent(context, PrayerTimesMediumWidgetProvider::class.java).apply {
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(
-                android.content.ComponentName(context, HelloWorldWidgetProvider::class.java)
+                android.content.ComponentName(context, PrayerTimesMediumWidgetProvider::class.java)
             )
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
         }
-        
+
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             0,
             intent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            }
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        
+
         // Use inexact alarm with a window
         alarmManager.setWindow(
             AlarmManager.RTC_WAKEUP,
@@ -423,7 +392,7 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
             5 * 60 * 1000, // 5 minute window
             pendingIntent
         )
-        
+
         Log.d(TAG, "Scheduled inexact widget update around ${java.util.Date(updateTimeMillis)}")
     }
 }
