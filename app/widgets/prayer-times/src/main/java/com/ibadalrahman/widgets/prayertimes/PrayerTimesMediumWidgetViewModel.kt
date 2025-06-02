@@ -47,8 +47,7 @@ class PrayerTimesMediumWidgetViewModel @Inject constructor(
             // Calculate next prayer
             val nextPrayerInfo = findNextPrayer(
                 dailyPrayerTimes.prayerTimes,
-                prayerTimesRepository,
-                year, month, day
+                prayerTimesRepository
             )
 
             val currentPrayer = findCurrentPrayer(dailyPrayerTimes.prayerTimes)
@@ -142,7 +141,7 @@ class PrayerTimesMediumWidgetViewModel @Inject constructor(
         ISHAA(R.string.ishaa)
     }
 
-    private fun findCurrentPrayer(prayerTimes: PrayerTimes): Prayer? {
+    private fun findCurrentPrayer(prayerTimes: PrayerTimes): Prayer {
         val now = Date()
 
         // Check in reverse order to find which prayer period we're in
@@ -162,10 +161,7 @@ class PrayerTimesMediumWidgetViewModel @Inject constructor(
 
     private fun findNextPrayer(
         prayerTimes: PrayerTimes,
-        repository: PrayerTimesRepository,
-        year: Int,
-        month: Int,
-        day: Int
+        repository: PrayerTimesRepository
     ): NextPrayerInfo? {
         val now = Date()
         val prayerList = listOf(

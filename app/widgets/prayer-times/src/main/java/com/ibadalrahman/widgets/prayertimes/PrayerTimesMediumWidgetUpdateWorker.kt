@@ -18,7 +18,6 @@ class PrayerTimesMediumWidgetUpdateWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters
 ): CoroutineWorker(context, workerParams) {
-
     override suspend fun doWork(): Result {
         return try {
             // Get all widget IDs
@@ -42,7 +41,7 @@ class PrayerTimesMediumWidgetUpdateWorker @AssistedInject constructor(
     }
 
     companion object {
-        const val WORK_NAME = "PrayerTimesMediumWidgetUpdateWork"
+        private const val WORK_NAME = "PrayerTimesMediumWidgetUpdateWork"
 
         fun scheduleUpdates(context: Context) {
             val workRequest = PeriodicWorkRequestBuilder<PrayerTimesMediumWidgetUpdateWorker>(
