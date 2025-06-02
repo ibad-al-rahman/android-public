@@ -187,9 +187,8 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                     val prayers = PrayerTimesMediumWidgetViewModel.Prayer.entries.toTypedArray()
                     prayers.forEachIndexed { index, prayer ->
                         val time = prayerData.prayerTimes[prayer] ?: ""
-                        val localizedTime = viewModel.getLocalizedTime(time)
 
-                        Log.d(TAG, "Prayer ${prayer.name}: $time (localized: $localizedTime)")
+                        Log.d(TAG, "Prayer ${prayer.name}: $time")
 
                         // Apply highlight if this is the current prayer
                         val isCurrentPrayer = prayerData.currentPrayer == prayer
@@ -211,7 +210,7 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                         when (index) {
                             0 -> {
                                 views.setTextViewText(R.id.text1, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time1, localizedTime)
+                                views.setTextViewText(R.id.time1, time)
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text1, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time1, android.graphics.Color.WHITE)
@@ -219,7 +218,7 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                             }
                             1 -> {
                                 views.setTextViewText(R.id.text2, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time2, localizedTime)
+                                views.setTextViewText(R.id.time2, time)
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text2, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time2, android.graphics.Color.WHITE)
@@ -227,7 +226,7 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                             }
                             2 -> {
                                 views.setTextViewText(R.id.text3, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time3, localizedTime)
+                                views.setTextViewText(R.id.time3, time)
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text3, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time3, android.graphics.Color.WHITE)
@@ -235,7 +234,7 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                             }
                             3 -> {
                                 views.setTextViewText(R.id.text4, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time4, localizedTime)
+                                views.setTextViewText(R.id.time4, time)
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text4, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time4, android.graphics.Color.WHITE)
@@ -243,7 +242,7 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                             }
                             4 -> {
                                 views.setTextViewText(R.id.text5, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time5, localizedTime)
+                                views.setTextViewText(R.id.time5, time)
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text5, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time5, android.graphics.Color.WHITE)
@@ -251,7 +250,7 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                             }
                             5 -> {
                                 views.setTextViewText(R.id.text6, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time6, localizedTime)
+                                views.setTextViewText(R.id.time6, time)
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text6, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time6, android.graphics.Color.WHITE)
