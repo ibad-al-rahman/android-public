@@ -43,5 +43,6 @@
     <string name="loading_prayer_times">Loading prayer times...</string>
     <string name="next_prayer">Next Prayer</string>
     <string name="current_prayer_time">We are now in the time of</string>
+    <string name="prayer_after">after:</string>
     <string name="layout_direction">ltr</string>
 </resources>
