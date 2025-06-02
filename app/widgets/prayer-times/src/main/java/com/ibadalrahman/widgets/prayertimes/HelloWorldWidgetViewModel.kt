@@ -51,6 +51,7 @@ class HelloWorldWidgetViewModel @Inject constructor(
             Result.success(PrayerData(
                 prayerTimesMap,
                 dateFormat.format(dailyPrayerTimes.gregorian),
+                dailyPrayerTimes.hijri,
                 nextPrayerInfo,
                 currentPrayer
             ))
@@ -74,6 +75,7 @@ class HelloWorldWidgetViewModel @Inject constructor(
     data class PrayerData(
         val prayerTimes: Map<Prayer, String>,
         val date: String,
+        val hijriDate: String,
         val nextPrayer: NextPrayerInfo?,
         val currentPrayer: Prayer?
     )

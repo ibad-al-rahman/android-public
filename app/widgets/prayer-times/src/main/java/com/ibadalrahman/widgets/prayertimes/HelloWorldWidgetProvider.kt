@@ -110,6 +110,7 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                     
                     // Update date
                     views.setTextViewText(R.id.date_text, prayerData.date)
+                    views.setTextViewText(R.id.hijri_date_text, prayerData.hijriDate)
                     
                     // Update next prayer info
                     prayerData.nextPrayer?.let { nextPrayer ->
@@ -218,6 +219,7 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                     Log.e(TAG, "Failed to fetch prayer times", error)
                     // Show error state
                     views.setTextViewText(R.id.date_text, "")
+                    views.setTextViewText(R.id.hijri_date_text, "")
                     views.setTextViewText(R.id.next_prayer_label, "")
                     views.setTextViewText(R.id.next_prayer_name, "")
                     views.setChronometer(R.id.next_prayer_time, 0, null, false)
@@ -263,6 +265,7 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
     ) {
         val views = RemoteViews(context.packageName, R.layout.hello_world_widget_layout)
         views.setTextViewText(R.id.date_text, "")
+        views.setTextViewText(R.id.hijri_date_text, "")
         views.setTextViewText(R.id.next_prayer_label, "")
         views.setTextViewText(R.id.next_prayer_name, "")
         views.setChronometer(R.id.next_prayer_time, 0, null, false)
