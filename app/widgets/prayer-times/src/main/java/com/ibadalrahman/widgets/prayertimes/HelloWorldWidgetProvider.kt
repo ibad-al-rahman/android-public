@@ -91,6 +91,21 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         appWidgetId: Int
     ) {
         val views = RemoteViews(context.packageName, R.layout.hello_world_widget_layout)
+        
+        // Set up click intent to open the app
+        val intent = Intent(context, Class.forName("org.ibadalrahman.publicsector.main.view.MainActivity"))
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )
+        views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
 
         try {
             Log.d(TAG, "Getting ViewModel from EntryPoint")
@@ -264,6 +279,22 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         errorMessage: String
     ) {
         val views = RemoteViews(context.packageName, R.layout.hello_world_widget_layout)
+        
+        // Set up click intent to open the app
+        val intent = Intent(context, Class.forName("org.ibadalrahman.publicsector.main.view.MainActivity"))
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )
+        views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
+        
         views.setTextViewText(R.id.date_text, "")
         views.setTextViewText(R.id.hijri_date_text, "")
         views.setTextViewText(R.id.next_prayer_label, "")
