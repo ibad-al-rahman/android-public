@@ -223,30 +223,83 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
         >
-            <!-- Date at Top -->
-            <TextView
-                android:id="@+id/date_text"
+            <!-- Dates Container -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="01/01/2024"
-                android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:gravity="center"
+                android:orientation="horizontal"
+                android:gravity="start"
                 android:paddingTop="8dp"
-            />
-            
-            <!-- Hijri Date -->
-            <TextView
-                android:id="@+id/hijri_date_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1 Muharram 1445"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:gravity="center"
-                android:paddingBottom="4dp"
-            />
+                android:paddingBottom="8dp"
+            >
+                <!-- Gregorian Date (Left) -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                >
+                    <TextView
+                        android:id="@+id/gregorian_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/black"
+                    />
+                    <TextView
+                        android:id="@+id/gregorian_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="February"
+                        android:textSize="12sp"
+                        android:textColor="@android:color/black"
+                    />
+                    <TextView
+                        android:id="@+id/gregorian_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2025"
+                        android:textSize="10sp"
+                        android:textColor="@android:color/black"
+                    />
+                </LinearLayout>
+
+                <!-- Hijri Date (Right) -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                >
+                    <TextView
+                        android:id="@+id/hijri_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/black"
+                    />
+                    <TextView
+                        android:id="@+id/hijri_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rajab"
+                        android:textSize="12sp"
+                        android:textColor="@android:color/black"
+                    />
+                    <TextView
+                        android:id="@+id/hijri_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1446"
+                        android:textSize="10sp"
+                        android:textColor="@android:color/black"
+                    />
+                </LinearLayout>
+            </LinearLayout>
 
             <!-- Spacer -->
             <TextView
@@ -261,7 +314,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="start"
+                android:gravity="center"
                 android:paddingBottom="8dp"
             >
                 <!-- Prayer name and "after:" in horizontal layout -->

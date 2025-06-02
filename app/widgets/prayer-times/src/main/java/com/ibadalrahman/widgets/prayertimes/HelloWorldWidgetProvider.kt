@@ -123,9 +123,20 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                 onSuccess = { prayerData ->
                     Log.d(TAG, "Successfully fetched prayer times: ${prayerData.prayerTimes.size} prayers")
                     
-                    // Update date
-                    views.setTextViewText(R.id.date_text, prayerData.date)
-                    views.setTextViewText(R.id.hijri_date_text, prayerData.hijriDate)
+                    // Update dates
+                    val dateParts = prayerData.date.split(" ")
+                    if (dateParts.size >= 3) {
+                        views.setTextViewText(R.id.gregorian_day, dateParts[0])
+                        views.setTextViewText(R.id.gregorian_month, dateParts[1])
+                        views.setTextViewText(R.id.gregorian_year, dateParts[2])
+                    }
+                    
+                    val hijriParts = prayerData.hijriDate.split(" ")
+                    if (hijriParts.size >= 3) {
+                        views.setTextViewText(R.id.hijri_day, hijriParts[0])
+                        views.setTextViewText(R.id.hijri_month, hijriParts[1])
+                        views.setTextViewText(R.id.hijri_year, hijriParts[2])
+                    }
                     
                     // Update next prayer info
                     prayerData.nextPrayer?.let { nextPrayer ->
@@ -233,8 +244,12 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                 onFailure = { error ->
                     Log.e(TAG, "Failed to fetch prayer times", error)
                     // Show error state
-                    views.setTextViewText(R.id.date_text, "")
-                    views.setTextViewText(R.id.hijri_date_text, "")
+                    views.setTextViewText(R.id.gregorian_day, "")
+                    views.setTextViewText(R.id.gregorian_month, "")
+                    views.setTextViewText(R.id.gregorian_year, "")
+                    views.setTextViewText(R.id.hijri_day, "")
+                    views.setTextViewText(R.id.hijri_month, "")
+                    views.setTextViewText(R.id.hijri_year, "")
                     views.setTextViewText(R.id.next_prayer_label, "")
                     views.setTextViewText(R.id.next_prayer_name, "")
                     views.setChronometer(R.id.next_prayer_time, 0, null, false)
@@ -295,8 +310,12 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         )
         views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
         
-        views.setTextViewText(R.id.date_text, "")
-        views.setTextViewText(R.id.hijri_date_text, "")
+        views.setTextViewText(R.id.gregorian_day, "")
+        views.setTextViewText(R.id.gregorian_month, "")
+        views.setTextViewText(R.id.gregorian_year, "")
+        views.setTextViewText(R.id.hijri_day, "")
+        views.setTextViewText(R.id.hijri_month, "")
+        views.setTextViewText(R.id.hijri_year, "")
         views.setTextViewText(R.id.next_prayer_label, "")
         views.setTextViewText(R.id.next_prayer_name, "")
         views.setChronometer(R.id.next_prayer_time, 0, null, false)

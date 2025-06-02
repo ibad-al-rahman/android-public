@@ -6,6 +6,9 @@ import com.ibadalrahman.resources.R
 import kotlinx.coroutines.runBlocking
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
+import java.time.chrono.HijrahChronology
+import java.time.format.DateTimeFormatter
+import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -37,7 +40,10 @@ class HelloWorldWidgetViewModel @Inject constructor(
                 Prayer.ISHAA to timeFormat.format(dailyPrayerTimes.prayerTimes.ishaa)
             )
 
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+            
+            // Format Hijri date
+            val formattedHijriDate = formatHijriDate(dailyPrayerTimes.hijri)
 
             // Calculate next prayer
             val nextPrayerInfo = findNextPrayer(
@@ -51,7 +57,7 @@ class HelloWorldWidgetViewModel @Inject constructor(
             Result.success(PrayerData(
                 prayerTimesMap,
                 dateFormat.format(dailyPrayerTimes.gregorian),
-                dailyPrayerTimes.hijri,
+                formattedHijriDate,
                 nextPrayerInfo,
                 currentPrayer
             ))
@@ -68,6 +74,49 @@ class HelloWorldWidgetViewModel @Inject constructor(
                 (zeroDigit + (c - '0'))
             } else {
                 c
+            }
+        }.joinToString("")
+    }
+    
+    private fun formatHijriDate(hijriDateString: String): String {
+        return try {
+            // Parse the hijri date string (assuming format "dd/MM/yyyy")
+            val dateParts = hijriDateString.split("/")
+            if (dateParts.size == 3) {
+                val day = dateParts[0].toInt()
+                val month = dateParts[1].toInt()
+                val year = dateParts[2].toInt()
+                
+                // Create LocalDate and convert to Hijri
+                val hijriDate = HijrahChronology.INSTANCE.date(year, month, day)
+                
+                // Format as "d MMMM yyyy"
+                val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.getDefault())
+                val formattedDate = hijriDate.format(formatter)
+                
+                // Localize digits
+                localizeDigitsInText(formattedDate)
+            } else {
+                // Fallback to original string if parsing fails
+                hijriDateString
+            }
+        } catch (e: Exception) {
+            // Fallback to original string if any error occurs
+            hijriDateString
+        }
+    }
+    
+    private fun localizeDigitsInText(text: String): String {
+        val locale = Locale.getDefault()
+        val symbols = DecimalFormatSymbols(locale)
+        val zeroDigit = symbols.zeroDigit.code
+        val latinZero = '0'.code
+        
+        return text.map { char ->
+            if (char.isDigit()) {
+                (zeroDigit + (char.code - latinZero)).toChar()
+            } else {
+                char
             }
         }.joinToString("")
     }
