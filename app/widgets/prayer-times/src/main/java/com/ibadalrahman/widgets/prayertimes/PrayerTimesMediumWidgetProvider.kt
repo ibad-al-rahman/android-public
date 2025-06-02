@@ -39,11 +39,14 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        // Handle locale change broadcasts
+        // Handle locale and time format change broadcasts
         when (intent.action) {
-            Intent.ACTION_LOCALE_CHANGED -> {
-                Log.d(TAG, "Locale changed, updating all widgets")
-                // Update all widgets when locale changes
+            Intent.ACTION_LOCALE_CHANGED,
+            Intent.ACTION_TIME_CHANGED,
+            Intent.ACTION_TIMEZONE_CHANGED,
+            "android.intent.action.TIME_SET" -> {
+                Log.d(TAG, "System settings changed (${intent.action}), updating all widgets")
+                // Update all widgets when locale or time format changes
                 val appWidgetManager = AppWidgetManager.getInstance(context)
                 val thisWidget = android.content.ComponentName(context, PrayerTimesMediumWidgetProvider::class.java)
                 val appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget)
