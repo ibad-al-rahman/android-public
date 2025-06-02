@@ -233,6 +233,17 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:paddingTop="8dp"
+            />
+            
+            <!-- Hijri Date -->
+            <TextView
+                android:id="@+id/hijri_date_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1 Muharram 1445"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:gravity="center"
                 android:paddingBottom="4dp"
             />
 
