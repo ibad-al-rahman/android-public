@@ -144,7 +144,8 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                         Log.d(TAG, "Prayer ${prayer.name}: $time (localized: $localizedTime)")
                         
                         // Apply highlight if this is the current prayer
-                        if (prayerData.currentPrayer == prayer) {
+                        val isCurrentPrayer = prayerData.currentPrayer == prayer
+                        if (isCurrentPrayer) {
                             val rowId = when (index) {
                                 0 -> R.id.prayer_row_1
                                 1 -> R.id.prayer_row_2
@@ -163,26 +164,50 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                             0 -> {
                                 views.setTextViewText(R.id.text1, context.getString(prayer.stringResId))
                                 views.setTextViewText(R.id.time1, localizedTime)
+                                if (isCurrentPrayer) {
+                                    views.setTextColor(R.id.text1, android.graphics.Color.WHITE)
+                                    views.setTextColor(R.id.time1, android.graphics.Color.WHITE)
+                                }
                             }
                             1 -> {
                                 views.setTextViewText(R.id.text2, context.getString(prayer.stringResId))
                                 views.setTextViewText(R.id.time2, localizedTime)
+                                if (isCurrentPrayer) {
+                                    views.setTextColor(R.id.text2, android.graphics.Color.WHITE)
+                                    views.setTextColor(R.id.time2, android.graphics.Color.WHITE)
+                                }
                             }
                             2 -> {
                                 views.setTextViewText(R.id.text3, context.getString(prayer.stringResId))
                                 views.setTextViewText(R.id.time3, localizedTime)
+                                if (isCurrentPrayer) {
+                                    views.setTextColor(R.id.text3, android.graphics.Color.WHITE)
+                                    views.setTextColor(R.id.time3, android.graphics.Color.WHITE)
+                                }
                             }
                             3 -> {
                                 views.setTextViewText(R.id.text4, context.getString(prayer.stringResId))
                                 views.setTextViewText(R.id.time4, localizedTime)
+                                if (isCurrentPrayer) {
+                                    views.setTextColor(R.id.text4, android.graphics.Color.WHITE)
+                                    views.setTextColor(R.id.time4, android.graphics.Color.WHITE)
+                                }
                             }
                             4 -> {
                                 views.setTextViewText(R.id.text5, context.getString(prayer.stringResId))
                                 views.setTextViewText(R.id.time5, localizedTime)
+                                if (isCurrentPrayer) {
+                                    views.setTextColor(R.id.text5, android.graphics.Color.WHITE)
+                                    views.setTextColor(R.id.time5, android.graphics.Color.WHITE)
+                                }
                             }
                             5 -> {
                                 views.setTextViewText(R.id.text6, context.getString(prayer.stringResId))
                                 views.setTextViewText(R.id.time6, localizedTime)
+                                if (isCurrentPrayer) {
+                                    views.setTextColor(R.id.text6, android.graphics.Color.WHITE)
+                                    views.setTextColor(R.id.time6, android.graphics.Color.WHITE)
+                                }
                             }
                         }
                     }
