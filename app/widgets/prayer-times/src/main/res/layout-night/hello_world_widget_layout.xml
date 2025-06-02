@@ -191,6 +191,16 @@
         </LinearLayout>
     </LinearLayout>
     
+    <!-- Vertical Divider -->
+    <TextView
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/darker_gray"
+        android:text=""
+    />
+    
     <!-- Right Half - Date Display -->
     <FrameLayout
         android:layout_width="0dp"
@@ -239,25 +249,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center"
+                android:gravity="start"
                 android:paddingBottom="8dp"
             >
                 <TextView
                     android:id="@+id/next_prayer_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Next Prayer"
-                    android:textSize="12sp"
+                    android:text="Fajr after:"
+                    android:textSize="16sp"
                     android:textColor="@android:color/white"
                 />
                 <TextView
                     android:id="@+id/next_prayer_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dhuhr"
+                    android:text=""
                     android:textSize="16sp"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
+                    android:visibility="gone"
                 />
                 <Chronometer
                     android:id="@+id/next_prayer_time"
