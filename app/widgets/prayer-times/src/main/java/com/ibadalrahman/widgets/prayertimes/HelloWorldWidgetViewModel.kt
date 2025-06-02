@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HelloWorldWidgetViewModel @Inject constructor(
@@ -39,18 +38,21 @@ class HelloWorldWidgetViewModel @Inject constructor(
             )
 
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            
+
             // Calculate next prayer
             val nextPrayerInfo = findNextPrayer(
                 dailyPrayerTimes.prayerTimes,
                 prayerTimesRepository,
                 year, month, day
             )
-            
+
+            val currentPrayer = findCurrentPrayer(dailyPrayerTimes.prayerTimes)
+
             Result.success(PrayerData(
-                prayerTimesMap, 
+                prayerTimesMap,
                 dateFormat.format(dailyPrayerTimes.gregorian),
-                nextPrayerInfo
+                nextPrayerInfo,
+                currentPrayer
             ))
         } catch (e: Exception) {
             Result.failure(e)
@@ -72,9 +74,10 @@ class HelloWorldWidgetViewModel @Inject constructor(
     data class PrayerData(
         val prayerTimes: Map<Prayer, String>,
         val date: String,
-        val nextPrayer: NextPrayerInfo?
+        val nextPrayer: NextPrayerInfo?,
+        val currentPrayer: Prayer?
     )
-    
+
     data class NextPrayerInfo(
         val prayerName: String,
         val chroneterBaseTime: Long
@@ -88,7 +91,25 @@ class HelloWorldWidgetViewModel @Inject constructor(
         MAGHRIB(R.string.maghrib),
         ISHAA(R.string.ishaa)
     }
-    
+
+    private fun findCurrentPrayer(prayerTimes: PrayerTimes): Prayer? {
+        val now = Date()
+
+        // Check in reverse order to find which prayer period we're in
+        return when {
+            now >= prayerTimes.ishaa -> Prayer.ISHAA
+            now >= prayerTimes.maghrib -> Prayer.MAGHRIB
+            now >= prayerTimes.asr -> Prayer.ASR
+            now >= prayerTimes.dhuhr -> Prayer.DHUHR
+            now >= prayerTimes.sunrise -> Prayer.SUNRISE
+            now >= prayerTimes.fajr -> Prayer.FAJR
+            else -> {
+                // Before Fajr, we're in the previous day's Ishaa period
+                Prayer.ISHAA
+            }
+        }
+    }
+
     private fun findNextPrayer(
         prayerTimes: PrayerTimes,
         repository: PrayerTimesRepository,
@@ -105,20 +126,20 @@ class HelloWorldWidgetViewModel @Inject constructor(
             Prayer.MAGHRIB to prayerTimes.maghrib,
             Prayer.ISHAA to prayerTimes.ishaa
         )
-        
+
         // Find next prayer today
         for ((prayer, time) in prayerList) {
             if (time.after(now)) {
                 // Calculate base time for countdown chronometer
                 val baseTime = android.os.SystemClock.elapsedRealtime() + (time.time - now.time)
-                
+
                 return NextPrayerInfo(
                     prayerName = prayer.name,
                     chroneterBaseTime = baseTime
                 )
             }
         }
-        
+
         // If no prayer left today, get tomorrow's Fajr
         return try {
             val tomorrowCalendar = Calendar.getInstance().apply {
@@ -131,11 +152,11 @@ class HelloWorldWidgetViewModel @Inject constructor(
                     tomorrowCalendar.get(Calendar.DAY_OF_MONTH)
                 ).getOrNull()
             }
-            
+
             tomorrowPrayerTimes?.let {
                 // Calculate base time for countdown chronometer
                 val baseTime = android.os.SystemClock.elapsedRealtime() + (it.prayerTimes.fajr.time - now.time)
-                
+
                 NextPrayerInfo(
                     prayerName = Prayer.FAJR.name,
                     chroneterBaseTime = baseTime

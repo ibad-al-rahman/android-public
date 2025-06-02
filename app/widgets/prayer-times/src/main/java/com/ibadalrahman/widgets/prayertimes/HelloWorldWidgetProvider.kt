@@ -127,6 +127,14 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                         views.setChronometer(R.id.next_prayer_time, 0, null, false)
                     }
                     
+                    // First, clear all backgrounds
+                    views.setInt(R.id.prayer_row_1, "setBackgroundResource", 0)
+                    views.setInt(R.id.prayer_row_2, "setBackgroundResource", 0)
+                    views.setInt(R.id.prayer_row_3, "setBackgroundResource", 0)
+                    views.setInt(R.id.prayer_row_4, "setBackgroundResource", 0)
+                    views.setInt(R.id.prayer_row_5, "setBackgroundResource", 0)
+                    views.setInt(R.id.prayer_row_6, "setBackgroundResource", 0)
+                    
                     // Update prayer names and times
                     val prayers = HelloWorldWidgetViewModel.Prayer.values()
                     prayers.forEachIndexed { index, prayer ->
@@ -134,6 +142,22 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                         val localizedTime = viewModel.getLocalizedTime(time)
                         
                         Log.d(TAG, "Prayer ${prayer.name}: $time (localized: $localizedTime)")
+                        
+                        // Apply highlight if this is the current prayer
+                        if (prayerData.currentPrayer == prayer) {
+                            val rowId = when (index) {
+                                0 -> R.id.prayer_row_1
+                                1 -> R.id.prayer_row_2
+                                2 -> R.id.prayer_row_3
+                                3 -> R.id.prayer_row_4
+                                4 -> R.id.prayer_row_5
+                                5 -> R.id.prayer_row_6
+                                else -> null
+                            }
+                            rowId?.let {
+                                views.setInt(it, "setBackgroundResource", R.drawable.prayer_time_highlight_background)
+                            }
+                        }
                         
                         when (index) {
                             0 -> {
