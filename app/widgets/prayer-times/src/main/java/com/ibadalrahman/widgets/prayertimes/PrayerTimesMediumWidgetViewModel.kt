@@ -4,6 +4,7 @@ import com.ibadalrahman.prayertimes.repository.PrayerTimesRepository
 import com.ibadalrahman.prayertimes.repository.data.domain.PrayerTimes
 import com.ibadalrahman.resources.R
 import kotlinx.coroutines.runBlocking
+import java.text.DateFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.time.chrono.HijrahChronology
@@ -29,7 +30,7 @@ class PrayerTimesMediumWidgetViewModel @Inject constructor(
                 .getDayPrayerTimes(year, month, day)
                 .getOrElse { return Result.failure(it) }
 
-            val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
             val prayerTimesMap = mapOf(
                 Prayer.FAJR to timeFormat.format(dailyPrayerTimes.prayerTimes.fajr),
                 Prayer.SUNRISE to timeFormat.format(dailyPrayerTimes.prayerTimes.sunrise),
@@ -64,17 +65,6 @@ class PrayerTimesMediumWidgetViewModel @Inject constructor(
         }
     }
 
-    fun getLocalizedTime(time: String, locale: Locale = Locale.getDefault()): String {
-        val symbols = DecimalFormatSymbols(locale)
-        val zeroDigit = symbols.zeroDigit
-        return time.map { c ->
-            if (c in '0'..'9') {
-                (zeroDigit + (c - '0'))
-            } else {
-                c
-            }
-        }.joinToString("")
-    }
 
     private fun formatHijriDate(hijriDateString: String): String {
         return try {
