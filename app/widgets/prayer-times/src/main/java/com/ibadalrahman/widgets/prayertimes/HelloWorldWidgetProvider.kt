@@ -1,8 +1,12 @@
 package com.ibadalrahman.widgets.prayertimes
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.widget.RemoteViews
 import dagger.hilt.EntryPoint
@@ -62,6 +66,23 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         Log.d(TAG, "onDisabled - Last widget removed")
         job.cancel()
         HelloWorldWidgetUpdateWorker.cancelUpdates(context)
+        
+        // Cancel any scheduled alarms
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, HelloWorldWidgetProvider::class.java).apply {
+            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        }
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )
+        alarmManager.cancel(pendingIntent)
     }
 
     private suspend fun updateWidget(
@@ -96,6 +117,10 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
                         views.setTextViewText(R.id.next_prayer_name, getLocalizedPrayerName(context, nextPrayer.prayerName))
                         views.setChronometerCountDown(R.id.next_prayer_time, true)
                         views.setChronometer(R.id.next_prayer_time, nextPrayer.chroneterBaseTime, null, true)
+                        
+                        // Schedule an update when the prayer time arrives
+                        val updateTime = System.currentTimeMillis() + (nextPrayer.chroneterBaseTime - android.os.SystemClock.elapsedRealtime())
+                        scheduleWidgetUpdate(context, updateTime)
                     } ?: run {
                         views.setTextViewText(R.id.next_prayer_label, "")
                         views.setTextViewText(R.id.next_prayer_name, "")
@@ -203,5 +228,98 @@ class HelloWorldWidgetProvider: AppWidgetProvider() {
         views.setTextViewText(R.id.time5, "")
         views.setTextViewText(R.id.time6, "")
         appWidgetManager.updateAppWidget(appWidgetId, views)
+    }
+    
+    private fun scheduleWidgetUpdate(context: Context, updateTimeMillis: Long) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        
+        // Check if we can schedule exact alarms
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!alarmManager.canScheduleExactAlarms()) {
+                Log.w(TAG, "Cannot schedule exact alarms. Widget may not update automatically.")
+                // Fall back to inexact alarm
+                scheduleInexactUpdate(context, alarmManager, updateTimeMillis)
+                return
+            }
+        }
+        
+        val intent = Intent(context, HelloWorldWidgetProvider::class.java).apply {
+            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            val appWidgetIds = appWidgetManager.getAppWidgetIds(
+                android.content.ComponentName(context, HelloWorldWidgetProvider::class.java)
+            )
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+        }
+        
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )
+        
+        // Cancel any existing alarm
+        alarmManager.cancel(pendingIntent)
+        
+        // Set new alarm
+        try {
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        updateTimeMillis,
+                        pendingIntent
+                    )
+                }
+                else -> {
+                    alarmManager.setExact(
+                        AlarmManager.RTC_WAKEUP,
+                        updateTimeMillis,
+                        pendingIntent
+                    )
+                }
+            }
+            Log.d(TAG, "Scheduled exact widget update at ${java.util.Date(updateTimeMillis)}")
+        } catch (e: SecurityException) {
+            Log.e(TAG, "Failed to schedule exact alarm", e)
+            scheduleInexactUpdate(context, alarmManager, updateTimeMillis)
+        }
+    }
+    
+    private fun scheduleInexactUpdate(context: Context, alarmManager: AlarmManager, updateTimeMillis: Long) {
+        val intent = Intent(context, HelloWorldWidgetProvider::class.java).apply {
+            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            val appWidgetIds = appWidgetManager.getAppWidgetIds(
+                android.content.ComponentName(context, HelloWorldWidgetProvider::class.java)
+            )
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+        }
+        
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            } else {
+                PendingIntent.FLAG_UPDATE_CURRENT
+            }
+        )
+        
+        // Use inexact alarm with a window
+        alarmManager.setWindow(
+            AlarmManager.RTC_WAKEUP,
+            updateTimeMillis,
+            5 * 60 * 1000, // 5 minute window
+            pendingIntent
+        )
+        
+        Log.d(TAG, "Scheduled inexact widget update around ${java.util.Date(updateTimeMillis)}")
     }
 }
