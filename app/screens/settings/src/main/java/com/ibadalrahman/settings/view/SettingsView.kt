@@ -71,11 +71,11 @@ fun SettingsView(
         Spacer(modifier = Modifier.height(40.dp))
 
         Text(
-            text = stringResource(R.string.display),
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.secondary,
-            modifier = Modifier.padding(vertical = 10.dp)
+            text = stringResource(id = R.string.display).uppercase(),
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            ),
+            modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp)
         )
 
         Column(modifier = Modifier

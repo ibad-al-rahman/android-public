@@ -2,6 +2,7 @@ package com.ibadalrahman.prayertimes.domain
 
 import android.content.Context
 import android.icu.util.Calendar
+import android.util.Log
 import com.ibadalrahman.mvi.BaseInteractor
 import com.ibadalrahman.prayertimes.domain.entity.PrayerTimesAction
 import com.ibadalrahman.prayertimes.domain.entity.PrayerTimesResult
@@ -53,17 +54,11 @@ class PrayerTimesInteractor @Inject constructor(
         val month = calendar.get(Calendar.MONTH) + 1
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val remoteDigest = prayerTimesRepository
-            .fetchDigest(year = year)
-            .getOrElse { return@flow }
+        // Todo: use digests to skip fetching prayer times
 
-        val localDigest = prayerTimesRepository.getDigest(year = year)
-
-        if (remoteDigest != localDigest) {
-            prayerTimesRepository
-                .fetchPrayerTimes(year = year)
-                .getOrElse { return@flow }
-        }
+        prayerTimesRepository
+            .fetchPrayerTimes(year = year)
+            .getOrNull()
 
         val prayerTimes = prayerTimesRepository
             .getDayPrayerTimes(year = year, month = month, day = day)

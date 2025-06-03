@@ -221,6 +221,21 @@ fun DailyPrayerTimesView(
                     )
                 }
             }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(R.string.share_msg_header),
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        textDirection = TextDirection.Rtl,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+                Spacer(modifier = Modifier.weight(1f))
+            }
         }
 
         safeLet(state.event) { event ->
