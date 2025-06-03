@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:background="@android:color/white"
-    android:gravity="start|center_vertical"
->
+    android:gravity="start|center_vertical">
     <!-- Left Half - Prayer Names and Times -->
     <FrameLayout
         android:layout_width="0dp"
@@ -165,7 +164,7 @@
         android:gravity="center_vertical"
         android:padding="8dp">
         <LinearLayout
-            android:id="@+id/prayer_row_1"
+            android:id="@+id/fajr_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -176,7 +175,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp">
             <TextView
-                android:id="@+id/text1"
+                android:id="@+id/fajr_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -184,7 +183,7 @@
                 android:textSize="14sp"
                 android:textColor="@android:color/black" />
             <TextView
-                android:id="@+id/time1"
+                android:id="@+id/fajr_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
@@ -193,7 +192,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/prayer_row_2"
+            android:id="@+id/sunrise_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -204,7 +203,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp">
             <TextView
-                android:id="@+id/text2"
+                android:id="@+id/sunrise_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -212,7 +211,7 @@
                 android:textSize="14sp"
                 android:textColor="@android:color/black" />
             <TextView
-                android:id="@+id/time2"
+                android:id="@+id/sunrise_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
@@ -221,7 +220,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/prayer_row_3"
+            android:id="@+id/dhuhr_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -232,7 +231,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp">
             <TextView
-                android:id="@+id/text3"
+                android:id="@+id/dhuhr_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -240,7 +239,7 @@
                 android:textSize="14sp"
                 android:textColor="@android:color/black" />
             <TextView
-                android:id="@+id/time3"
+                android:id="@+id/dhuhr_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
@@ -249,7 +248,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/prayer_row_4"
+            android:id="@+id/asr_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -260,7 +259,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp">
             <TextView
-                android:id="@+id/text4"
+                android:id="@+id/asr_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -268,7 +267,7 @@
                 android:textSize="14sp"
                 android:textColor="@android:color/black" />
             <TextView
-                android:id="@+id/time4"
+                android:id="@+id/asr_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
@@ -277,7 +276,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/prayer_row_5"
+            android:id="@+id/maghrib_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -288,7 +287,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp">
             <TextView
-                android:id="@+id/text5"
+                android:id="@+id/maghrib_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -296,7 +295,7 @@
                 android:textSize="14sp"
                 android:textColor="@android:color/black" />
             <TextView
-                android:id="@+id/time5"
+                android:id="@+id/maghrib_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
@@ -305,7 +304,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/prayer_row_6"
+            android:id="@+id/ishaa_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -316,7 +315,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp">
             <TextView
-                android:id="@+id/text6"
+                android:id="@+id/ishaa_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -324,7 +323,7 @@
                 android:textSize="14sp"
                 android:textColor="@android:color/black" />
             <TextView
-                android:id="@+id/time6"
+                android:id="@+id/ishaa_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
@@ -332,5 +331,4 @@
                 android:textColor="@android:color/black" />
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
