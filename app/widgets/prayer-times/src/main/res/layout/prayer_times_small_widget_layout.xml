@@ -91,8 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text=""
-            />
+            android:text="" />
 
         <!-- Next Prayer Info at Bottom -->
         <LinearLayout
@@ -100,14 +99,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:paddingBottom="8dp"
-            >
+            android:paddingBottom="8dp">
             <!-- Prayer name and "after:" in horizontal layout -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
                 <TextView
                     android:id="@+id/next_prayer_label"
                     android:layout_width="wrap_content"
@@ -115,16 +112,14 @@
                     android:text="Fajr"
                     android:textSize="20dp"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
                 <TextView
                     android:id="@+id/next_prayer_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" after:"
                     android:textSize="20dp"
-                    android:textColor="@android:color/black"
-                    />
+                    android:textColor="@android:color/black" />
             </LinearLayout>
             <Chronometer
                 android:id="@+id/next_prayer_time"
@@ -133,8 +128,7 @@
                 android:textSize="20dp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                android:format="in %s"
-                />
+                android:format="in %s" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
