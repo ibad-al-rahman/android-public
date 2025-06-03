@@ -11,7 +11,6 @@ import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.text.TextUtilsCompat
-import androidx.core.view.ViewCompat
 import java.util.Locale
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
@@ -184,12 +183,12 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                     }
 
                     // First, clear all backgrounds
-                    views.setInt(R.id.prayer_row_1, "setBackgroundResource", 0)
-                    views.setInt(R.id.prayer_row_2, "setBackgroundResource", 0)
-                    views.setInt(R.id.prayer_row_3, "setBackgroundResource", 0)
-                    views.setInt(R.id.prayer_row_4, "setBackgroundResource", 0)
-                    views.setInt(R.id.prayer_row_5, "setBackgroundResource", 0)
-                    views.setInt(R.id.prayer_row_6, "setBackgroundResource", 0)
+                    views.setInt(R.id.fajr_row, "setBackgroundResource", 0)
+                    views.setInt(R.id.sunrise_row, "setBackgroundResource", 0)
+                    views.setInt(R.id.dhuhr_row, "setBackgroundResource", 0)
+                    views.setInt(R.id.asr_row, "setBackgroundResource", 0)
+                    views.setInt(R.id.maghrib_row, "setBackgroundResource", 0)
+                    views.setInt(R.id.ishaa_row, "setBackgroundResource", 0)
 
                     // Update prayer names and times
                     val prayers = PrayerTimesMediumWidgetViewModel.Prayer.entries.toTypedArray()
@@ -201,87 +200,35 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                         // Apply highlight if this is the current prayer
                         val isCurrentPrayer = prayerData.currentPrayer == prayer
                         if (isCurrentPrayer) {
-                            val rowId = when (index) {
-                                0 -> R.id.prayer_row_1
-                                1 -> R.id.prayer_row_2
-                                2 -> R.id.prayer_row_3
-                                3 -> R.id.prayer_row_4
-                                4 -> R.id.prayer_row_5
-                                5 -> R.id.prayer_row_6
-                                else -> null
+                            val rowId = when (prayer) {
+                                PrayerTimesMediumWidgetViewModel.Prayer.FAJR -> R.id.fajr_row
+                                PrayerTimesMediumWidgetViewModel.Prayer.SUNRISE -> R.id.sunrise_row
+                                PrayerTimesMediumWidgetViewModel.Prayer.DHUHR -> R.id.dhuhr_row
+                                PrayerTimesMediumWidgetViewModel.Prayer.ASR -> R.id.asr_row
+                                PrayerTimesMediumWidgetViewModel.Prayer.MAGHRIB -> R.id.maghrib_row
+                                PrayerTimesMediumWidgetViewModel.Prayer.ISHAA -> R.id.ishaa_row
                             }
-                            rowId?.let {
-                                views.setInt(it, "setBackgroundResource", R.drawable.prayer_time_highlight_background)
-                            }
+                            views.setInt(rowId, "setBackgroundResource", R.drawable.prayer_time_highlight_background)
                         }
 
-                        when (index) {
-                            0 -> {
-                                views.setTextViewText(R.id.text1, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time1, time)
-                                if (isCurrentPrayer) {
-                                    views.setTextColor(R.id.text1, android.graphics.Color.WHITE)
-                                    views.setTextColor(R.id.time1, android.graphics.Color.WHITE)
-                                } else {
-                                    views.setTextColor(R.id.text1, defaultTextColor)
-                                    views.setTextColor(R.id.time1, defaultTextColor)
-                                }
-                            }
-                            1 -> {
-                                views.setTextViewText(R.id.text2, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time2, time)
-                                if (isCurrentPrayer) {
-                                    views.setTextColor(R.id.text2, android.graphics.Color.WHITE)
-                                    views.setTextColor(R.id.time2, android.graphics.Color.WHITE)
-                                } else {
-                                    views.setTextColor(R.id.text2, defaultTextColor)
-                                    views.setTextColor(R.id.time2, defaultTextColor)
-                                }
-                            }
-                            2 -> {
-                                views.setTextViewText(R.id.text3, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time3, time)
-                                if (isCurrentPrayer) {
-                                    views.setTextColor(R.id.text3, android.graphics.Color.WHITE)
-                                    views.setTextColor(R.id.time3, android.graphics.Color.WHITE)
-                                } else {
-                                    views.setTextColor(R.id.text3, defaultTextColor)
-                                    views.setTextColor(R.id.time3, defaultTextColor)
-                                }
-                            }
-                            3 -> {
-                                views.setTextViewText(R.id.text4, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time4, time)
-                                if (isCurrentPrayer) {
-                                    views.setTextColor(R.id.text4, android.graphics.Color.WHITE)
-                                    views.setTextColor(R.id.time4, android.graphics.Color.WHITE)
-                                } else {
-                                    views.setTextColor(R.id.text4, defaultTextColor)
-                                    views.setTextColor(R.id.time4, defaultTextColor)
-                                }
-                            }
-                            4 -> {
-                                views.setTextViewText(R.id.text5, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time5, time)
-                                if (isCurrentPrayer) {
-                                    views.setTextColor(R.id.text5, android.graphics.Color.WHITE)
-                                    views.setTextColor(R.id.time5, android.graphics.Color.WHITE)
-                                } else {
-                                    views.setTextColor(R.id.text5, defaultTextColor)
-                                    views.setTextColor(R.id.time5, defaultTextColor)
-                                }
-                            }
-                            5 -> {
-                                views.setTextViewText(R.id.text6, context.getString(prayer.stringResId))
-                                views.setTextViewText(R.id.time6, time)
-                                if (isCurrentPrayer) {
-                                    views.setTextColor(R.id.text6, android.graphics.Color.WHITE)
-                                    views.setTextColor(R.id.time6, android.graphics.Color.WHITE)
-                                } else {
-                                    views.setTextColor(R.id.text6, defaultTextColor)
-                                    views.setTextColor(R.id.time6, defaultTextColor)
-                                }
-                            }
+                        val (textId, timeId) = when (prayer) {
+                            PrayerTimesMediumWidgetViewModel.Prayer.FAJR -> R.id.fajr_text to R.id.fajr_time
+                            PrayerTimesMediumWidgetViewModel.Prayer.SUNRISE -> R.id.sunrise_text to R.id.sunrise_time
+                            PrayerTimesMediumWidgetViewModel.Prayer.DHUHR -> R.id.dhuhr_text to R.id.dhuhr_time
+                            PrayerTimesMediumWidgetViewModel.Prayer.ASR -> R.id.asr_text to R.id.asr_time
+                            PrayerTimesMediumWidgetViewModel.Prayer.MAGHRIB -> R.id.maghrib_text to R.id.maghrib_time
+                            PrayerTimesMediumWidgetViewModel.Prayer.ISHAA -> R.id.ishaa_text to R.id.ishaa_time
+                        }
+
+                        views.setTextViewText(textId, context.getString(prayer.stringResId))
+                        views.setTextViewText(timeId, time)
+                        
+                        if (isCurrentPrayer) {
+                            views.setTextColor(textId, android.graphics.Color.WHITE)
+                            views.setTextColor(timeId, android.graphics.Color.WHITE)
+                        } else {
+                            views.setTextColor(textId, defaultTextColor)
+                            views.setTextColor(timeId, defaultTextColor)
                         }
                     }
                 },
@@ -297,18 +244,18 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                     views.setTextViewText(R.id.next_prayer_label, "")
                     views.setTextViewText(R.id.next_prayer_name, "")
                     views.setChronometer(R.id.next_prayer_time, 0, null, false)
-                    views.setTextViewText(R.id.text1, "Error loading")
-                    views.setTextViewText(R.id.text2, "prayer times")
-                    views.setTextViewText(R.id.text3, error.message ?: "")
-                    views.setTextViewText(R.id.text4, "")
-                    views.setTextViewText(R.id.text5, "")
-                    views.setTextViewText(R.id.text6, "")
-                    views.setTextViewText(R.id.time1, "")
-                    views.setTextViewText(R.id.time2, "")
-                    views.setTextViewText(R.id.time3, "")
-                    views.setTextViewText(R.id.time4, "")
-                    views.setTextViewText(R.id.time5, "")
-                    views.setTextViewText(R.id.time6, "")
+                    views.setTextViewText(R.id.fajr_text, "Error loading")
+                    views.setTextViewText(R.id.sunrise_text, "prayer times")
+                    views.setTextViewText(R.id.dhuhr_text, error.message ?: "")
+                    views.setTextViewText(R.id.asr_text, "")
+                    views.setTextViewText(R.id.maghrib_text, "")
+                    views.setTextViewText(R.id.ishaa_text, "")
+                    views.setTextViewText(R.id.fajr_time, "")
+                    views.setTextViewText(R.id.sunrise_time, "")
+                    views.setTextViewText(R.id.dhuhr_time, "")
+                    views.setTextViewText(R.id.asr_time, "")
+                    views.setTextViewText(R.id.maghrib_time, "")
+                    views.setTextViewText(R.id.ishaa_time, "")
                 }
             )
         } catch (e: Exception) {
@@ -377,18 +324,18 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
         views.setTextViewText(R.id.next_prayer_label, "")
         views.setTextViewText(R.id.next_prayer_name, "")
         views.setChronometer(R.id.next_prayer_time, 0, null, false)
-        views.setTextViewText(R.id.text1, "Error:")
-        views.setTextViewText(R.id.text2, errorMessage)
-        views.setTextViewText(R.id.text3, "")
-        views.setTextViewText(R.id.text4, "")
-        views.setTextViewText(R.id.text5, "")
-        views.setTextViewText(R.id.text6, "")
-        views.setTextViewText(R.id.time1, "")
-        views.setTextViewText(R.id.time2, "")
-        views.setTextViewText(R.id.time3, "")
-        views.setTextViewText(R.id.time4, "")
-        views.setTextViewText(R.id.time5, "")
-        views.setTextViewText(R.id.time6, "")
+        views.setTextViewText(R.id.fajr_text, "Error:")
+        views.setTextViewText(R.id.sunrise_text, errorMessage)
+        views.setTextViewText(R.id.dhuhr_text, "")
+        views.setTextViewText(R.id.asr_text, "")
+        views.setTextViewText(R.id.maghrib_text, "")
+        views.setTextViewText(R.id.ishaa_text, "")
+        views.setTextViewText(R.id.fajr_time, "")
+        views.setTextViewText(R.id.sunrise_time, "")
+        views.setTextViewText(R.id.dhuhr_time, "")
+        views.setTextViewText(R.id.asr_time, "")
+        views.setTextViewText(R.id.maghrib_time, "")
+        views.setTextViewText(R.id.ishaa_time, "")
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
