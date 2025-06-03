@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.OpenInNewOff
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.SupportAgent
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -90,8 +91,8 @@ fun SettingsView(
         Spacer(modifier = Modifier.height(40.dp))
 
         OpenLinkButton(
-            text = stringResource(R.string.donate),
-            icon = Icons.Outlined.FavoriteBorder,
+            text = stringResource(R.string.contact_us),
+            icon = Icons.Outlined.SupportAgent,
             onClick = {
                 intentionProcessor(SettingsIntention.ContactUs)
             }
@@ -101,7 +102,7 @@ fun SettingsView(
 
         ListButton(
             text = stringResource(R.string.clear_cache),
-            onClick = { /* TODO: Handle click */ }
+            onClick = { intentionProcessor(SettingsIntention.ClearCache) }
         )
     }
 }
