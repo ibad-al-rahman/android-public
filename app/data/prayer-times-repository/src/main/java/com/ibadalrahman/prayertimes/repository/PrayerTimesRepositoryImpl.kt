@@ -65,4 +65,10 @@ class PrayerTimesRepositoryImpl @Inject constructor(
 
     override suspend fun getDigest(year: Int): String =
         localDatasource.getDigest(year = year)
+
+    override suspend fun clear() {
+        localDatasource.deleteAllDayPrayerTimes()
+        localDatasource.deleteAllWeekPrayerTimes()
+        localDatasource.deleteAllDigests()
+    }
 }

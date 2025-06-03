@@ -18,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ibadalrahman.prayertimes.view.PrayerTimesRootScreen
@@ -59,8 +60,16 @@ fun NavGraphBuilder.addPrayerTimesScreen(
 fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
     composable(Screen.Settings.route) {
         val context = LocalContext.current
+        val uriHandler = LocalUriHandler.current
+
         SettingsRootScreen(
             viewModel = hiltViewModel(),
+            openContactUsLink = {
+                uriHandler.openUri("https://www.ibad.org.lb/index.php/home/contactus")
+            },
+            openDonateLink = {
+                uriHandler.openUri("https://www.ibad.org.lb/index.php/home/donationform")
+            },
             changeLanguage = { languageCode ->
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     context.getSystemService(LocaleManager::class.java)

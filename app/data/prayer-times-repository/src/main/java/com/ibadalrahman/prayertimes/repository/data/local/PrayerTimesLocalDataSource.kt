@@ -11,6 +11,7 @@ interface PrayerTimesLocalDataSource {
     fun findWeekPrayerTimeById(id: Int): WeekPrayerTimesEntity
     fun getDigest(year: Int): String
     fun setDigest(year: Int, digest: String)
+    fun deleteAllDigests()
     fun deleteAllDayPrayerTimes()
     fun deleteAllWeekPrayerTimes()
 }

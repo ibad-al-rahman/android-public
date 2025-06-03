@@ -25,14 +25,18 @@ import com.ibadalrahman.settings.presenter.entity.SettingsViewAction
 @Composable
 fun SettingsRootScreen(
     viewModel: SettingsViewModel,
+    openContactUsLink: () -> Unit,
+    openDonateLink: () -> Unit,
     changeLanguage: (String) -> Unit,
-    changeTheme: (Int) -> Unit
+    changeTheme: (Int) -> Unit,
 ) {
     val layoutDirection = LocalLayoutDirection.current
     BaseScreen(
         viewModel = viewModel,
         viewActionProcessor = { viewAction ->
             when (viewAction) {
+                SettingsViewAction.ContactUs -> openContactUsLink()
+                SettingsViewAction.Donate -> openDonateLink()
                 is SettingsViewAction.ChangeLanguage -> changeLanguage(viewAction.language.code)
                 is SettingsViewAction.ChangeTheme -> changeTheme(viewAction.theme)
             }

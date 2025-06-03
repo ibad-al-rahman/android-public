@@ -62,7 +62,9 @@ fun SettingsView(
         OpenLinkButton(
             text = stringResource(R.string.donate),
             icon = Icons.Outlined.FavoriteBorder,
-            onClick = { /* TODO: Handle click */ }
+            onClick = {
+                intentionProcessor(SettingsIntention.Donate)
+            }
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -81,9 +83,19 @@ fun SettingsView(
             .background(MaterialTheme.colorScheme.background)
         ) {
             LanguageSelector(intentionProcessor = intentionProcessor)
-            HorizontalDivider()
-            ThemeSelector(intentionProcessor = intentionProcessor)
+//            HorizontalDivider()
+//            ThemeSelector(intentionProcessor = intentionProcessor)
         }
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        OpenLinkButton(
+            text = stringResource(R.string.donate),
+            icon = Icons.Outlined.FavoriteBorder,
+            onClick = {
+                intentionProcessor(SettingsIntention.ContactUs)
+            }
+        )
 
         Spacer(modifier = Modifier.height(40.dp))
 

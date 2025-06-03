@@ -9,4 +9,5 @@ interface PrayerTimesRepository {
     suspend fun fetchPrayerTimes(year: Int): Result<Unit>
     suspend fun fetchDigest(year: Int): Result<String>
     suspend fun getDigest(year: Int): String
+    suspend fun clear()
 }

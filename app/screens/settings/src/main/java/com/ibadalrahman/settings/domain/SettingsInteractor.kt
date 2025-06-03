@@ -14,6 +14,12 @@ class SettingsInteractor @Inject constructor(
 ): BaseInteractor<SettingsAction, SettingsResult> {
     override suspend fun resultFrom(action: SettingsAction): Flow<SettingsResult> =
         when (action) {
+            SettingsAction.ContactUs -> flowOf(SettingsResult.ContactUs)
+            SettingsAction.Donate -> flowOf(SettingsResult.Donate)
+            SettingsAction.ClearCache -> {
+                prayerTimesRepository.clear()
+                flowOf(SettingsResult.NoOp)
+            }
             is SettingsAction.ChangeLanguage ->
                 flowOf(SettingsResult.LanguageChanged(action.language))
             is SettingsAction.ChangeTheme ->

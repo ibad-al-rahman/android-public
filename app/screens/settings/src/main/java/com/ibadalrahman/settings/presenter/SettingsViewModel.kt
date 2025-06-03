@@ -33,6 +33,9 @@ class SettingsViewModel @Inject constructor(
     override fun router(
         intention: SettingsIntention
     ): MviBoundary<SettingsViewAction, SettingsAction, SettingsResult> = when(intention) {
+        SettingsIntention.ContactUs -> action(SettingsAction.ContactUs)
+        SettingsIntention.Donate -> action(SettingsAction.Donate)
+        SettingsIntention.ClearCache -> action(SettingsAction.ClearCache)
         is SettingsIntention.ChangeLanguage -> action(SettingsAction.ChangeLanguage(
             language = intention.language
         ))
@@ -46,6 +49,9 @@ class SettingsViewModel @Inject constructor(
     }
 
     override fun viewActionFrom(result: SettingsResult): SettingsViewAction? = when (result) {
+        SettingsResult.NoOp -> null
+        SettingsResult.ContactUs -> SettingsViewAction.ContactUs
+        SettingsResult.Donate -> SettingsViewAction.Donate
         is SettingsResult.LanguageChanged -> SettingsViewAction.ChangeLanguage(
             language = result.language
         )
