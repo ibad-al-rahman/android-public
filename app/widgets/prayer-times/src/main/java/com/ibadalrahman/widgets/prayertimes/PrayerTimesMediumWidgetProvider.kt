@@ -128,6 +128,11 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
         )
         views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
 
+        // Determine default text color based on theme
+        val configuration = context.resources.configuration
+        val isNightMode = (configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
+        val defaultTextColor = if (isNightMode) android.graphics.Color.WHITE else android.graphics.Color.BLACK
+
         try {
             Log.d(TAG, "Getting ViewModel from EntryPoint")
 
@@ -217,6 +222,9 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text1, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time1, android.graphics.Color.WHITE)
+                                } else {
+                                    views.setTextColor(R.id.text1, defaultTextColor)
+                                    views.setTextColor(R.id.time1, defaultTextColor)
                                 }
                             }
                             1 -> {
@@ -225,6 +233,9 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text2, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time2, android.graphics.Color.WHITE)
+                                } else {
+                                    views.setTextColor(R.id.text2, defaultTextColor)
+                                    views.setTextColor(R.id.time2, defaultTextColor)
                                 }
                             }
                             2 -> {
@@ -233,6 +244,9 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text3, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time3, android.graphics.Color.WHITE)
+                                } else {
+                                    views.setTextColor(R.id.text3, defaultTextColor)
+                                    views.setTextColor(R.id.time3, defaultTextColor)
                                 }
                             }
                             3 -> {
@@ -241,6 +255,9 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text4, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time4, android.graphics.Color.WHITE)
+                                } else {
+                                    views.setTextColor(R.id.text4, defaultTextColor)
+                                    views.setTextColor(R.id.time4, defaultTextColor)
                                 }
                             }
                             4 -> {
@@ -249,6 +266,9 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text5, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time5, android.graphics.Color.WHITE)
+                                } else {
+                                    views.setTextColor(R.id.text5, defaultTextColor)
+                                    views.setTextColor(R.id.time5, defaultTextColor)
                                 }
                             }
                             5 -> {
@@ -257,6 +277,9 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                                 if (isCurrentPrayer) {
                                     views.setTextColor(R.id.text6, android.graphics.Color.WHITE)
                                     views.setTextColor(R.id.time6, android.graphics.Color.WHITE)
+                                } else {
+                                    views.setTextColor(R.id.text6, defaultTextColor)
+                                    views.setTextColor(R.id.time6, defaultTextColor)
                                 }
                             }
                         }
