@@ -51,14 +51,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rajab"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/hijri_year"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1446"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
 
@@ -81,14 +81,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="February"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/gregorian_year"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2025"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
             </LinearLayout>
@@ -120,7 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Fajr"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         android:textColor="@android:color/black"
                         android:textStyle="bold"
                     />
@@ -129,7 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" after:"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         android:textColor="@android:color/black"
                     />
                 </LinearLayout>
@@ -137,7 +137,7 @@
                     android:id="@+id/next_prayer_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
                     android:format="in %s"
@@ -161,12 +161,14 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:gravity="center_vertical"
+        android:gravity="start"
         android:padding="8dp">
         <LinearLayout
             android:id="@+id/fajr_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
@@ -180,14 +182,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Fajr"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
             <TextView
                 android:id="@+id/fajr_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
@@ -195,6 +197,8 @@
             android:id="@+id/sunrise_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
@@ -208,14 +212,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Sunrise"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
             <TextView
                 android:id="@+id/sunrise_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
@@ -223,6 +227,8 @@
             android:id="@+id/dhuhr_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
@@ -236,14 +242,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Dhuhr"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
             <TextView
                 android:id="@+id/dhuhr_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
@@ -252,6 +258,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingLeft="8dp"
@@ -264,14 +272,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Asr"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
             <TextView
                 android:id="@+id/asr_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
@@ -279,6 +287,8 @@
             android:id="@+id/maghrib_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
@@ -292,14 +302,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Maghrib"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
             <TextView
                 android:id="@+id/maghrib_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
 
@@ -307,6 +317,8 @@
             android:id="@+id/ishaa_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
@@ -320,14 +332,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Isha"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
             <TextView
                 android:id="@+id/ishaa_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
     </LinearLayout>

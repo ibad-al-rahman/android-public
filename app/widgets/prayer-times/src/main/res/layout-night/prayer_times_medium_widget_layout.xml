@@ -43,7 +43,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="7"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textColor="@android:color/white" />
                     <TextView
                         android:id="@+id/hijri_month"
@@ -73,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="6"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textColor="@android:color/white" />
                     <TextView
                         android:id="@+id/gregorian_month"
@@ -131,7 +131,7 @@
                     android:id="@+id/next_prayer_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:format="in %s" />
@@ -173,14 +173,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Fajr"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
             <TextView
                 android:id="@+id/fajr_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
@@ -201,14 +201,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Sunrise"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
             <TextView
                 android:id="@+id/sunrise_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
@@ -229,14 +229,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Dhuhr"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
             <TextView
                 android:id="@+id/dhuhr_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
@@ -257,14 +257,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Asr"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
             <TextView
                 android:id="@+id/asr_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
@@ -285,14 +285,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Maghrib"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
             <TextView
                 android:id="@+id/maghrib_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
@@ -313,14 +313,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Isha"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
             <TextView
                 android:id="@+id/ishaa_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </LinearLayout>
