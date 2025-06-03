@@ -149,19 +149,13 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                     Log.d(TAG, "Successfully fetched prayer times: ${prayerData.prayerTimes.size} prayers")
 
                     // Update dates
-                    val dateParts = prayerData.date.split(" ")
-                    if (dateParts.size >= 3) {
-                        views.setTextViewText(R.id.gregorian_day, dateParts[0])
-                        views.setTextViewText(R.id.gregorian_month, dateParts[1])
-                        views.setTextViewText(R.id.gregorian_year, dateParts[2])
-                    }
-
-                    val hijriParts = prayerData.hijriDate.split(" ")
-                    if (hijriParts.size >= 3) {
-                        views.setTextViewText(R.id.hijri_day, hijriParts[0])
-                        views.setTextViewText(R.id.hijri_month, hijriParts[1])
-                        views.setTextViewText(R.id.hijri_year, hijriParts[2])
-                    }
+                    views.setTextViewText(R.id.gregorian_day, prayerData.gregorianDate.day)
+                    views.setTextViewText(R.id.gregorian_month, prayerData.gregorianDate.month)
+                    views.setTextViewText(R.id.gregorian_year, prayerData.gregorianDate.year)
+                    
+                    views.setTextViewText(R.id.hijri_day, prayerData.hijriDate.day)
+                    views.setTextViewText(R.id.hijri_month, prayerData.hijriDate.month)
+                    views.setTextViewText(R.id.hijri_year, prayerData.hijriDate.year)
 
                     // Update next prayer info
                     prayerData.nextPrayer?.let { nextPrayer ->
@@ -192,7 +186,7 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
 
                     // Update prayer names and times
                     val prayers = PrayerTimesMediumWidgetViewModel.Prayer.entries.toTypedArray()
-                    prayers.forEachIndexed { index, prayer ->
+                    prayers.forEach { prayer ->
                         val time = prayerData.prayerTimes[prayer] ?: ""
 
                         Log.d(TAG, "Prayer ${prayer.name}: $time")
@@ -222,7 +216,7 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
 
                         views.setTextViewText(textId, context.getString(prayer.stringResId))
                         views.setTextViewText(timeId, time)
-                        
+
                         if (isCurrentPrayer) {
                             views.setTextColor(textId, android.graphics.Color.WHITE)
                             views.setTextColor(timeId, android.graphics.Color.WHITE)

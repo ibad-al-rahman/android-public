@@ -40,10 +40,11 @@ class PrayerTimesMediumWidgetViewModel @Inject constructor(
                 Prayer.ISHAA to timeFormat.format(dailyPrayerTimes.prayerTimes.ishaa)
             )
 
-            val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+            // Format Gregorian date
+            val gregorianDateInfo = formatGregorianDate(dailyPrayerTimes.gregorian)
 
             // Format Hijri date
-            val formattedHijriDate = formatHijriDate(dailyPrayerTimes.hijri)
+            val hijriDateInfo = formatHijriDate(dailyPrayerTimes.hijri)
 
             // Calculate next prayer
             val nextPrayerInfo = findNextPrayer(
@@ -55,8 +56,8 @@ class PrayerTimesMediumWidgetViewModel @Inject constructor(
 
             Result.success(PrayerData(
                 prayerTimesMap,
-                dateFormat.format(dailyPrayerTimes.gregorian),
-                formattedHijriDate,
+                gregorianDateInfo,
+                hijriDateInfo,
                 nextPrayerInfo,
                 currentPrayer
             ))
@@ -66,7 +67,19 @@ class PrayerTimesMediumWidgetViewModel @Inject constructor(
     }
 
 
-    private fun formatHijriDate(hijriDateString: String): String {
+    private fun formatGregorianDate(date: Date): DateInfo {
+        val dayFormat = SimpleDateFormat("d", Locale.getDefault())
+        val monthFormat = SimpleDateFormat("MMMM", Locale.getDefault())
+        val yearFormat = SimpleDateFormat("yyyy", Locale.getDefault())
+        
+        return DateInfo(
+            day = dayFormat.format(date),
+            month = monthFormat.format(date),
+            year = yearFormat.format(date)
+        )
+    }
+
+    private fun formatHijriDate(hijriDateString: String): DateInfo {
         return try {
             // Parse the hijri date string (assuming format "dd/MM/yyyy")
             val dateParts = hijriDateString.split("/")
@@ -78,19 +91,31 @@ class PrayerTimesMediumWidgetViewModel @Inject constructor(
                 // Create LocalDate and convert to Hijri
                 val hijriDate = HijrahChronology.INSTANCE.date(year, month, day)
 
-                // Format as "d MMMM yyyy"
-                val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.getDefault())
-                val formattedDate = hijriDate.format(formatter)
+                // Format each part separately
+                val dayFormatter = DateTimeFormatter.ofPattern("d", Locale.getDefault())
+                val monthFormatter = DateTimeFormatter.ofPattern("MMMM", Locale.getDefault())
+                val yearFormatter = DateTimeFormatter.ofPattern("yyyy", Locale.getDefault())
 
-                // Localize digits
-                localizeDigitsInText(formattedDate)
+                DateInfo(
+                    day = localizeDigitsInText(hijriDate.format(dayFormatter)),
+                    month = hijriDate.format(monthFormatter),
+                    year = localizeDigitsInText(hijriDate.format(yearFormatter))
+                )
             } else {
-                // Fallback to original string if parsing fails
-                hijriDateString
+                // Fallback if parsing fails
+                DateInfo(
+                    day = "",
+                    month = hijriDateString,
+                    year = ""
+                )
             }
         } catch (e: Exception) {
-            // Fallback to original string if any error occurs
-            hijriDateString
+            // Fallback if any error occurs
+            DateInfo(
+                day = "",
+                month = hijriDateString,
+                year = ""
+            )
         }
     }
 
@@ -109,10 +134,16 @@ class PrayerTimesMediumWidgetViewModel @Inject constructor(
         }.joinToString("")
     }
 
+    data class DateInfo(
+        val day: String,
+        val month: String,
+        val year: String
+    )
+
     data class PrayerData(
         val prayerTimes: Map<Prayer, String>,
-        val date: String,
-        val hijriDate: String,
+        val gregorianDate: DateInfo,
+        val hijriDate: DateInfo,
         val nextPrayer: NextPrayerInfo?,
         val currentPrayer: Prayer?
     )
