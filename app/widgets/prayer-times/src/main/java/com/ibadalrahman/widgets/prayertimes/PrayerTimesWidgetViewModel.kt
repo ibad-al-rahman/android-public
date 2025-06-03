@@ -14,7 +14,7 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-class PrayerTimesMediumWidgetViewModel @Inject constructor(
+class PrayerTimesWidgetViewModel @Inject constructor(
     private val prayerTimesRepository: PrayerTimesRepository
 ) {
     suspend fun getPrayerTimes(): Result<PrayerData> {
