@@ -133,3 +133,11 @@ fun SharedPreferences.getDigest(year: Int): String = this.getString("digest.$yea
 fun SharedPreferences.setDigest(year: Int, digest: String) {
     this.edit().putString(year.toString(), digest).apply()
 }
+
+fun SharedPreferences.clearDigests() {
+    this.all.keys.forEach { key ->
+        if (key.startsWith("digest.")) {
+            this.edit().remove(key).apply()
+        }
+    }
+}

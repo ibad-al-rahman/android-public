@@ -1,6 +1,7 @@
 package com.ibadalrahman.prayertimes.repository.data.local
 
 import android.content.SharedPreferences
+import com.ibadalrahman.prayertimes.repository.data.clearDigests
 import com.ibadalrahman.prayertimes.repository.data.getDigest
 import com.ibadalrahman.prayertimes.repository.data.local.entities.DayPrayerTimesEntity
 import com.ibadalrahman.prayertimes.repository.data.local.entities.WeekEntity
@@ -31,6 +32,8 @@ class PrayerTimesLocalDataSourceImpl @Inject constructor(
     override fun setDigest(year: Int, digest: String) {
         sharedPreferences.setDigest(year = year, digest = digest)
     }
+
+    override fun deleteAllDigests() = sharedPreferences.clearDigests()
 
     override fun deleteAllDayPrayerTimes() {
         prayerTimesDao.deleteAllDayPrayerTimes()
