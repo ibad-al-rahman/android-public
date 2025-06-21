@@ -10,6 +10,15 @@ plugins {
     alias(libs.plugins.google.gsm.google.services)
 }
 
+val keyStoreFile = rootProject.file("publicSector.keystore")
+val shouldSign = keyStoreFile.exists()
+val props = Properties()
+val propsFile = rootProject.file("keys.properties")
+
+if (propsFile.exists()) {
+    propsFile.inputStream().use { props.load(it) }
+}
+
 android {
     val appId = GradleConfigs.subNamespace("publicsector")
 
@@ -29,19 +38,37 @@ android {
         }
     }
 
-    splits {
-        abi {
-            isEnable = false
+    val releaseSigningConfigName = "release"
+
+    signingConfigs {
+        create(releaseSigningConfigName) {
+            if (shouldSign) {
+                storeFile = keyStoreFile
+                storePassword = props.getProperty("keystore.password")
+                keyAlias = props.getProperty("keystore.alias.name")
+                keyPassword = props.getProperty("keystore.alias.password")
+            }
         }
+
+        // We can create a debug signing config when we want to release beta debug builds
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isShrinkResources = true
+            isMinifyEnabled = true
+            if (shouldSign) {
+                signingConfig = signingConfigs.getByName(releaseSigningConfigName)
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        debug {
+            versionNameSuffix = "-debug"
+            isDebuggable = true
         }
     }
     compileOptions {
