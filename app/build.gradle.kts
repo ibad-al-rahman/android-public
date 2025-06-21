@@ -20,7 +20,7 @@ android {
         applicationId = appId
         minSdk = GradleConfigs.minSdk
         targetSdk = GradleConfigs.compileSdk
-        versionCode = 6
+        versionCode = (System.currentTimeMillis() / 1000).toInt()
         versionName = SimpleDateFormat("yy.MM.dd", Locale.US).format(Date())
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
