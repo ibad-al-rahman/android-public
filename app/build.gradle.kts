@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat
+import java.util.*
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.devtools.ksp)
@@ -17,8 +20,8 @@ android {
         applicationId = appId
         minSdk = GradleConfigs.minSdk
         targetSdk = GradleConfigs.compileSdk
-        versionCode = 2
-        versionName = "1.0"
+        versionCode = 6
+        versionName = SimpleDateFormat("yy.MM.dd", Locale.US).format(Date())
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
