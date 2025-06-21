@@ -15,3 +15,6 @@
 local.properties
 /.idea/inspectionProfiles/Project_Default.xml
 **/build/
+release/
+*.keystore
+keys.properties

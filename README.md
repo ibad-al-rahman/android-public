@@ -2,7 +2,7 @@
 
 The code behind Ibad's awesome 🤖 App.
 
-## Requirments
+## Requirements
 
 The usual stuff:
 
