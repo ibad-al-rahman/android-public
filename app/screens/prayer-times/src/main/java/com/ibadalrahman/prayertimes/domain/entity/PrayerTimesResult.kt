@@ -5,6 +5,7 @@ import com.ibadalrahman.prayertimes.repository.data.domain.WeekPrayerTimes
 
 sealed interface PrayerTimesResult {
     data object Loading: PrayerTimesResult
+    data object UnknownError: PrayerTimesResult
     data object ShowDatePicker: PrayerTimesResult
     data object HideDatePicker: PrayerTimesResult
     data object ShowDailyView: PrayerTimesResult

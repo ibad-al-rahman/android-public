@@ -12,7 +12,14 @@ object PrayerTimesReducer {
         prevState: PrayerTimesScreenState,
         result: PrayerTimesResult
     ): PrayerTimesScreenState = when(result) {
-        PrayerTimesResult.Loading -> prevState.copy(isLoading = true)
+        PrayerTimesResult.Loading -> prevState.copy(
+            isLoading = true,
+            hasError = false
+        )
+        PrayerTimesResult.UnknownError -> prevState.copy(
+            isLoading = false,
+            hasError = true
+        )
         PrayerTimesResult.ShowDatePicker -> prevState.copy(isDatePickerVisible = true)
         PrayerTimesResult.HideDatePicker -> prevState.copy(isDatePickerVisible = false)
         PrayerTimesResult.ShowDailyView -> prevState.copy(prayerViewType = PrayerViewType.DAILY)

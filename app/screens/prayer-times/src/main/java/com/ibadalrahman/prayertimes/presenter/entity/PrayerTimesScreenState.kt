@@ -13,6 +13,7 @@ data class PrayerTimesScreenState(
     val date: Date,
     val isDatePickerVisible: Boolean,
     val prayerViewType: PrayerViewType,
+    val hasError: Boolean,
     val prayerTimes: PrayerTimesState?,
     val weekPrayerTimes: WeekPrayerTimesState?,
     val event: String?,
@@ -24,6 +25,7 @@ data class PrayerTimesScreenState(
                 date = Date(),
                 isDatePickerVisible = false,
                 prayerViewType = PrayerViewType.DAILY,
+                hasError = false,
                 prayerTimes = PrayerTimesState(
                     hijriDate = "",
                     fajr = Date(),

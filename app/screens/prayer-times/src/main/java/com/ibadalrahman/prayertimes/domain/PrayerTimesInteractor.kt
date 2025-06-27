@@ -62,11 +62,17 @@ class PrayerTimesInteractor @Inject constructor(
 
         val prayerTimes = prayerTimesRepository
             .getDayPrayerTimes(year = year, month = month, day = day)
-            .getOrElse { return@flow }
+            .getOrElse {
+                emit(PrayerTimesResult.UnknownError)
+                return@flow
+            }
 
         val weekPrayerTimes = prayerTimesRepository
             .getWeekPrayerTimes(weekId = prayerTimes.weekId)
-            .getOrElse { return@flow }
+            .getOrElse {
+                emit(PrayerTimesResult.UnknownError)
+                return@flow
+            }
 
         val inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 

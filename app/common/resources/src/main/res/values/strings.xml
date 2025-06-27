@@ -46,4 +46,6 @@
     <string name="prayer_after">after:</string>
     <string name="layout_direction">ltr</string>
     <string name="contact_us">Contact us</string>
+    <string name="error_loading_prayer_times">Something went wrong when loading prayer times, check your internet connection and try again.</string>
+    <string name="retry">Retry</string>
 </resources>
