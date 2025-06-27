@@ -21,7 +21,7 @@ class PrayerTimesLocalDataSourceImpl @Inject constructor(
         prayerTimesDao.insertWeekPrayerTime(*week)
     }
 
-    override fun findDayPrayerTimeById(id: Int): DayPrayerTimesEntity =
+    override fun findDayPrayerTimeById(id: Int): DayPrayerTimesEntity? =
         prayerTimesDao.findDayPrayerTimeById(id)
 
     override fun findWeekPrayerTimeById(id: Int): WeekPrayerTimesEntity =

@@ -25,7 +25,7 @@ class PrayerTimesRepositoryImpl @Inject constructor(
         val id = String.format(
             locale = Locale("en"), format = "%04d%02d%02d", year, month, day
         ).toInt()
-        val prayerTimes = localDatasource.findDayPrayerTimeById(id = id).toDomain()
+        val prayerTimes = localDatasource.findDayPrayerTimeById(id = id)?.toDomain()
             ?: return Result.failure(IllegalArgumentException("No data found for the given date"))
         return Result.success(prayerTimes)
     }
