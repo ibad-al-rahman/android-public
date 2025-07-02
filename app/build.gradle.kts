@@ -55,8 +55,9 @@ android {
 
     buildTypes {
         release {
-            isShrinkResources = true
-            isMinifyEnabled = true
+            // to turn them on, we should update the proguad-rules.pro file
+            isShrinkResources = false
+            isMinifyEnabled = false
             if (shouldSign) {
                 signingConfig = signingConfigs.getByName(releaseSigningConfigName)
             }
