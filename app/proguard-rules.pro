@@ -89,3 +89,4 @@
 # Application classes that will be serialized/deserialized over Gson
 -keep class **.entity.** { *; }
 -keep class **.response.** { *; }
+-keep class **.responses.** { *; }
