@@ -1,8 +1,8 @@
 package org.ibadalrahman.publicsector.main.presenter
 
 import androidx.lifecycle.SavedStateHandle
-import com.ibadalrahman.mvi.BaseViewModel
-import com.ibadalrahman.mvi.MviBoundary
+import org.ibadalrahman.mvi.BaseViewModel
+import org.ibadalrahman.mvi.MviBoundary
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.ibadalrahman.base.CoroutineDispatchers
 import org.ibadalrahman.publicsector.main.domain.MainAction

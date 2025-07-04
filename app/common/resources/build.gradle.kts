@@ -4,12 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ibadalrahman.resources"
-    compileSdk = 34
+    namespace = GradleConfigs.subNamespace("resources")
+    compileSdk = GradleConfigs.compileSdk
 
     defaultConfig {
-        minSdk = 24
-
+        minSdk = GradleConfigs.minSdk
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -33,7 +32,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
