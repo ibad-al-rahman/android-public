@@ -49,15 +49,12 @@ android {
                 keyPassword = props.getProperty("keystore.alias.password")
             }
         }
-
-        // We can create a debug signing config when we want to release beta debug builds
     }
 
     buildTypes {
         release {
-            // to turn them on, we should update the proguad-rules.pro file
-            isShrinkResources = false
-            isMinifyEnabled = false
+            isShrinkResources = true
+            isMinifyEnabled = true
             if (shouldSign) {
                 signingConfig = signingConfigs.getByName(releaseSigningConfigName)
             }
