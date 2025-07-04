@@ -21,8 +21,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ibadalrahman.prayertimes.view.PrayerTimesRootScreen
-import com.ibadalrahman.settings.view.SettingsRootScreen
+import org.ibadalrahman.prayertimes.view.PrayerTimesRootScreen
+import org.ibadalrahman.settings.view.SettingsRootScreen
 import java.text.SimpleDateFormat
 import java.util.Date
 

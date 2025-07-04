@@ -21,7 +21,7 @@ import org.ibadalrahman.publicsector.navigation.NavigationGraph
 import org.ibadalrahman.publicsector.navigation.Screen
 import org.ibadalrahman.publicsector.navigation.TabBarItem
 import org.ibadalrahman.publicsector.ui.theme.AppTheme
-import com.ibadalrahman.resources.R
+import org.ibadalrahman.resources.R
 
 @Composable
 fun RootContent(

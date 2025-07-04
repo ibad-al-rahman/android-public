@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ibadalrahman.widgets.prayertimes"
+    namespace = GradleConfigs.subNamespaces("widgets", "prayerTimes")
     compileSdk = GradleConfigs.compileSdk
 
     defaultConfig {
