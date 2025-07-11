@@ -40,13 +40,10 @@ class PrayerTimesWidgetViewModel @Inject constructor(
                 Prayer.ISHAA to timeFormat.format(dailyPrayerTimes.prayerTimes.ishaa)
             )
 
-            // Format Gregorian date
             val gregorianDateInfo = formatGregorianDate(dailyPrayerTimes.gregorian)
 
-            // Format Hijri date
             val hijriDateInfo = formatHijriDate(dailyPrayerTimes.hijri)
 
-            // Calculate next prayer
             val nextPrayerInfo = findNextPrayer(
                 dailyPrayerTimes.prayerTimes,
                 prayerTimesRepository
@@ -81,17 +78,14 @@ class PrayerTimesWidgetViewModel @Inject constructor(
 
     private fun formatHijriDate(hijriDateString: String): DateInfo {
         return try {
-            // Parse the hijri date string (assuming format "dd/MM/yyyy")
             val dateParts = hijriDateString.split("/")
             if (dateParts.size == 3) {
                 val day = dateParts[0].toInt()
                 val month = dateParts[1].toInt()
                 val year = dateParts[2].toInt()
 
-                // Create LocalDate and convert to Hijri
                 val hijriDate = HijrahChronology.INSTANCE.date(year, month, day)
 
-                // Format each part separately
                 val dayFormatter = DateTimeFormatter.ofPattern("d", Locale.getDefault())
                 val monthFormatter = DateTimeFormatter.ofPattern("MMMM", Locale.getDefault())
                 val yearFormatter = DateTimeFormatter.ofPattern("yyyy", Locale.getDefault())
@@ -102,7 +96,6 @@ class PrayerTimesWidgetViewModel @Inject constructor(
                     year = localizeDigitsInText(hijriDate.format(yearFormatter))
                 )
             } else {
-                // Fallback if parsing fails
                 DateInfo(
                     day = "",
                     month = hijriDateString,
@@ -110,7 +103,6 @@ class PrayerTimesWidgetViewModel @Inject constructor(
                 )
             }
         } catch (e: Exception) {
-            // Fallback if any error occurs
             DateInfo(
                 day = "",
                 month = hijriDateString,
@@ -165,7 +157,6 @@ class PrayerTimesWidgetViewModel @Inject constructor(
     private fun findCurrentPrayer(prayerTimes: PrayerTimes): Prayer {
         val now = Date()
 
-        // Check in reverse order to find which prayer period we're in
         return when {
             now >= prayerTimes.ishaa -> Prayer.ISHAA
             now >= prayerTimes.maghrib -> Prayer.MAGHRIB
@@ -174,7 +165,6 @@ class PrayerTimesWidgetViewModel @Inject constructor(
             now >= prayerTimes.sunrise -> Prayer.SUNRISE
             now >= prayerTimes.fajr -> Prayer.FAJR
             else -> {
-                // Before Fajr, we're in the previous day's Ishaa period
                 Prayer.ISHAA
             }
         }
@@ -194,10 +184,8 @@ class PrayerTimesWidgetViewModel @Inject constructor(
             Prayer.ISHAA to prayerTimes.ishaa
         )
 
-        // Find next prayer today
         for ((prayer, time) in prayerList) {
             if (time.after(now)) {
-                // Calculate base time for countdown chronometer
                 val baseTime = android.os.SystemClock.elapsedRealtime() + (time.time - now.time)
 
                 return NextPrayerInfo(
@@ -207,7 +195,6 @@ class PrayerTimesWidgetViewModel @Inject constructor(
             }
         }
 
-        // If no prayer left today, get tomorrow's Fajr
         return try {
             val tomorrowCalendar = Calendar.getInstance().apply {
                 add(Calendar.DAY_OF_MONTH, 1)
@@ -221,7 +208,6 @@ class PrayerTimesWidgetViewModel @Inject constructor(
             }
 
             tomorrowPrayerTimes?.let {
-                // Calculate base time for countdown chronometer
                 val baseTime = android.os.SystemClock.elapsedRealtime() + (it.prayerTimes.fajr.time - now.time)
 
                 NextPrayerInfo(

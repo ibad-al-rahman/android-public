@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import org.ibadalrahman.publicsector.main.presenter.MainActivityViewModel
 import org.ibadalrahman.publicsector.navigation.NavigationGraph
 import org.ibadalrahman.publicsector.navigation.Screen
 import org.ibadalrahman.publicsector.navigation.TabBarItem
@@ -25,8 +24,7 @@ import org.ibadalrahman.resources.R
 
 @Composable
 fun RootContent(
-    navController: NavHostController = rememberNavController(),
-    mainViewModel: MainActivityViewModel
+    navController: NavHostController = rememberNavController()
 ) {
     val tabBarItems = remember {
         arrayOf(

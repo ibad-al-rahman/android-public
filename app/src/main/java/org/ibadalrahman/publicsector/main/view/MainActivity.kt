@@ -1,6 +1,6 @@
 package org.ibadalrahman.publicsector.main.view
+
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -11,14 +11,12 @@ import org.ibadalrahman.publicsector.ui.theme.AppTheme
 
 @AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
-    private val mainViewModel: MainActivityViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                RootContent(mainViewModel = mainViewModel)
+                RootContent()
             }
         }
     }

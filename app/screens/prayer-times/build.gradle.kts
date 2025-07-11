@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace = GradleConfigs.subNamespace("prayertimes")
-    compileSdk = GradleConfigs.compileSdk
+    compileSdk = GradleConfigs.COMPILE_SDK
 
     defaultConfig {
-        minSdk = GradleConfigs.minSdk
+        minSdk = GradleConfigs.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -26,11 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 
