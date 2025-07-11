@@ -6,13 +6,13 @@ plugins {
 
 android {
     namespace = GradleConfigs.subNamespaces("prayertimes", "repository")
-    compileSdk = GradleConfigs.compileSdk
+    compileSdk = GradleConfigs.COMPILE_SDK
     defaultConfig {
-        minSdk = GradleConfigs.minSdk
+        minSdk = GradleConfigs.MIN_SDK
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

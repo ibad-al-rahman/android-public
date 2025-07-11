@@ -18,7 +18,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.ibadalrahman.widgets.prayerTimes.R
 
 class PrayerTimesSmallWidgetProvider: AppWidgetProvider() {
     companion object {
@@ -37,14 +36,11 @@ class PrayerTimesSmallWidgetProvider: AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        // Handle locale and time format change broadcasts
         when (intent.action) {
             Intent.ACTION_LOCALE_CHANGED,
             Intent.ACTION_TIME_CHANGED,
-            Intent.ACTION_TIMEZONE_CHANGED,
-            "android.intent.action.TIME_SET" -> {
+            Intent.ACTION_TIMEZONE_CHANGED -> {
                 Log.d(TAG, "System settings changed (${intent.action}), updating all widgets")
-                // Update all widgets when locale or time format changes
                 val appWidgetManager = AppWidgetManager.getInstance(context)
                 val thisWidget = android.content.ComponentName(context, PrayerTimesSmallWidgetProvider::class.java)
                 val appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget)
@@ -89,10 +85,8 @@ class PrayerTimesSmallWidgetProvider: AppWidgetProvider() {
     ) {
         val views = RemoteViews(context.packageName, R.layout.prayer_times_small_widget_layout)
 
-        // Apply RTL layout direction if current locale is RTL
         applyLayoutDirection(views)
 
-        // Set up click intent to open the app
         val intent = Intent(context, Class.forName("org.ibadalrahman.publicsector.main.view.MainActivity"))
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent = PendingIntent.getActivity(
@@ -102,11 +96,6 @@ class PrayerTimesSmallWidgetProvider: AppWidgetProvider() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
-
-        // Determine default text color based on theme
-        val configuration = context.resources.configuration
-        val isNightMode = (configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
-        val defaultTextColor = if (isNightMode) android.graphics.Color.WHITE else android.graphics.Color.BLACK
 
         try {
             Log.d(TAG, "Getting ViewModel from EntryPoint")
@@ -119,12 +108,10 @@ class PrayerTimesSmallWidgetProvider: AppWidgetProvider() {
 
             Log.d(TAG, "Fetching prayer times from ViewModel")
 
-            // Get prayer times from ViewModel
             viewModel.getPrayerTimes().fold(
                 onSuccess = { prayerData ->
                     Log.d(TAG, "Successfully fetched prayer times")
 
-                    // Update dates
                     views.setTextViewText(R.id.gregorian_day, prayerData.gregorianDate.day)
                     views.setTextViewText(R.id.gregorian_month, prayerData.gregorianDate.month)
                     views.setTextViewText(R.id.gregorian_year, prayerData.gregorianDate.year)
@@ -133,7 +120,6 @@ class PrayerTimesSmallWidgetProvider: AppWidgetProvider() {
                     views.setTextViewText(R.id.hijri_month, prayerData.hijriDate.month)
                     views.setTextViewText(R.id.hijri_year, prayerData.hijriDate.year)
 
-                    // Update next prayer info
                     prayerData.nextPrayer?.let { nextPrayer ->
                         val prayerName = getLocalizedPrayerName(context, nextPrayer.prayerName)
                         val afterText = context.getString(org.ibadalrahman.resources.R.string.prayer_after)
@@ -150,7 +136,6 @@ class PrayerTimesSmallWidgetProvider: AppWidgetProvider() {
                 },
                 onFailure = { error ->
                     Log.e(TAG, "Failed to fetch prayer times", error)
-                    // Show error state
                     views.setTextViewText(R.id.gregorian_day, "")
                     views.setTextViewText(R.id.gregorian_month, "Error")
                     views.setTextViewText(R.id.gregorian_year, "")
@@ -177,10 +162,8 @@ class PrayerTimesSmallWidgetProvider: AppWidgetProvider() {
         Log.d(TAG, "Current locale: ${currentLocale.language}, isRtl: $isRtl")
 
         if (isRtl) {
-            // Apply RTL layout direction to the root container
             views.setInt(R.id.widget_root, "setLayoutDirection", View.LAYOUT_DIRECTION_RTL)
         } else {
-            // Ensure LTR layout direction for non-RTL locales
             views.setInt(R.id.widget_root, "setLayoutDirection", View.LAYOUT_DIRECTION_LTR)
         }
     }
@@ -205,10 +188,8 @@ class PrayerTimesSmallWidgetProvider: AppWidgetProvider() {
     ) {
         val views = RemoteViews(context.packageName, R.layout.prayer_times_small_widget_layout)
 
-        // Apply RTL layout direction if current locale is RTL
         applyLayoutDirection(views)
 
-        // Set up click intent to open the app
         val intent = Intent(context, Class.forName("org.ibadalrahman.publicsector.main.view.MainActivity"))
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent = PendingIntent.getActivity(

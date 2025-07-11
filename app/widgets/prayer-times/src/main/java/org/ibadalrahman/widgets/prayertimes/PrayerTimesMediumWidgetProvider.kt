@@ -20,7 +20,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.ibadalrahman.widgets.prayerTimes.R
 
 class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
     companion object {
@@ -39,14 +38,11 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        // Handle locale and time format change broadcasts
         when (intent.action) {
             Intent.ACTION_LOCALE_CHANGED,
             Intent.ACTION_TIME_CHANGED,
-            Intent.ACTION_TIMEZONE_CHANGED,
-            "android.intent.action.TIME_SET" -> {
+            Intent.ACTION_TIMEZONE_CHANGED -> {
                 Log.d(TAG, "System settings changed (${intent.action}), updating all widgets")
-                // Update all widgets when locale or time format changes
                 val appWidgetManager = AppWidgetManager.getInstance(context)
                 val thisWidget = android.content.ComponentName(context, PrayerTimesMediumWidgetProvider::class.java)
                 val appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget)
@@ -65,8 +61,7 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
     ) {
         Log.d(TAG, "onUpdate called with ${appWidgetIds.size} widgets")
 
-        // Schedule periodic updates
-        PrayerTimesMediumWidgetUpdateWorker.scheduleUpdates(context)
+        PrayerTimesWidgetUpdateWorker.scheduleUpdates(context)
 
         appWidgetIds.forEach { appWidgetId ->
             coroutineScope.launch {
@@ -84,16 +79,15 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
         Log.d(TAG, "onEnabled - First widget added")
-        PrayerTimesMediumWidgetUpdateWorker.scheduleUpdates(context)
+        PrayerTimesWidgetUpdateWorker.scheduleUpdates(context)
     }
 
     override fun onDisabled(context: Context) {
         super.onDisabled(context)
         Log.d(TAG, "onDisabled - Last widget removed")
         job.cancel()
-        PrayerTimesMediumWidgetUpdateWorker.cancelUpdates(context)
+        PrayerTimesWidgetUpdateWorker.cancelUpdates(context)
 
-        // Cancel any scheduled alarms
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, PrayerTimesMediumWidgetProvider::class.java).apply {
             action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
@@ -114,10 +108,8 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
     ) {
         val views = RemoteViews(context.packageName, R.layout.prayer_times_medium_widget_layout)
 
-        // Apply RTL layout direction if current locale is RTL
         applyLayoutDirection(views)
 
-        // Set up click intent to open the app
         val intent = Intent(context, Class.forName("org.ibadalrahman.publicsector.main.view.MainActivity"))
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent = PendingIntent.getActivity(
@@ -128,7 +120,6 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
         )
         views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
 
-        // Determine default text color based on theme
         val configuration = context.resources.configuration
         val isNightMode = (configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
         val defaultTextColor = if (isNightMode) android.graphics.Color.WHITE else android.graphics.Color.BLACK
@@ -144,12 +135,10 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
 
             Log.d(TAG, "Fetching prayer times from ViewModel")
 
-            // Get prayer times from ViewModel
             viewModel.getPrayerTimes().fold(
                 onSuccess = { prayerData ->
                     Log.d(TAG, "Successfully fetched prayer times: ${prayerData.prayerTimes.size} prayers")
 
-                    // Update dates
                     views.setTextViewText(R.id.gregorian_day, prayerData.gregorianDate.day)
                     views.setTextViewText(R.id.gregorian_month, prayerData.gregorianDate.month)
                     views.setTextViewText(R.id.gregorian_year, prayerData.gregorianDate.year)
@@ -158,7 +147,6 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                     views.setTextViewText(R.id.hijri_month, prayerData.hijriDate.month)
                     views.setTextViewText(R.id.hijri_year, prayerData.hijriDate.year)
 
-                    // Update next prayer info
                     prayerData.nextPrayer?.let { nextPrayer ->
                         val prayerName = getLocalizedPrayerName(context, nextPrayer.prayerName)
                         val afterText = context.getString(org.ibadalrahman.resources.R.string.prayer_after)
@@ -168,7 +156,6 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                         views.setChronometerCountDown(R.id.next_prayer_time, true)
                         views.setChronometer(R.id.next_prayer_time, nextPrayer.chronometerBaseTime, null, true)
 
-                        // Schedule an update when the prayer time arrives
                         val updateTime = System.currentTimeMillis() + (nextPrayer.chronometerBaseTime - android.os.SystemClock.elapsedRealtime())
                         scheduleWidgetUpdate(context, updateTime)
                     } ?: run {
@@ -177,7 +164,6 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                         views.setChronometer(R.id.next_prayer_time, 0, null, false)
                     }
 
-                    // First, clear all backgrounds
                     views.setInt(R.id.fajr_row, "setBackgroundResource", 0)
                     views.setInt(R.id.sunrise_row, "setBackgroundResource", 0)
                     views.setInt(R.id.dhuhr_row, "setBackgroundResource", 0)
@@ -185,14 +171,12 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                     views.setInt(R.id.maghrib_row, "setBackgroundResource", 0)
                     views.setInt(R.id.ishaa_row, "setBackgroundResource", 0)
 
-                    // Update prayer names and times
                     val prayers = PrayerTimesWidgetViewModel.Prayer.entries.toTypedArray()
                     prayers.forEach { prayer ->
                         val time = prayerData.prayerTimes[prayer] ?: ""
 
                         Log.d(TAG, "Prayer ${prayer.name}: $time")
 
-                        // Apply highlight if this is the current prayer
                         val isCurrentPrayer = prayerData.currentPrayer == prayer
                         if (isCurrentPrayer) {
                             val rowId = when (prayer) {
@@ -229,7 +213,6 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
                 },
                 onFailure = { error ->
                     Log.e(TAG, "Failed to fetch prayer times", error)
-                    // Show error state
                     views.setTextViewText(R.id.gregorian_day, "")
                     views.setTextViewText(R.id.gregorian_month, "")
                     views.setTextViewText(R.id.gregorian_year, "")
@@ -268,10 +251,8 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
         Log.d(TAG, "Current locale: ${currentLocale.language}, isRtl: $isRtl")
 
         if (isRtl) {
-            // Apply RTL layout direction to the root container
             views.setInt(R.id.widget_root, "setLayoutDirection", View.LAYOUT_DIRECTION_RTL)
         } else {
-            // Ensure LTR layout direction for non-RTL locales
             views.setInt(R.id.widget_root, "setLayoutDirection", View.LAYOUT_DIRECTION_LTR)
         }
     }
@@ -296,10 +277,8 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
     ) {
         val views = RemoteViews(context.packageName, R.layout.prayer_times_medium_widget_layout)
 
-        // Apply RTL layout direction if current locale is RTL
         applyLayoutDirection(views)
 
-        // Set up click intent to open the app
         val intent = Intent(context, Class.forName("org.ibadalrahman.publicsector.main.view.MainActivity"))
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent = PendingIntent.getActivity(
@@ -337,11 +316,9 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
     private fun scheduleWidgetUpdate(context: Context, updateTimeMillis: Long) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        // Check if we can schedule exact alarms
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {
                 Log.w(TAG, "Cannot schedule exact alarms. Widget may not update automatically.")
-                // Fall back to inexact alarm
                 scheduleInexactUpdate(context, alarmManager, updateTimeMillis)
                 return
             }
@@ -363,10 +340,8 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        // Cancel any existing alarm
         alarmManager.cancel(pendingIntent)
 
-        // Set new alarm
         try {
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
@@ -397,7 +372,6 @@ class PrayerTimesMediumWidgetProvider: AppWidgetProvider() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        // Use inexact alarm with a window
         alarmManager.setWindow(
             AlarmManager.RTC_WAKEUP,
             updateTimeMillis,

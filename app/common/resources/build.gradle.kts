@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = GradleConfigs.subNamespace("resources")
-    compileSdk = GradleConfigs.compileSdk
+    compileSdk = GradleConfigs.COMPILE_SDK
 
     defaultConfig {
-        minSdk = GradleConfigs.minSdk
+        minSdk = GradleConfigs.MIN_SDK
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -27,7 +27,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "21"
     }
 }
 
