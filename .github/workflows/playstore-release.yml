@@ -20,6 +20,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Decode signing files
+        run: |
+            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > publicSector.keystore
+            echo "${{ secrets.KEYS_PROPERTIES_BASE64 }}" | base64 --decode > keys.properties
+
       - name: Build with Gradle
         run: ./gradlew bundleRelease
 
@@ -30,5 +35,5 @@ jobs:
           packageName: org.ibadalrahman.publicsector
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: production
-          status: inProgress
+          status: draft
           inAppUpdatePriority: 2
