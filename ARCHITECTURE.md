@@ -9,8 +9,7 @@ graph LR
     INT((Interaction)) --> UI{UI}
     UI -->|intention| IP[intentionProcessor]
     IP -->|action| RF[resultFrom]
-    RF --> REPO[(Repository)]
-    REPO --> RF
+    RF <--> REPO[(Repository)]
     RF -->|result| RFL@{ shape: processes, label: "Result Flow" }
     RFL -->|result| RED[Reducer]
     RFL -->|result| VAF[viewActionFrom]
@@ -47,10 +46,8 @@ graph LR
     JCR -->|rerender| UI
 
     subgraph "Data Layer"
-        REPO --> LR[(Local Repo)]
-        REPO --> RR[(Remote Repo)]
-        LR --> REPO
-        RR --> REPO
+        REPO <--> LR[(Local Repo)]
+        REPO <--> RR[(Remote Repo)]
     end
 ```
 
