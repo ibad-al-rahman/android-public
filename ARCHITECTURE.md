@@ -39,6 +39,13 @@ graph LR
         RF
     end
 
+    subgraph "System"
+        JCR[JetpackComposeReactivity]
+    end
+
+    JCR -->|observes| ST
+    JCR -->|rerender| UI
+
     subgraph "Data Layer"
         REPO --> LR[(Local Repo)]
         REPO --> RR[(Remote Repo)]
