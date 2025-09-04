@@ -6,40 +6,40 @@ This project uses the **MVI (Model-View-Intent)** architectural pattern.
 
 ```mermaid
 graph LR
-    A((Interaction)) --> B{UI}
-    B -->|intention| C[Intention Processor]
-    C -->|action| D[Interactor]
-    D --> E[(Repository)]
-    E --> D
-    D -->|result| H@{ shape: processes, label: "Result Flow" }
-    H --> C
-    H --> J[ViewActionHandler]
-    C -->|result| I[Reducer]
-    I -->|new state| K[State]
-    J -.->|ViewAction| L[ViewActionProcessor]
-    L -.->|intention| C
+    INT((Interaction)) --> UI{UI}
+    UI -->|intention| IP[Intention Processor]
+    IP -->|action| IA[Interactor]
+    IA --> REPO[(Repository)]
+    REPO --> IA
+    IA -->|result| RF@{ shape: processes, label: "Result Flow" }
+    RF --> IP
+    RF --> VAH[ViewActionHandler]
+    IP -->|result| RED[Reducer]
+    RED -->|new state| ST[State]
+    VAH -.->|ViewAction| VAP[ViewActionProcessor]
+    VAP -.->|intention| IP
 
-    M[Lifecycle Observer]
-    M -.->|intention| C
+    LO[Lifecycle Observer]
+    LO -.->|intention| IP
 
     subgraph "Screen"
-        K
-        B
-        L
-        M
+        ST
+        UI
+        VAP
+        LO
     end
 
     subgraph "View Model"
-        C
-        I
-        J
+        IP
+        RED
+        VAH
     end
 
     subgraph "Data Layer"
-        E --> F[(Local Repo)]
-        E --> G[(Remote Repo)]
-        F --> E
-        G --> E
+        REPO --> LR[(Local Repo)]
+        REPO --> RR[(Remote Repo)]
+        LR --> REPO
+        RR --> REPO
     end
 ```
 
