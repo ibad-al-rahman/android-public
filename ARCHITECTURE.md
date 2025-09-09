@@ -7,18 +7,17 @@ This project uses the **MVI (Model-View-Intent)** architectural pattern.
 ```mermaid
 graph LR
     INT((Interaction)) --> UI{UI}
-    UI -->|intention| IP[intentionProcessor]
-    IP -->|action| RF[resultFrom]
+    UI -->|intention| ROU[router]
+    ROU -->|action| RF[resultFrom]
     RF <--> REPO[(Repository)]
     RF -->|result| RFL@{ shape: processes, label: "Result Flow" }
     RFL -->|result| RED[Reducer]
     RFL -->|result| VAF[viewActionFrom]
     RED -->|new state| ST[State]
-    VAF -.->|ViewAction| VAP[viewActionProcessor]
-    VAP -.->|intention| IP
+    VAF -.->|ViewAction| Screen[viewActionProcessor]
 
     LO[Lifecycle Observer]
-    LO -.->|intention| IP
+    LO -.->|intention| ROU
 
     subgraph "Screen"
         ST
@@ -28,7 +27,7 @@ graph LR
     end
 
     subgraph "View Model"
-        IP
+        ROU
         RED
         VAF
     end
