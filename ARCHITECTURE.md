@@ -2,6 +2,10 @@
 
 This project uses the **MVI (Model-View-Intent)** architectural pattern.
 
+## Video Resources
+
+- [MVI explanation](https://youtu.be/n3tt8ApYLb4)
+
 ## MVI Flow
 
 ```mermaid
@@ -22,7 +26,6 @@ graph LR
     subgraph "Screen"
         ST
         UI
-        VAP
         LO
     end
 
