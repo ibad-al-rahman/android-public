@@ -14,4 +14,5 @@ plugins {
 moduleGraphConfig {
     heading.set("## Module Graph")
     theme.set(Theme.DARK)
+    readmePath.set("${rootDir}/ARCHITECTURE.md")
 }
