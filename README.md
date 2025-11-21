@@ -18,7 +18,7 @@ We're using MVI (Model View Intention)
 ```mermaid
 %%{
   init: {
-    'theme': 'neutral'
+    'theme': 'dark'
   }
 }%%
 
@@ -67,3 +67,4 @@ graph LR
   :app:common:network --> :app:common:base
   :app:common:mvi --> :app:common:base
 ```
+> Run `./gradlew createModuleGraph` to regenerate the graph
