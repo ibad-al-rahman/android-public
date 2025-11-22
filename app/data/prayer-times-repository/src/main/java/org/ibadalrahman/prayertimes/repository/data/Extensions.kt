@@ -131,7 +131,7 @@ fun WeekHadithEntity.toDomain(): WeekHadith = WeekHadith(
 fun SharedPreferences.getDigest(year: Int): String = this.getString("digest.$year", null) ?: ""
 
 fun SharedPreferences.setDigest(year: Int, digest: String) {
-    this.edit().putString(year.toString(), digest).apply()
+    this.edit().putString("digest.$year", digest).apply()
 }
 
 fun SharedPreferences.clearDigests() {
