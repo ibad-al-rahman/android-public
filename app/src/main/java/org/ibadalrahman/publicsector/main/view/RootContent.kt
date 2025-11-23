@@ -56,35 +56,33 @@ fun Content(
     initialRoute: String,
     tabBarItems: List<TabBarItem>
 ) {
-    AppTheme {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            bottomBar = {
-                val backStackEntryState by navController.currentBackStackEntryAsState()
-                val currentRoute = backStackEntryState?.destination?.route ?: return@Scaffold
-                val isTabBarRoute = tabBarItems.any { it.route == currentRoute }
-                if (isTabBarRoute) {
-                    TabBar(
-                        tabBarItems = tabBarItems,
-                        selectedRoute = currentRoute,
-                        onNavigationSelected = { route ->
-                            if (currentRoute != route) {
-                                navController.navigate(route) {
-                                    launchSingleTop = true
-                                    restoreState = true
-                                    popUpTo(Screen.PrayerTimes.route) { saveState = false }
-                                }
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            val backStackEntryState by navController.currentBackStackEntryAsState()
+            val currentRoute = backStackEntryState?.destination?.route ?: return@Scaffold
+            val isTabBarRoute = tabBarItems.any { it.route == currentRoute }
+            if (isTabBarRoute) {
+                TabBar(
+                    tabBarItems = tabBarItems,
+                    selectedRoute = currentRoute,
+                    onNavigationSelected = { route ->
+                        if (currentRoute != route) {
+                            navController.navigate(route) {
+                                launchSingleTop = true
+                                restoreState = true
+                                popUpTo(Screen.PrayerTimes.route) { saveState = false }
                             }
                         }
-                    )
-                }
+                    }
+                )
             }
-        ) { padding ->
-            Box(
-                modifier = Modifier.fillMaxSize().padding(padding)
-            ) {
-                NavigationGraph(navController = navController, initialRoute = initialRoute)
-            }
+        }
+    ) { padding ->
+        Box(
+            modifier = Modifier.fillMaxSize().padding(padding)
+        ) {
+            NavigationGraph(navController = navController, initialRoute = initialRoute)
         }
     }
 }
