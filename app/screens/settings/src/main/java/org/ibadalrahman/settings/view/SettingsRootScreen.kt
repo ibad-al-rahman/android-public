@@ -1,6 +1,9 @@
 package org.ibadalrahman.settings.view
 
+import android.R.attr.layoutDirection
+import android.R.attr.theme
 import android.annotation.SuppressLint
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
@@ -15,6 +18,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import org.ibadalrahman.mvi.BaseScreen
 import org.ibadalrahman.mvi.ObserveLifecycleEvents
+import org.ibadalrahman.settings.repository.data.domain.Theme
 import org.ibadalrahman.settings.presenter.SettingsViewModel
 import org.ibadalrahman.resources.R
 import org.ibadalrahman.settings.presenter.entity.Language
@@ -38,7 +42,7 @@ fun SettingsRootScreen(
                 SettingsViewAction.ContactUs -> openContactUsLink()
                 SettingsViewAction.Donate -> openDonateLink()
                 is SettingsViewAction.ChangeLanguage -> changeLanguage(viewAction.language.code)
-                is SettingsViewAction.ChangeTheme -> changeTheme(viewAction.theme)
+                is SettingsViewAction.ChangeTheme -> changeTheme(viewAction.theme.code)
             }
         }
     ) { state, intentionProcessor ->

@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.ibadalrahman.settings.repository.data.domain.Theme
 import org.ibadalrahman.resources.R
 import org.ibadalrahman.settings.presenter.entity.Language
 import org.ibadalrahman.settings.presenter.entity.SettingsIntention
@@ -84,8 +85,8 @@ fun SettingsView(
             .background(MaterialTheme.colorScheme.background)
         ) {
             LanguageSelector(intentionProcessor = intentionProcessor)
-//            HorizontalDivider()
-//            ThemeSelector(intentionProcessor = intentionProcessor)
+            HorizontalDivider()
+            ThemeSelector(intentionProcessor = intentionProcessor)
         }
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -268,24 +269,27 @@ fun ThemeSelector(intentionProcessor: (intention: SettingsIntention) -> Unit) {
                     DropdownMenuItem(
                         text = { Text("Dark") },
                         onClick = {
+                            expanded = false
                             intentionProcessor(
-                                SettingsIntention.ChangeTheme(AppCompatDelegate.MODE_NIGHT_YES)
+                                SettingsIntention.ChangeTheme(Theme.Dark)
                             )
                         }
                     )
                     DropdownMenuItem(
                         text = { Text("Light") },
                         onClick = {
+                            expanded = false
                             intentionProcessor(
-                                SettingsIntention.ChangeTheme(AppCompatDelegate.MODE_NIGHT_NO)
+                                SettingsIntention.ChangeTheme(Theme.Light)
                             )
                         }
                     )
                     DropdownMenuItem(
                         text = { Text("System") },
                         onClick = {
+                            expanded = false
                             intentionProcessor(
-                                SettingsIntention.ChangeTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                                SettingsIntention.ChangeTheme(Theme.System)
                             )
                         }
                     )
