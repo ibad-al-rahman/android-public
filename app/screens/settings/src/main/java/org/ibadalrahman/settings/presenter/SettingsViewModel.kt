@@ -55,8 +55,6 @@ class SettingsViewModel @Inject constructor(
         is SettingsResult.LanguageChanged -> SettingsViewAction.ChangeLanguage(
             language = result.language
         )
-        is SettingsResult.ThemeChanged -> SettingsViewAction.ChangeTheme(
-            theme = result.theme
-        )
+        is SettingsResult.ThemeChanged -> null
     }
 }

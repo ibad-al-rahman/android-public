@@ -1,14 +1,15 @@
 package org.ibadalrahman.publicsector.main.view
 
+import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import dagger.hilt.android.AndroidEntryPoint
-import org.ibadalrahman.publicsector.main.presenter.MainActivityViewModel
 import org.ibadalrahman.publicsector.ui.theme.AppTheme
 import org.ibadalrahman.settings.repository.SettingsRepository
 import org.ibadalrahman.settings.repository.data.domain.Theme
@@ -21,15 +22,21 @@ class MainActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            val theme = settingsRepository.getTheme() ?: Theme.System
+            val theme by settingsRepository.themeFlow.collectAsState()
             val darkTheme = when(theme) {
                 Theme.System -> isSystemInDarkTheme()
                 Theme.Light -> false
                 Theme.Dark -> true
             }
-            AppCompatDelegate.setDefaultNightMode(theme.code)
+
+            enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.auto(
+                    lightScrim = Color.TRANSPARENT,
+                    darkScrim = Color.TRANSPARENT,
+                    detectDarkMode = { darkTheme }
+                )
+            )
 
             AppTheme(darkTheme = darkTheme) {
                 RootContent()
