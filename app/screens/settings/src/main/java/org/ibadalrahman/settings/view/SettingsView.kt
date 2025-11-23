@@ -267,7 +267,7 @@ fun ThemeSelector(intentionProcessor: (intention: SettingsIntention) -> Unit) {
                     onDismissRequest = { expanded = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Dark") },
+                        text = { Text(stringResource(R.string.dark)) },
                         onClick = {
                             expanded = false
                             intentionProcessor(
@@ -276,7 +276,7 @@ fun ThemeSelector(intentionProcessor: (intention: SettingsIntention) -> Unit) {
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("Light") },
+                        text = { Text(stringResource(R.string.light)) },
                         onClick = {
                             expanded = false
                             intentionProcessor(
@@ -285,7 +285,7 @@ fun ThemeSelector(intentionProcessor: (intention: SettingsIntention) -> Unit) {
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text("System") },
+                        text = { Text(stringResource(R.string.system)) },
                         onClick = {
                             expanded = false
                             intentionProcessor(
