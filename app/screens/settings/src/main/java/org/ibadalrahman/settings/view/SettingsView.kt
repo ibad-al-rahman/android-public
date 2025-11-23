@@ -1,5 +1,7 @@
 package org.ibadalrahman.settings.view
 
+import android.R.attr.onClick
+import android.R.attr.text
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,6 +34,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
 import androidx.compose.material3.Text
@@ -125,62 +128,50 @@ fun SettingsView(
 
 @Composable
 fun ListButton(text: String, onClick: () -> Unit) {
-    TextButton(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 10.dp)
-    ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+    ListItem(
+        headlineContent = {
             Text(
                 text = text,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Medium
                 ),
             )
-            Spacer(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-            )
-        }
-    }
+        },
+        colors = ListItemDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.background,
+            headlineColor = MaterialTheme.colorScheme.primary,
+        ),
+        modifier = Modifier
+            .clip(RoundedCornerShape(12.dp))
+            .clickable(onClick = onClick)
+    )
 }
 
 @Composable
 fun OpenLinkButton(text: String, icon: ImageVector, onClick: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    ListItem(
+        headlineContent = {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.Medium
+                ),
+            )
+        },
+        leadingContent = {
+            Icon(
+                imageVector = icon,
+                contentDescription = text,
+            )
+        },
+        trailingContent = {
+            Icon(imageVector = Icons.AutoMirrored.Default.OpenInNew, contentDescription = "Go")
+        },
         modifier = Modifier
-            .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 20.dp, vertical = 10.dp)
-            .clickable { onClick() }
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = text,
-            modifier = Modifier.padding(end = 16.dp),
-        )
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                fontWeight = FontWeight.Medium
-            ),
-        )
-        Spacer(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
-        )
-        Icon(imageVector = Icons.AutoMirrored.Default.OpenInNew, contentDescription = "Go")
-    }
+            .clickable(onClick = onClick),
+    )
 }
 
 @Composable
@@ -190,54 +181,53 @@ fun LanguageSelector(intentionProcessor: (intention: SettingsIntention) -> Unit)
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 10.dp)
-            .clickable { expanded = !expanded }
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
-        ) {
-            Icon(
-                imageVector = Icons.Default.FontDownload,
-                contentDescription = stringResource(id = R.string.language),
-                modifier = Modifier.padding(end = 16.dp),
-            )
-            Text(
-                text = stringResource(id = R.string.language),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    fontWeight = FontWeight.Medium
-                ),
-            )
-            Spacer(modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
-            )
-            Box {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowDown,
-                    contentDescription = stringResource(id = R.string.select),
+
+        ListItem(
+            headlineContent = {
+                Text(
+                    text = stringResource(id = R.string.language),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontWeight = FontWeight.Medium
+                    ),
                 )
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("English") },
-                        onClick = {
-                            intentionProcessor(SettingsIntention.ChangeLanguage(Language.En))
-                        }
+            },
+            leadingContent = {
+                Icon(
+                    imageVector = Icons.Default.FontDownload,
+                    contentDescription = stringResource(id = R.string.language),
+                )
+            },
+            trailingContent = {
+                Box {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        contentDescription = stringResource(id = R.string.select),
                     )
-                    DropdownMenuItem(
-                        text = { Text("العربية") },
-                        onClick = {
-                            intentionProcessor(SettingsIntention.ChangeLanguage(Language.Ar))
-                        }
-                    )
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("English") },
+                            onClick = {
+                                intentionProcessor(SettingsIntention.ChangeLanguage(Language.En))
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("العربية") },
+                            onClick = {
+                                intentionProcessor(SettingsIntention.ChangeLanguage(Language.Ar))
+                            }
+                        )
+                    }
                 }
-            }
-        }
+            },
+            modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .clickable(onClick = { expanded = !expanded }),
+        )
     }
 }
 
