@@ -1,6 +1,5 @@
 package org.ibadalrahman.settings.domain
 
-import android.util.Log
 import org.ibadalrahman.mvi.BaseInteractor
 import org.ibadalrahman.prayertimes.repository.PrayerTimesRepository
 import kotlinx.coroutines.flow.Flow
