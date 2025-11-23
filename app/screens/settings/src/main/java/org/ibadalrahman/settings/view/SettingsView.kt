@@ -6,12 +6,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
@@ -23,11 +25,15 @@ import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.OpenInNewOff
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.SupportAgent
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -52,58 +58,68 @@ fun SettingsView(
     intentionProcessor: (intention: SettingsIntention) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    LazyColumn(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
+        contentPadding = PaddingValues(20.dp),
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.tertiaryContainer)
-            .padding(20.dp)
     ) {
-        OpenLinkButton(
-            text = stringResource(R.string.donate),
-            icon = Icons.Outlined.FavoriteBorder,
-            onClick = {
-                intentionProcessor(SettingsIntention.Donate)
-            }
-        )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Text(
-            text = stringResource(id = R.string.display).uppercase(),
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            ),
-            modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp)
-        )
-
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.background)
-        ) {
-            LanguageSelector(intentionProcessor = intentionProcessor)
-//            HorizontalDivider()
-//            ThemeSelector(intentionProcessor = intentionProcessor)
+        item {
+            OpenLinkButton(
+                text = stringResource(R.string.donate),
+                icon = Icons.Outlined.FavoriteBorder,
+                onClick = {
+                    intentionProcessor(SettingsIntention.Donate)
+                }
+            )
         }
 
-        Spacer(modifier = Modifier.height(40.dp))
+        item {
+            Spacer(modifier = Modifier.height(40.dp))
 
-        OpenLinkButton(
-            text = stringResource(R.string.contact_us),
-            icon = Icons.Outlined.SupportAgent,
-            onClick = {
-                intentionProcessor(SettingsIntention.ContactUs)
+            Text(
+                text = stringResource(id = R.string.display).uppercase(),
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+                modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp)
+            )
+        }
+
+        item {
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.background)
+            ) {
+                LanguageSelector(intentionProcessor = intentionProcessor)
+//            HorizontalDivider()
+//            ThemeSelector(intentionProcessor = intentionProcessor)
             }
-        )
+        }
 
-        Spacer(modifier = Modifier.height(40.dp))
+        item {
+            Spacer(modifier = Modifier.height(40.dp))
 
-        ListButton(
-            text = stringResource(R.string.clear_cache),
-            onClick = { intentionProcessor(SettingsIntention.ClearCache) }
-        )
+            OpenLinkButton(
+                text = stringResource(R.string.contact_us),
+                icon = Icons.Outlined.SupportAgent,
+                onClick = {
+                    intentionProcessor(SettingsIntention.ContactUs)
+                }
+            )
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(40.dp))
+
+            ListButton(
+                text = stringResource(R.string.clear_cache),
+                onClick = { intentionProcessor(SettingsIntention.ClearCache) }
+            )
+        }
     }
 }
 
