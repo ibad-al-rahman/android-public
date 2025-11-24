@@ -25,6 +25,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -156,6 +157,7 @@ fun OpenLinkButton(text: String, icon: ImageVector, onClick: () -> Unit) {
         trailingContent = {
             Icon(imageVector = Icons.AutoMirrored.Default.OpenInNew, contentDescription = "Go")
         },
+        colors = listItemColors,
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
             .clickable(onClick = onClick),
@@ -212,6 +214,7 @@ fun LanguageSelector(intentionProcessor: (intention: SettingsIntention) -> Unit)
                     }
                 }
             },
+            colors = listItemColors,
             modifier = Modifier
                 .clickable(onClick = { expanded = !expanded }),
         )
@@ -252,21 +255,21 @@ fun ThemeSelector(intentionProcessor: (intention: SettingsIntention) -> Unit) {
                         onDismissRequest = { expanded = false }
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Dark") },
+                            text = { Text(stringResource(R.string.dark)) },
                             onClick = {
                                 expanded = false
                                 intentionProcessor(SettingsIntention.ChangeTheme(Theme.Dark))
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("Light") },
+                            text = { Text(stringResource(R.string.light)) },
                             onClick = {
                                 expanded = false
                                 intentionProcessor(SettingsIntention.ChangeTheme(Theme.Light))
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("System") },
+                            text = { Text(stringResource(R.string.system)) },
                             onClick = {
                                 expanded = false
                                 intentionProcessor(SettingsIntention.ChangeTheme(Theme.System))
@@ -275,8 +278,13 @@ fun ThemeSelector(intentionProcessor: (intention: SettingsIntention) -> Unit) {
                     }
                 }
             },
+            colors = listItemColors,
             modifier = Modifier
                 .clickable { expanded = !expanded },
         )
     }
 }
+
+private val listItemColors: ListItemColors
+    @Composable get() =
+        ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background)
