@@ -48,4 +48,7 @@
     <string name="contact_us">Contact us</string>
     <string name="error_loading_prayer_times">Something went wrong when loading prayer times, check your internet connection and try again.</string>
     <string name="retry">Retry</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
+    <string name="system">System</string>
 </resources>

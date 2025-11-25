@@ -62,6 +62,7 @@ fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
         val context = LocalContext.current
         val uriHandler = LocalUriHandler.current
 
+
         SettingsRootScreen(
             viewModel = hiltViewModel(),
             openContactUsLink = {
@@ -79,16 +80,6 @@ fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
                     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
                 }
             },
-            changeTheme = { theme ->
-                when (theme) {
-                    AppCompatDelegate.MODE_NIGHT_NO ->
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    AppCompatDelegate.MODE_NIGHT_YES ->
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    else ->
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                }
-            }
         )
     }
 }

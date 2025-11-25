@@ -17,7 +17,6 @@ import org.ibadalrahman.mvi.BaseScreen
 import org.ibadalrahman.mvi.ObserveLifecycleEvents
 import org.ibadalrahman.settings.presenter.SettingsViewModel
 import org.ibadalrahman.resources.R
-import org.ibadalrahman.settings.presenter.entity.Language
 import org.ibadalrahman.settings.presenter.entity.SettingsViewAction
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -28,7 +27,6 @@ fun SettingsRootScreen(
     openContactUsLink: () -> Unit,
     openDonateLink: () -> Unit,
     changeLanguage: (String) -> Unit,
-    changeTheme: (Int) -> Unit,
 ) {
     val layoutDirection = LocalLayoutDirection.current
     BaseScreen(
@@ -38,7 +36,6 @@ fun SettingsRootScreen(
                 SettingsViewAction.ContactUs -> openContactUsLink()
                 SettingsViewAction.Donate -> openDonateLink()
                 is SettingsViewAction.ChangeLanguage -> changeLanguage(viewAction.language.code)
-                is SettingsViewAction.ChangeTheme -> changeTheme(viewAction.theme)
             }
         }
     ) { state, intentionProcessor ->

@@ -32,6 +32,7 @@ include(":app:common:base")
 include(":app:common:network")
 include(":app:common:resources")
 
+include(":app:data:settings-repository")
 include(":app:data:prayer-times-repository")
 
 include(":app:screens:prayer-times")

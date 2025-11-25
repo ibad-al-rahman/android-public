@@ -49,4 +49,7 @@
     <string name="contact_us">اتصل بنا</string>
     <string name="error_loading_prayer_times">حدث خطأ أثناء تحميل أوقات الصلاة، تحقق من اتصالك بالإنترنت وحاول مرة أخرى.</string>
     <string name="retry">إعادة المحاولة</string>
+    <string name="dark">داكن</string>
+    <string name="light">فاتح</string>
+    <string name="system">النظام</string>
 </resources>
