@@ -49,14 +49,11 @@ fun WeeklyPrayerTimesView(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.tertiaryContainer)
-            .padding(
-                top = 30.dp,
-                bottom = 0.dp,
-                start = 20.dp,
-                end = 20.dp
-            )
+            .padding(horizontal = 20.dp)
             .verticalScroll(ScrollState(0))
     ) {
+        Spacer(modifier = Modifier.height(30.dp))
+
         Text(
             text = stringResource(id = R.string.timings).uppercase(),
             style = MaterialTheme.typography.bodyMedium.copy(
@@ -161,6 +158,8 @@ fun WeeklyPrayerTimesView(
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 
