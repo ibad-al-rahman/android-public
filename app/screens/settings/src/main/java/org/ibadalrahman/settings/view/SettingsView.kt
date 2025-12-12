@@ -99,24 +99,27 @@ fun SettingsView(
         }
 
         item {
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
-            ) {
-                OpenLinkButton(
-                    text = stringResource(R.string.contact_us),
-                    icon = Icons.Outlined.SupportAgent,
-                    onClick = {
-                        intentionProcessor(SettingsIntention.ContactUs)
-                    }
-                )
-                Spacer(modifier = Modifier.height(1.dp))
-                OpenLinkButton(
-                    text = stringResource(R.string.share_app),
-                    icon = Icons.Filled.Share,
-                    onClick = { intentionProcessor(SettingsIntention.ShareApp) }
-                )
-            }
+            OpenLinkButton(
+                text = stringResource(R.string.contact_us),
+                icon = Icons.Outlined.SupportAgent,
+                onClick = {
+                    intentionProcessor(SettingsIntention.ContactUs)
+                },
+                modifier = Modifier.clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+            )
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(1.dp))
+        }
+
+        item {
+            OpenLinkButton(
+                text = stringResource(R.string.share_app),
+                icon = Icons.Filled.Share,
+                onClick = { intentionProcessor(SettingsIntention.ShareApp) },
+                modifier = Modifier.clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+            )
         }
 
         item {
