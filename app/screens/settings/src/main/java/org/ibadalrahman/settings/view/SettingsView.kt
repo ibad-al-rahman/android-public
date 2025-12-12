@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.FontDownload
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.SupportAgent
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -65,7 +66,8 @@ fun SettingsView(
                 icon = Icons.Outlined.FavoriteBorder,
                 onClick = {
                     intentionProcessor(SettingsIntention.Donate)
-                }
+                },
+                modifier = Modifier.clip(RoundedCornerShape(12.dp))
             )
         }
 
@@ -94,14 +96,27 @@ fun SettingsView(
 
         item {
             Spacer(modifier = Modifier.height(40.dp))
+        }
 
-            OpenLinkButton(
-                text = stringResource(R.string.contact_us),
-                icon = Icons.Outlined.SupportAgent,
-                onClick = {
-                    intentionProcessor(SettingsIntention.ContactUs)
-                }
-            )
+        item {
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+            ) {
+                OpenLinkButton(
+                    text = stringResource(R.string.contact_us),
+                    icon = Icons.Outlined.SupportAgent,
+                    onClick = {
+                        intentionProcessor(SettingsIntention.ContactUs)
+                    }
+                )
+                Spacer(modifier = Modifier.height(1.dp))
+                OpenLinkButton(
+                    text = stringResource(R.string.share_app),
+                    icon = Icons.Filled.Share,
+                    onClick = { intentionProcessor(SettingsIntention.ShareApp) }
+                )
+            }
         }
 
         item {
@@ -137,7 +152,12 @@ fun ListButton(text: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun OpenLinkButton(text: String, icon: ImageVector, onClick: () -> Unit) {
+fun OpenLinkButton(
+    text: String,
+    icon: ImageVector,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     ListItem(
         headlineContent = {
             Text(
@@ -158,8 +178,7 @@ fun OpenLinkButton(text: String, icon: ImageVector, onClick: () -> Unit) {
             Icon(imageVector = Icons.AutoMirrored.Default.OpenInNew, contentDescription = "Go")
         },
         colors = listItemColors,
-        modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
+        modifier = modifier
             .clickable(onClick = onClick),
     )
 }

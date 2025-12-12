@@ -35,6 +35,7 @@ class SettingsViewModel @Inject constructor(
     ): MviBoundary<SettingsViewAction, SettingsAction, SettingsResult> = when(intention) {
         SettingsIntention.ContactUs -> action(SettingsAction.ContactUs)
         SettingsIntention.Donate -> action(SettingsAction.Donate)
+        SettingsIntention.ShareApp -> action(SettingsAction.ShareApp)
         SettingsIntention.ClearCache -> action(SettingsAction.ClearCache)
         is SettingsIntention.ChangeLanguage -> action(SettingsAction.ChangeLanguage(
             language = intention.language
@@ -52,6 +53,7 @@ class SettingsViewModel @Inject constructor(
         SettingsResult.NoOp -> null
         SettingsResult.ContactUs -> SettingsViewAction.ContactUs
         SettingsResult.Donate -> SettingsViewAction.Donate
+        is SettingsResult.ShareApp -> SettingsViewAction.Share(result.text)
         is SettingsResult.LanguageChanged -> SettingsViewAction.ChangeLanguage(
             language = result.language
         )
