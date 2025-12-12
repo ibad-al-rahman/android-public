@@ -27,6 +27,7 @@ fun SettingsRootScreen(
     openContactUsLink: () -> Unit,
     openDonateLink: () -> Unit,
     changeLanguage: (String) -> Unit,
+    onShare: (String) -> Unit,
 ) {
     val layoutDirection = LocalLayoutDirection.current
     BaseScreen(
@@ -35,6 +36,7 @@ fun SettingsRootScreen(
             when (viewAction) {
                 SettingsViewAction.ContactUs -> openContactUsLink()
                 SettingsViewAction.Donate -> openDonateLink()
+                is SettingsViewAction.Share -> onShare(viewAction.text)
                 is SettingsViewAction.ChangeLanguage -> changeLanguage(viewAction.language.code)
             }
         }

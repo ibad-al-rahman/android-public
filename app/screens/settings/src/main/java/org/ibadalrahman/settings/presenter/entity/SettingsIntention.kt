@@ -6,6 +6,7 @@ sealed interface SettingsIntention {
     data object ContactUs: SettingsIntention
     data object Donate: SettingsIntention
     data object ClearCache: SettingsIntention
+    data object ShareApp: SettingsIntention
     data class ChangeLanguage(val language: Language): SettingsIntention
     data class ChangeTheme(val theme: Theme): SettingsIntention
 }

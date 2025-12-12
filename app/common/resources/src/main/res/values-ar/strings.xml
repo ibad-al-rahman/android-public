@@ -33,6 +33,8 @@
     <string name="app_widget_description">وصف الويدجت</string>
     <string name="events">المناسبات</string>
     <string name="share">أنشر</string>
+    <string name="share_app">شارك التطبيق</string>
+    <string name="share_app_msg_header">اطلع على تطبيق عباد الرحمن</string>
     <string name="share_msg_header">مواقيت الصلاة بحسب تقويم جماعة عباد الرحمٰن السنوي</string>
     <string name="share_msg_date">%s\n%s</string>
     <string name="share_msg_fajr">🌌 الفجر: %s 🌌</string>
@@ -52,4 +54,6 @@
     <string name="dark">داكن</string>
     <string name="light">فاتح</string>
     <string name="system">النظام</string>
+    <string name="android">أندرويد</string>
+    <string name="ios">آبل</string>
 </resources>

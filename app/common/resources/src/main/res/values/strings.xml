@@ -32,6 +32,8 @@
     <string name="app_widget_description">This is an app widget description</string>
     <string name="events">Events</string>
     <string name="share">Share</string>
+    <string name="share_app">Share App</string>
+    <string name="share_app_msg_header">Check out Ibad Al-Rahman app</string>
     <string name="share_msg_header">Prayer times according to the annual calendar of Ibad al-Rahman</string>
     <string name="share_msg_date">%s\n%s</string>
     <string name="share_msg_fajr">🌌 Fajr: %s 🌌</string>
@@ -51,4 +53,6 @@
     <string name="dark">Dark</string>
     <string name="light">Light</string>
     <string name="system">System</string>
+    <string name="android">Android</string>
+    <string name="ios">iOS</string>
 </resources>
