@@ -80,6 +80,15 @@ fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
                     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
                 }
             },
+            onShare = { text ->
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, text)
+                    type = "text/plain"
+                }
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                context.startActivity(shareIntent)
+            }
         )
     }
 }
