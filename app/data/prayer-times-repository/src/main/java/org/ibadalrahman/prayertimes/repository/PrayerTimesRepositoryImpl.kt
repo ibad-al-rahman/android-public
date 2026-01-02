@@ -32,7 +32,6 @@ class PrayerTimesRepositoryImpl @Inject constructor(
 
     override suspend fun getWeekPrayerTimes(weekId: Int): Result<WeekPrayerTimes> {
         val weekPrayerTimes = localDatasource.findWeekPrayerTimeById(id = weekId).toDomain()
-            ?: return Result.failure(IllegalArgumentException("No data found for the given week"))
         return Result.success(weekPrayerTimes)
     }
 

@@ -101,24 +101,16 @@ fun EventEntity.toDomain(): Event = Event(
     ar = this.ar
 )
 
-fun WeekPrayerTimesEntity.toDomain(): WeekPrayerTimes? = safeLet(
-    this.mon?.toDomain(),
-    this.tue?.toDomain(),
-    this.wed?.toDomain(),
-    this.thu?.toDomain(),
-    this.fri?.toDomain(),
-    this.sat?.toDomain(),
-    this.sun?.toDomain()
-) { mon, tue, wed, thu, fri, sat, sun ->
+fun WeekPrayerTimesEntity.toDomain(): WeekPrayerTimes {
     return WeekPrayerTimes(
         id = this.week.id,
-        mon = mon,
-        tue = tue,
-        wed = wed,
-        thu = thu,
-        fri = fri,
-        sat = sat,
-        sun = sun,
+        mon = this.mon?.toDomain(),
+        tue = this.tue?.toDomain(),
+        wed = this.wed?.toDomain(),
+        thu = this.thu?.toDomain(),
+        fri = this.fri?.toDomain(),
+        sat = this.sat?.toDomain(),
+        sun = this.sun?.toDomain(),
         hadith = this.week.hadith?.toDomain()
     )
 }

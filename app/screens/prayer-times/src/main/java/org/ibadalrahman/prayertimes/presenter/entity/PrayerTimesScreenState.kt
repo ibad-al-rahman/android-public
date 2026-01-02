@@ -35,72 +35,7 @@ data class PrayerTimesScreenState(
                     maghrib = Date(),
                     ishaa = Date()
                 ),
-                weekPrayerTimes = WeekPrayerTimesState(
-                    sat = PrayerTimesState(
-                        hijriDate = "",
-                        fajr = Date(),
-                        sunrise = Date(),
-                        dhuhr = Date(),
-                        asr = Date(),
-                        maghrib = Date(),
-                        ishaa = Date()
-                    ),
-                    sun = PrayerTimesState(
-                        hijriDate = "",
-                        fajr = Date(),
-                        sunrise = Date(),
-                        dhuhr = Date(),
-                        asr = Date(),
-                        maghrib = Date(),
-                        ishaa = Date()
-                    ),
-                    mon = PrayerTimesState(
-                        hijriDate = "",
-                        fajr = Date(),
-                        sunrise = Date(),
-                        dhuhr = Date(),
-                        asr = Date(),
-                        maghrib = Date(),
-                        ishaa = Date()
-                    ),
-                    tue = PrayerTimesState(
-                        hijriDate = "",
-                        fajr = Date(),
-                        sunrise = Date(),
-                        dhuhr = Date(),
-                        asr = Date(),
-                        maghrib = Date(),
-                        ishaa = Date()
-                    ),
-                    wed = PrayerTimesState(
-                        hijriDate = "",
-                        fajr = Date(),
-                        sunrise = Date(),
-                        dhuhr = Date(),
-                        asr = Date(),
-                        maghrib = Date(),
-                        ishaa = Date()
-                    ),
-                    thu = PrayerTimesState(
-                        hijriDate = "",
-                        fajr = Date(),
-                        sunrise = Date(),
-                        dhuhr = Date(),
-                        asr = Date(),
-                        maghrib = Date(),
-                        ishaa = Date()
-                    ),
-                    fri = PrayerTimesState(
-                        hijriDate = "",
-                        fajr = Date(),
-                        sunrise = Date(),
-                        dhuhr = Date(),
-                        asr = Date(),
-                        maghrib = Date(),
-                        ishaa = Date()
-                    ),
-                    hadithState = null
-                ),
+                weekPrayerTimes = WeekPrayerTimesState(),
                 event = null
             )
     }
@@ -132,14 +67,14 @@ data class PrayerTimesState(
 @Stable
 @Immutable
 data class WeekPrayerTimesState(
-    val sat: PrayerTimesState,
-    val sun: PrayerTimesState,
-    val mon: PrayerTimesState,
-    val tue: PrayerTimesState,
-    val wed: PrayerTimesState,
-    val thu: PrayerTimesState,
-    val fri: PrayerTimesState,
-    val hadithState: WeekHadithState?
+    val sat: PrayerTimesState? = null,
+    val sun: PrayerTimesState? = null,
+    val mon: PrayerTimesState? = null,
+    val tue: PrayerTimesState? = null,
+    val wed: PrayerTimesState? = null,
+    val thu: PrayerTimesState? = null,
+    val fri: PrayerTimesState? = null,
+    val hadithState: WeekHadithState? = null
 )
 
 @Stable

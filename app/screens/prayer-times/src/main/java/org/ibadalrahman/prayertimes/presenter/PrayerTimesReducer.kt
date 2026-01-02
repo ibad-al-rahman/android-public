@@ -43,69 +43,83 @@ object PrayerTimesReducer {
                     result.prayerTimes.event?.ar
                 },
                 weekPrayerTimes = prevState.weekPrayerTimes?.copy(
-                    sat = PrayerTimesState(
-                        hijriDate = result.weekPrayerTimes.sat.hijri,
-                        fajr = result.weekPrayerTimes.sat.prayerTimes.fajr,
-                        sunrise = result.weekPrayerTimes.sat.prayerTimes.sunrise,
-                        dhuhr = result.weekPrayerTimes.sat.prayerTimes.dhuhr,
-                        asr = result.weekPrayerTimes.sat.prayerTimes.asr,
-                        maghrib = result.weekPrayerTimes.sat.prayerTimes.maghrib,
-                        ishaa = result.weekPrayerTimes.sat.prayerTimes.ishaa
-                    ),
-                    sun = PrayerTimesState(
-                        hijriDate = result.weekPrayerTimes.sun.hijri,
-                        fajr = result.weekPrayerTimes.sun.prayerTimes.fajr,
-                        sunrise = result.weekPrayerTimes.sun.prayerTimes.sunrise,
-                        dhuhr = result.weekPrayerTimes.sun.prayerTimes.dhuhr,
-                        asr = result.weekPrayerTimes.sun.prayerTimes.asr,
-                        maghrib = result.weekPrayerTimes.sun.prayerTimes.maghrib,
-                        ishaa = result.weekPrayerTimes.sun.prayerTimes.ishaa
-                    ),
-                    mon = PrayerTimesState(
-                        hijriDate = result.weekPrayerTimes.mon.hijri,
-                        fajr = result.weekPrayerTimes.mon.prayerTimes.fajr,
-                        sunrise = result.weekPrayerTimes.mon.prayerTimes.sunrise,
-                        dhuhr = result.weekPrayerTimes.mon.prayerTimes.dhuhr,
-                        asr = result.weekPrayerTimes.mon.prayerTimes.asr,
-                        maghrib = result.weekPrayerTimes.mon.prayerTimes.maghrib,
-                        ishaa = result.weekPrayerTimes.mon.prayerTimes.ishaa
-                    ),
-                    tue = PrayerTimesState(
-                        hijriDate = result.weekPrayerTimes.tue.hijri,
-                        fajr = result.weekPrayerTimes.tue.prayerTimes.fajr,
-                        sunrise = result.weekPrayerTimes.tue.prayerTimes.sunrise,
-                        dhuhr = result.weekPrayerTimes.tue.prayerTimes.dhuhr,
-                        asr = result.weekPrayerTimes.tue.prayerTimes.asr,
-                        maghrib = result.weekPrayerTimes.tue.prayerTimes.maghrib,
-                        ishaa = result.weekPrayerTimes.tue.prayerTimes.ishaa
-                    ),
-                    wed = PrayerTimesState(
-                        hijriDate = result.weekPrayerTimes.wed.hijri,
-                        fajr = result.weekPrayerTimes.wed.prayerTimes.fajr,
-                        sunrise = result.weekPrayerTimes.wed.prayerTimes.sunrise,
-                        dhuhr = result.weekPrayerTimes.wed.prayerTimes.dhuhr,
-                        asr = result.weekPrayerTimes.wed.prayerTimes.asr,
-                        maghrib = result.weekPrayerTimes.wed.prayerTimes.maghrib,
-                        ishaa = result.weekPrayerTimes.wed.prayerTimes.ishaa
-                    ),
-                    thu = PrayerTimesState(
-                        hijriDate = result.weekPrayerTimes.thu.hijri,
-                        fajr = result.weekPrayerTimes.thu.prayerTimes.fajr,
-                        sunrise = result.weekPrayerTimes.thu.prayerTimes.sunrise,
-                        dhuhr = result.weekPrayerTimes.thu.prayerTimes.dhuhr,
-                        asr = result.weekPrayerTimes.thu.prayerTimes.asr,
-                        maghrib = result.weekPrayerTimes.thu.prayerTimes.maghrib,
-                        ishaa = result.weekPrayerTimes.thu.prayerTimes.ishaa
-                    ),
-                    fri = PrayerTimesState(
-                        hijriDate = result.weekPrayerTimes.fri.hijri,
-                        fajr = result.weekPrayerTimes.fri.prayerTimes.fajr,
-                        sunrise = result.weekPrayerTimes.fri.prayerTimes.sunrise,
-                        dhuhr = result.weekPrayerTimes.fri.prayerTimes.dhuhr,
-                        asr = result.weekPrayerTimes.fri.prayerTimes.asr,
-                        maghrib = result.weekPrayerTimes.fri.prayerTimes.maghrib,
-                        ishaa = result.weekPrayerTimes.fri.prayerTimes.ishaa
-                    ),
+                    sat = result.weekPrayerTimes.sat?.let { sat ->
+                        PrayerTimesState(
+                            hijriDate = sat.hijri,
+                            fajr = sat.prayerTimes.fajr,
+                            sunrise = sat.prayerTimes.sunrise,
+                            dhuhr = sat.prayerTimes.dhuhr,
+                            asr = sat.prayerTimes.asr,
+                            maghrib = sat.prayerTimes.maghrib,
+                            ishaa = sat.prayerTimes.ishaa
+                        )
+                    },
+                    sun = result.weekPrayerTimes.sun?.let { sun ->
+                        PrayerTimesState(
+                            hijriDate = sun.hijri,
+                            fajr = sun.prayerTimes.fajr,
+                            sunrise = sun.prayerTimes.sunrise,
+                            dhuhr = sun.prayerTimes.dhuhr,
+                            asr = sun.prayerTimes.asr,
+                            maghrib = sun.prayerTimes.maghrib,
+                            ishaa = sun.prayerTimes.ishaa
+                        )
+                    },
+                    mon = result.weekPrayerTimes.mon?.let { mon ->
+                        PrayerTimesState(
+                            hijriDate = mon.hijri,
+                            fajr = mon.prayerTimes.fajr,
+                            sunrise = mon.prayerTimes.sunrise,
+                            dhuhr = mon.prayerTimes.dhuhr,
+                            asr = mon.prayerTimes.asr,
+                            maghrib = mon.prayerTimes.maghrib,
+                            ishaa = mon.prayerTimes.ishaa
+                        )
+                    },
+                    tue = result.weekPrayerTimes.tue?.let { tue ->
+                        PrayerTimesState(
+                            hijriDate = tue.hijri,
+                            fajr = tue.prayerTimes.fajr,
+                            sunrise = tue.prayerTimes.sunrise,
+                            dhuhr = tue.prayerTimes.dhuhr,
+                            asr = tue.prayerTimes.asr,
+                            maghrib = tue.prayerTimes.maghrib,
+                            ishaa = tue.prayerTimes.ishaa
+                        )
+                    },
+                    wed = result.weekPrayerTimes.wed?.let { wed ->
+                        PrayerTimesState(
+                            hijriDate = wed.hijri,
+                            fajr = wed.prayerTimes.fajr,
+                            sunrise = wed.prayerTimes.sunrise,
+                            dhuhr = wed.prayerTimes.dhuhr,
+                            asr = wed.prayerTimes.asr,
+                            maghrib = wed.prayerTimes.maghrib,
+                            ishaa = wed.prayerTimes.ishaa
+                        )
+                    },
+                    thu = result.weekPrayerTimes.thu?.let { thu ->
+                        PrayerTimesState(
+                            hijriDate = thu.hijri,
+                            fajr = thu.prayerTimes.fajr,
+                            sunrise = thu.prayerTimes.sunrise,
+                            dhuhr = thu.prayerTimes.dhuhr,
+                            asr = thu.prayerTimes.asr,
+                            maghrib = thu.prayerTimes.maghrib,
+                            ishaa = thu.prayerTimes.ishaa
+                        )
+                    },
+                    fri = result.weekPrayerTimes.fri?.let { fri ->
+                        PrayerTimesState(
+                            hijriDate = fri.hijri,
+                            fajr = fri.prayerTimes.fajr,
+                            sunrise = fri.prayerTimes.sunrise,
+                            dhuhr = fri.prayerTimes.dhuhr,
+                            asr = fri.prayerTimes.asr,
+                            maghrib = fri.prayerTimes.maghrib,
+                            ishaa = fri.prayerTimes.ishaa
+                        )
+                    },
                     hadithState = result.weekPrayerTimes.hadith?.let { hadith ->
                         WeekHadithState(hadith = hadith.hadith, note = hadith.note)
                     }

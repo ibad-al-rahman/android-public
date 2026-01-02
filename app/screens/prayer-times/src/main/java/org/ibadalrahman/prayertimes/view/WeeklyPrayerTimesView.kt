@@ -250,17 +250,27 @@ fun PrayerTimeCell(
         WeekDay.THU -> state?.thu
         WeekDay.FRI -> state?.fri
     }
-    when(prayer) {
-        Prayer.FAJR -> DateText(date = dayPrayerTime?.fajr ?: Date())
-        Prayer.SUNRISE -> DateText(date = dayPrayerTime?.sunrise ?: Date())
-        Prayer.DHUHR -> DateText(date = dayPrayerTime?.dhuhr ?: Date())
-        Prayer.ASR -> DateText(date = dayPrayerTime?.asr ?: Date())
-        Prayer.MAGHRIB -> DateText(date = dayPrayerTime?.maghrib ?: Date())
-        Prayer.ISHAA -> DateText(date = dayPrayerTime?.ishaa ?: Date())
+
+    if (dayPrayerTime == null) {
+        Text(
+            text = "-",
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        )
+    } else {
+        when(prayer) {
+            Prayer.FAJR -> DateText(date = dayPrayerTime.fajr)
+            Prayer.SUNRISE -> DateText(date = dayPrayerTime.sunrise)
+            Prayer.DHUHR -> DateText(date = dayPrayerTime.dhuhr)
+            Prayer.ASR -> DateText(date = dayPrayerTime.asr)
+            Prayer.MAGHRIB -> DateText(date = dayPrayerTime.maghrib)
+            Prayer.ISHAA -> DateText(date = dayPrayerTime.ishaa)
+        }
     }
 }
 
-// Starting at 1 because the first row and column are reserved for "week" string
+// Starting at 1 because the first row and column (0,0) are reserved for "week" string
 @Composable
 fun tableIdxToPrayer(idx: Int): Prayer = when(idx) {
     1 -> Prayer.FAJR
