@@ -24,7 +24,7 @@ class PrayerTimesLocalDataSourceImpl @Inject constructor(
     override fun findDayPrayerTimeById(id: Int): DayPrayerTimesEntity? =
         prayerTimesDao.findDayPrayerTimeById(id)
 
-    override fun findWeekPrayerTimeById(id: Int): WeekPrayerTimesEntity =
+    override fun findWeekPrayerTimeById(id: Int): WeekPrayerTimesEntity? =
         prayerTimesDao.findWeekPrayerTimeById(id)
 
     override fun getDigest(year: Int): String = sharedPreferences.getDigest(year = year)

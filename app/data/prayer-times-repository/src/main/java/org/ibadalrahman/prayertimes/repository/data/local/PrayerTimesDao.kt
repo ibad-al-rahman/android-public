@@ -17,11 +17,11 @@ interface PrayerTimesDao {
     fun insertWeekPrayerTime(vararg week: WeekEntity)
 
     @Query("SELECT * FROM day_prayer_times WHERE id = (:id)")
-    fun findDayPrayerTimeById(id: Int): DayPrayerTimesEntity
+    fun findDayPrayerTimeById(id: Int): DayPrayerTimesEntity?
 
     @Transaction
     @Query("SELECT * FROM week_prayer_times WHERE id = (:id)")
-    fun findWeekPrayerTimeById(id: Int): WeekPrayerTimesEntity
+    fun findWeekPrayerTimeById(id: Int): WeekPrayerTimesEntity?
 
     @Query("DELETE FROM day_prayer_times")
     fun deleteAllDayPrayerTimes()
