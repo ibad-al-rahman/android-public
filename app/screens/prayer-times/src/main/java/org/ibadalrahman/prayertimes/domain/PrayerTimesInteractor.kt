@@ -2,25 +2,24 @@ package org.ibadalrahman.prayertimes.domain
 
 import android.content.Context
 import android.icu.util.Calendar
-import android.util.Log
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import org.ibadalrahman.mvi.BaseInteractor
 import org.ibadalrahman.prayertimes.domain.entity.PrayerTimesAction
 import org.ibadalrahman.prayertimes.domain.entity.PrayerTimesResult
 import org.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
 import org.ibadalrahman.prayertimes.repository.PrayerTimesRepository
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
+import org.ibadalrahman.resources.R
+import java.text.DateFormat
 import java.text.DecimalFormatSymbols
+import java.time.ZoneId
 import java.time.chrono.HijrahChronology
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
-import org.ibadalrahman.resources.R
-import java.text.DateFormat
-import java.time.ZoneId
 
 class PrayerTimesInteractor @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -54,11 +53,10 @@ class PrayerTimesInteractor @Inject constructor(
         val month = calendar.get(Calendar.MONTH) + 1
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        // Todo: use digests to skip fetching prayer times
-
-        prayerTimesRepository
-            .fetchPrayerTimes(year = year)
-            .getOrNull()
+        if (shouldSyncWithRemote(year = year)) {
+            prayerTimesRepository
+                .fetchPrayerTimes(year = year)
+        }
 
         val prayerTimes = prayerTimesRepository
             .getDayPrayerTimes(year = year, month = month, day = day)
@@ -92,6 +90,19 @@ class PrayerTimesInteractor @Inject constructor(
             prayerTimes = prayerTimesWithHijri,
             weekPrayerTimes = weekPrayerTimes
         ))
+    }
+
+    private suspend fun shouldSyncWithRemote(year: Int): Boolean {
+        val cachedDigest = prayerTimesRepository.getDigest(year = year)
+
+        if (cachedDigest.isBlank()) return true
+
+        val remoteDigest = prayerTimesRepository
+            .fetchDigest(year)
+            .getOrNull()
+            ?: return true
+
+        return !remoteDigest.equals(cachedDigest, true)
     }
 
     private fun prepareShareText(state: PrayerTimesScreenState) = flow {
