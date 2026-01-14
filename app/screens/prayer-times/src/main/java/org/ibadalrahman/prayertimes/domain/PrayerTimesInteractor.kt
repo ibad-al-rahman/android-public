@@ -53,11 +53,10 @@ class PrayerTimesInteractor @Inject constructor(
         val month = calendar.get(Calendar.MONTH) + 1
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        ensurePrayerTimesLoaded(year)
-            .onFailure {
-                emit(PrayerTimesResult.UnknownError)
-                return@flow
-            }
+        if (shouldSyncWithRemote(year = year)) {
+            prayerTimesRepository
+                .fetchPrayerTimes(year = year)
+        }
 
         val prayerTimes = prayerTimesRepository
             .getDayPrayerTimes(year = year, month = month, day = day)
@@ -93,24 +92,17 @@ class PrayerTimesInteractor @Inject constructor(
         ))
     }
 
-    private suspend fun ensurePrayerTimesLoaded(year: Int): Result<Unit> {
+    private suspend fun shouldSyncWithRemote(year: Int): Boolean {
         val cachedDigest = prayerTimesRepository.getDigest(year = year)
 
-        if (cachedDigest.isBlank()) {
-            return prayerTimesRepository
-                .fetchPrayerTimes(year = year)
-        }
+        if (cachedDigest.isBlank()) return true
 
         val remoteDigest = prayerTimesRepository
             .fetchDigest(year)
-            .getOrElse { return Result.failure(it) }
+            .getOrNull()
+            ?: return true
 
-        if (remoteDigest.equals(cachedDigest, true)) {
-            return Result.success(Unit)
-        }
-
-        return prayerTimesRepository
-            .fetchPrayerTimes(year = year)
+        return !remoteDigest.equals(cachedDigest, true)
     }
 
     private fun prepareShareText(state: PrayerTimesScreenState) = flow {
