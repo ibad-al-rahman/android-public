@@ -3,6 +3,7 @@ package org.ibadalrahman.prayertimes.repository.data.remote.responses
 import com.google.gson.annotations.SerializedName
 
 data class PrayerTimesResponse(
+    @SerializedName("imsak") val imsak: String?,
     @SerializedName("fajr") val fajr: String,
     @SerializedName("sunrise") val sunrise: String,
     @SerializedName("dhuhr") val dhuhr: String,

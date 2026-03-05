@@ -3,6 +3,7 @@
     <string name="app_name">عباد الرحمن</string>
     <string name="hadith">حديث الأسبوع</string>
     <string name="timings">المواقيت</string>
+    <string name="imsak">الإمساك</string>
     <string name="fajr">الفجر</string>
     <string name="sunrise">الشروق</string>
     <string name="dhuhr">الظهر</string>

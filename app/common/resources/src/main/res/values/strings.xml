@@ -2,6 +2,7 @@
     <string name="app_name">Ibad Al-Rahman</string>
     <string name="hadith">Hadith of the week</string>
     <string name="timings">Timings</string>
+    <string name="imsak">Imsak</string>
     <string name="fajr">Fajr</string>
     <string name="sunrise">Sunrise</string>
     <string name="dhuhr">Dhuhr</string>

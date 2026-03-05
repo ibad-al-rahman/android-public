@@ -9,7 +9,7 @@ import org.ibadalrahman.prayertimes.repository.data.local.entities.WeekEntity
 
 @Database(
     entities = [DayPrayerTimesEntity::class, WeekEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class PrayerTimesDatabase: RoomDatabase() {
@@ -26,6 +26,8 @@ abstract class PrayerTimesDatabase: RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(context, PrayerTimesDatabase::class.java, DATABASE_NAME).build()
+            Room.databaseBuilder(context, PrayerTimesDatabase::class.java, DATABASE_NAME)
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }

@@ -31,6 +31,7 @@ fun DayPrayerTimesResponse.toEntity(): DayPrayerTimesEntity = DayPrayerTimesEnti
 )
 
 fun PrayerTimesResponse.toEntity(): PrayerTimesEntity = PrayerTimesEntity(
+    imsak = this.imsak,
     fajr = this.fajr,
     sunrise = this.sunrise,
     dhuhr = this.dhuhr,
@@ -86,6 +87,7 @@ fun PrayerTimesEntity.toDomain(date: String): PrayerTimes? {
         format.parse("$date ${this.ishaa}")
     ) { fajr, sunrise, dhuhr, asr, maghrib, ishaa ->
         return PrayerTimes(
+            imsak = this.imsak?.let { format.parse("$date $it") },
             fajr = fajr,
             sunrise = sunrise,
             dhuhr = dhuhr,

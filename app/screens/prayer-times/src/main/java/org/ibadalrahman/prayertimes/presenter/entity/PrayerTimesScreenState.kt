@@ -28,6 +28,7 @@ data class PrayerTimesScreenState(
                 hasError = false,
                 prayerTimes = PrayerTimesState(
                     hijriDate = "",
+                    imsak = null,
                     fajr = Date(),
                     sunrise = Date(),
                     dhuhr = Date(),
@@ -56,6 +57,7 @@ data class PrayerTimesScreenState(
 @Immutable
 data class PrayerTimesState(
     val hijriDate: String,
+    val imsak: Date?,
     val fajr: Date,
     val sunrise: Date,
     val dhuhr: Date,
@@ -87,6 +89,7 @@ data class WeekHadithState(
 @Stable
 @Immutable
 enum class Prayer {
+    IMSAK,
     FAJR,
     SUNRISE,
     DHUHR,

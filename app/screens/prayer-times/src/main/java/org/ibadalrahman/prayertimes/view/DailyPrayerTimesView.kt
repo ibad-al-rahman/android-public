@@ -184,6 +184,14 @@ fun DailyPrayerTimesView(
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(12.dp))
                 ) {
+                    state.prayerTimes?.imsak?.let { imsak ->
+                        PrayerTime(
+                            prayer = Prayer.IMSAK,
+                            time = imsak,
+                            imageVector = Icons.Outlined.Nightlight,
+                            withDivider = true
+                        )
+                    }
                     PrayerTime(
                         prayer = Prayer.FAJR,
                         time = fajr,
@@ -424,6 +432,7 @@ fun DateText(
 
 @Composable
 fun localizedPrayerName(prayer: Prayer): String = when(prayer) {
+        Prayer.IMSAK -> stringResource(R.string.imsak)
         Prayer.FAJR -> stringResource(R.string.fajr)
         Prayer.SUNRISE -> stringResource(R.string.sunrise)
         Prayer.DHUHR -> stringResource(R.string.dhuhr)
