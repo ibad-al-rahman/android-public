@@ -8,7 +8,6 @@ import javax.inject.Inject
 class SettingsLocalDataSourceImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ): SettingsLocalDataSource {
-
     override fun saveTheme(theme: Theme) {
         sharedPreferences.edit { putInt("theme", theme.code) }
     }
