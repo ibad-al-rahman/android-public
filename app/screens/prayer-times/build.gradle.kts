@@ -53,7 +53,7 @@ dependencies {
     implementation(projects.app.common.mvi)
     implementation(projects.app.common.base)
     implementation(projects.app.common.resources)
-    implementation(projects.app.data.prayerTimesRepository)
+    implementation(projects.app.data.miqatRepository)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

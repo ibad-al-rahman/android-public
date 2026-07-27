@@ -2,18 +2,14 @@ package org.ibadalrahman.prayertimes.presenter.entity
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import org.ibadalrahman.prayertimes.repository.data.domain.DayPrayerTimes
-import org.ibadalrahman.prayertimes.repository.data.domain.WeekPrayerTimes
 import java.util.Date
 
 @Stable
 @Immutable
 data class PrayerTimesScreenState(
-    val isLoading: Boolean,
     val date: Date,
     val isDatePickerVisible: Boolean,
     val prayerViewType: PrayerViewType,
-    val hasError: Boolean,
     val prayerTimes: PrayerTimesState?,
     val weekPrayerTimes: WeekPrayerTimesState?,
     val event: String?,
@@ -21,11 +17,9 @@ data class PrayerTimesScreenState(
     companion object {
         val initialState: PrayerTimesScreenState
             get() = PrayerTimesScreenState(
-                isLoading = false,
                 date = Date(),
                 isDatePickerVisible = false,
                 prayerViewType = PrayerViewType.DAILY,
-                hasError = false,
                 prayerTimes = PrayerTimesState(
                     hijriDate = "",
                     fajr = Date(),
@@ -74,14 +68,6 @@ data class WeekPrayerTimesState(
     val wed: PrayerTimesState? = null,
     val thu: PrayerTimesState? = null,
     val fri: PrayerTimesState? = null,
-    val hadithState: WeekHadithState? = null
-)
-
-@Stable
-@Immutable
-data class WeekHadithState(
-    val hadith: String,
-    val note: String?
 )
 
 @Stable

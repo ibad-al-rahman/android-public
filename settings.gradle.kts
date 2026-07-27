@@ -33,7 +33,6 @@ include(":app:common:network")
 include(":app:common:resources")
 
 include(":app:data:settings-repository")
-include(":app:data:prayer-times-repository")
 include(":app:data:miqat-repository")
 
 include(":app:screens:prayer-times")

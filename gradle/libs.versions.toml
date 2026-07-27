@@ -23,6 +23,7 @@ glance = "1.1.1"
 work = "2.10.2"
 moduleGraph = "0.13.0"
 miqat = "0.6.0"
+jna = "5.14.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -65,6 +66,9 @@ androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx"
 androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "androidxHilt" }
 androidx-hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "androidxHilt" }
 miqat = { group = "io.github.ibad-al-rahman", name = "miqat", version.ref = "miqat" }
+# JNA must be the Android AAR variant so libjnidispatch.so is packed into the APK's jniLibs;
+# the plain JAR hides the .so inside the archive where Android's loader can't find it.
+jna = { group = "net.java.dev.jna", name = "jna", version.ref = "jna" }
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "agp" }

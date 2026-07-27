@@ -122,36 +122,7 @@ fun SettingsView(
             )
         }
 
-        item {
-            Spacer(modifier = Modifier.height(40.dp))
-
-            ListButton(
-                text = stringResource(R.string.clear_cache),
-                onClick = { intentionProcessor(SettingsIntention.ClearCache) }
-            )
-        }
     }
-}
-
-@Composable
-fun ListButton(text: String, onClick: () -> Unit) {
-    ListItem(
-        headlineContent = {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.Medium
-                ),
-            )
-        },
-        colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.background,
-            headlineColor = MaterialTheme.colorScheme.primary,
-        ),
-        modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .clickable(onClick = onClick)
-    )
 }
 
 @Composable

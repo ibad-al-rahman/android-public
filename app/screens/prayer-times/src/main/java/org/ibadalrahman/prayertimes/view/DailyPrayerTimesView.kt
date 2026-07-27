@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +22,6 @@ import androidx.compose.material.icons.outlined.IosShare
 import androidx.compose.material.icons.outlined.Nightlight
 import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material.icons.outlined.WbTwilight
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
@@ -44,7 +42,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import org.ibadalrahman.prayertimes.presenter.entity.Prayer
 import org.ibadalrahman.prayertimes.presenter.entity.PrayerTimesIntention
@@ -154,72 +151,56 @@ fun DailyPrayerTimesView(
             }
         }
 
-        if (state.isLoading) {
-            Box(
+        safeLet(
+            state.prayerTimes?.fajr,
+            state.prayerTimes?.sunrise,
+            state.prayerTimes?.dhuhr,
+            state.prayerTimes?.asr,
+            state.prayerTimes?.maghrib,
+            state.prayerTimes?.ishaa
+        ) { fajr, sunrise, dhuhr, asr, maghrib, ishaa ->
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(10.dp),
-                contentAlignment = Alignment.Center
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .size(30.dp)
-                        .padding(10.dp),
-                    color = MaterialTheme.colorScheme.primary
+                PrayerTime(
+                    prayer = Prayer.FAJR,
+                    time = fajr,
+                    imageVector = Icons.Outlined.Nightlight,
+                    withDivider = true
                 )
-            }
-        } else {
-            safeLet(
-                state.prayerTimes?.fajr,
-                state.prayerTimes?.sunrise,
-                state.prayerTimes?.dhuhr,
-                state.prayerTimes?.asr,
-                state.prayerTimes?.maghrib,
-                state.prayerTimes?.ishaa
-            ) { fajr, sunrise, dhuhr, asr, maghrib, ishaa ->
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp))
-                ) {
-                    PrayerTime(
-                        prayer = Prayer.FAJR,
-                        time = fajr,
-                        imageVector = Icons.Outlined.Nightlight,
-                        withDivider = true
-                    )
-                    PrayerTime(
-                        prayer = Prayer.SUNRISE,
-                        time = sunrise,
-                        imageVector = Icons.Outlined.WbTwilight,
-                        withDivider = true
-                    )
-                    PrayerTime(
-                        prayer = Prayer.DHUHR,
-                        time = dhuhr,
-                        imageVector = Icons.Outlined.WbSunny,
-                        withDivider = true
-                    )
-                    PrayerTime(
-                        prayer = Prayer.ASR,
-                        time = asr,
-                        imageVector = Icons.Outlined.WbSunny,
-                        withDivider = true
-                    )
-                    PrayerTime(
-                        prayer = Prayer.MAGHRIB,
-                        time = maghrib,
-                        imageVector = Icons.Outlined.WbTwilight,
-                        withDivider = true
-                    )
-                    PrayerTime(
-                        prayer = Prayer.ISHAA,
-                        time = ishaa,
-                        imageVector = Icons.Outlined.Nightlight
-                    )
-                }
+                PrayerTime(
+                    prayer = Prayer.SUNRISE,
+                    time = sunrise,
+                    imageVector = Icons.Outlined.WbTwilight,
+                    withDivider = true
+                )
+                PrayerTime(
+                    prayer = Prayer.DHUHR,
+                    time = dhuhr,
+                    imageVector = Icons.Outlined.WbSunny,
+                    withDivider = true
+                )
+                PrayerTime(
+                    prayer = Prayer.ASR,
+                    time = asr,
+                    imageVector = Icons.Outlined.WbSunny,
+                    withDivider = true
+                )
+                PrayerTime(
+                    prayer = Prayer.MAGHRIB,
+                    time = maghrib,
+                    imageVector = Icons.Outlined.WbTwilight,
+                    withDivider = true
+                )
+                PrayerTime(
+                    prayer = Prayer.ISHAA,
+                    time = ishaa,
+                    imageVector = Icons.Outlined.Nightlight
+                )
             }
         }
 
@@ -250,56 +231,6 @@ fun DailyPrayerTimesView(
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                             fontWeight = FontWeight.Medium
                         ),
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                }
-            }
-        }
-
-        safeLet(state.weekPrayerTimes?.hadithState) { hadith ->
-            Spacer(modifier = Modifier.height(30.dp))
-            Text(
-                text = stringResource(id = R.string.hadith).uppercase(),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                ),
-                modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp)
-            )
-            Column(
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp))
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background)
-                        .padding(horizontal = 20.dp, vertical = 16.dp)
-                ) {
-                    Text(
-                        text = hadith.hadith,
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            fontWeight = FontWeight.Medium,
-                            textDirection = TextDirection.Rtl
-                        ),
-                    )
-                }
-            }
-
-            hadith.note?.let {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.labelLarge.copy(
-                            textDirection = TextDirection.Rtl,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        ),
-                        modifier = Modifier.padding(top = 8.dp)
                     )
                     Spacer(modifier = Modifier.weight(1f))
                 }

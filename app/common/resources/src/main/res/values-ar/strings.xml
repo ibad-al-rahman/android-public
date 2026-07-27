@@ -56,4 +56,20 @@
     <string name="system">النظام</string>
     <string name="android">أندرويد</string>
     <string name="ios">آبل</string>
+    <string name="event_islamic_new_year">رأس السنة الهجرية</string>
+    <string name="event_ashura">عاشوراء</string>
+    <string name="event_mawlid_al_nabi">المولد النبوي</string>
+    <string name="event_battle_of_hattin">معركة حطين</string>
+    <string name="event_battle_of_mutah">معركة مؤتة</string>
+    <string name="event_battle_of_tabuk">غزوة تبوك</string>
+    <string name="event_isra_and_miraj">الإسراء والمعراج</string>
+    <string name="event_nisf_shaban">نصف شعبان</string>
+    <string name="event_first_of_ramadan">أول رمضان</string>
+    <string name="event_battle_of_badr">غزوة بدر</string>
+    <string name="event_conquest_of_mecca">فتح مكة</string>
+    <string name="event_laylat_al_qadr">ليلة القدر</string>
+    <string name="event_eid_al_fitr">عيد الفطر</string>
+    <string name="event_battle_of_uhud">غزوة أحد</string>
+    <string name="event_day_of_arafah">يوم عرفة</string>
+    <string name="event_eid_al_adha">عيد الأضحى</string>
 </resources>
