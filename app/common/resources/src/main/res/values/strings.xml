@@ -55,4 +55,20 @@
     <string name="system">System</string>
     <string name="android">Android</string>
     <string name="ios">iOS</string>
+    <string name="event_islamic_new_year">Islamic New Year</string>
+    <string name="event_ashura">Ashura</string>
+    <string name="event_mawlid_al_nabi">Mawlid al-Nabi</string>
+    <string name="event_battle_of_hattin">Battle of Hattin</string>
+    <string name="event_battle_of_mutah">Battle of Mutah</string>
+    <string name="event_battle_of_tabuk">Battle of Tabuk</string>
+    <string name="event_isra_and_miraj">Isra and Mi\'raj</string>
+    <string name="event_nisf_shaban">Nisf Sha\'ban</string>
+    <string name="event_first_of_ramadan">First of Ramadan</string>
+    <string name="event_battle_of_badr">Battle of Badr</string>
+    <string name="event_conquest_of_mecca">Conquest of Mecca</string>
+    <string name="event_laylat_al_qadr">Laylat al-Qadr</string>
+    <string name="event_eid_al_fitr">Eid al-Fitr</string>
+    <string name="event_battle_of_uhud">Battle of Uhud</string>
+    <string name="event_day_of_arafah">Day of Arafah</string>
+    <string name="event_eid_al_adha">Eid al-Adha</string>
 </resources>

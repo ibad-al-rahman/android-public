@@ -27,7 +27,6 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import org.ibadalrahman.prayertimes.presenter.entity.Prayer
 import org.ibadalrahman.prayertimes.presenter.entity.PrayerTimesIntention
@@ -35,7 +34,6 @@ import org.ibadalrahman.prayertimes.presenter.entity.PrayerTimesScreenState
 import org.ibadalrahman.prayertimes.presenter.entity.WeekDay
 import org.ibadalrahman.prayertimes.presenter.entity.WeekPrayerTimesState
 import org.ibadalrahman.resources.R
-import org.ibadalrahman.fp.safeLet
 import java.util.Date
 
 @Composable
@@ -108,56 +106,6 @@ fun WeeklyPrayerTimesView(
                 }
             }
         )
-
-        safeLet(state.weekPrayerTimes?.hadithState) { hadith ->
-            Spacer(modifier = Modifier.height(30.dp))
-            Text(
-                text = stringResource(id = R.string.hadith).uppercase(),
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                ),
-                modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp)
-            )
-            Column(
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp))
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.background)
-                        .padding(horizontal = 20.dp, vertical = 16.dp)
-                ) {
-                    Text(
-                        text = hadith.hadith,
-                        style = MaterialTheme.typography.bodyLarge.copy(
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            fontWeight = FontWeight.Medium,
-                            textDirection = TextDirection.Rtl
-                        ),
-                    )
-                }
-            }
-
-            hadith.note?.let {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.labelLarge.copy(
-                            textDirection = TextDirection.Rtl,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        ),
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                }
-            }
-        }
 
         Spacer(modifier = Modifier.height(30.dp))
     }

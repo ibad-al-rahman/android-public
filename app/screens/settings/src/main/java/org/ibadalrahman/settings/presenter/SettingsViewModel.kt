@@ -36,7 +36,6 @@ class SettingsViewModel @Inject constructor(
         SettingsIntention.ContactUs -> action(SettingsAction.ContactUs)
         SettingsIntention.Donate -> action(SettingsAction.Donate)
         SettingsIntention.ShareApp -> action(SettingsAction.ShareApp)
-        SettingsIntention.ClearCache -> action(SettingsAction.ClearCache)
         is SettingsIntention.ChangeLanguage -> action(SettingsAction.ChangeLanguage(
             language = intention.language
         ))
@@ -50,7 +49,6 @@ class SettingsViewModel @Inject constructor(
     }
 
     override fun viewActionFrom(result: SettingsResult): SettingsViewAction? = when (result) {
-        SettingsResult.NoOp -> null
         SettingsResult.ContactUs -> SettingsViewAction.ContactUs
         SettingsResult.Donate -> SettingsViewAction.Donate
         is SettingsResult.ShareApp -> SettingsViewAction.Share(result.text)
