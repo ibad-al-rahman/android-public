@@ -28,6 +28,11 @@ fun SettingsRootScreen(
     openDonateLink: () -> Unit,
     changeLanguage: (String) -> Unit,
     onShare: (String) -> Unit,
+    openNotifications: () -> Unit,
+    openPrayerTimesCalculation: () -> Unit,
+    openAppearance: () -> Unit,
+    openHelp: () -> Unit,
+    openRateUs: () -> Unit,
 ) {
     val layoutDirection = LocalLayoutDirection.current
     BaseScreen(
@@ -54,6 +59,11 @@ fun SettingsRootScreen(
         ) { padding ->
             SettingsView(
                 intentionProcessor = intentionProcessor,
+                openNotifications = openNotifications,
+                openPrayerTimesCalculation = openPrayerTimesCalculation,
+                openAppearance = openAppearance,
+                openHelp = openHelp,
+                openRateUs = openRateUs,
                 modifier = Modifier.padding(
                     top = padding.calculateTopPadding(),
                     start = padding.calculateStartPadding(layoutDirection),

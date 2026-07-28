@@ -71,4 +71,58 @@
     <string name="event_battle_of_uhud">Battle of Uhud</string>
     <string name="event_day_of_arafah">Day of Arafah</string>
     <string name="event_eid_al_adha">Eid al-Adha</string>
+
+    <!-- Settings hub -->
+    <string name="notifications">Notifications</string>
+    <string name="prayer_times">Prayer Times</string>
+    <string name="help">Help</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="invite_friends">Invite Friends</string>
+    <string name="go">Go</string>
+
+    <!-- Appearance -->
+    <string name="theme">Theme</string>
+
+    <!-- Notifications -->
+    <string name="enable_notifications">Enable Notifications</string>
+    <string name="prayer_notifications">Prayer Notifications</string>
+    <string name="morning_adhkar_notification">Morning Adhkar Notification</string>
+    <string name="evening_adhkar_notification">Evening Adhkar Notification</string>
+    <string name="morning_adhkar">Morning Adhkar</string>
+    <string name="evening_adhkar">Evening Adhkar</string>
+    <string name="time">Time</string>
+
+    <!-- Prayer times calculation method -->
+    <string name="prayer_times_calculation_method">Prayer Times Calculation Method</string>
+    <string name="astronomical_mode">Astronomical</string>
+    <string name="precomputed_method">Precomputed</string>
+    <string name="dar_el_fatwa_beirut">Dar El Fatwa, Beirut</string>
+    <string name="astronomical_method">Astronomical Method</string>
+    <string name="asr_method">Asr Method</string>
+    <string name="time_adjustments">Time Adjustments</string>
+    <string name="madhab_shafi">Shafi</string>
+    <string name="madhab_hanafi">Hanafi</string>
+    <string name="method_muslim_world_league">Muslim World League</string>
+    <string name="method_egyptian">Egyptian</string>
+    <string name="method_umm_al_qura">Umm al-Qura</string>
+    <string name="method_moonsighting_committee">Moonsighting Committee</string>
+    <string name="method_north_america">North America</string>
+    <string name="method_singapore">Singapore</string>
+    <string name="method_custom">Custom</string>
+    <string name="custom_provider">Custom Angles</string>
+    <string name="custom_fajr_angle">Fajr Angle</string>
+    <string name="custom_ishaa_angle">Ishaa Angle</string>
+    <string name="preview">Preview</string>
+    <string name="minutes_short">min</string>
+
+    <!-- Location search -->
+    <string name="location">Location</string>
+    <string name="search_for_location">Search for a location</string>
+    <string name="search_for_location_description">Enter a city name to set the coordinates used for astronomical calculations.</string>
+    <string name="select_location_first">Select a location first</string>
+
+    <!-- Help -->
+    <string name="app_info">App Info</string>
+    <string name="version">Version</string>
+    <string name="build_number">Build Number</string>
 </resources>
