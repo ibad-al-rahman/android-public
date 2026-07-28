@@ -22,9 +22,22 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.ibadalrahman.prayertimes.view.PrayerTimesRootScreen
+import org.ibadalrahman.settings.calculationmethod.view.AsrMethodScreen
+import org.ibadalrahman.settings.calculationmethod.view.CalculationMethodSelectionScreen
+import org.ibadalrahman.settings.calculationmethod.view.LocationSearchScreen
+import org.ibadalrahman.settings.calculationmethod.view.PrayerTimesCalculationScreen
+import org.ibadalrahman.settings.calculationmethod.view.TimeAdjustmentsScreen
+import org.ibadalrahman.settings.help.view.HelpScreen
+import org.ibadalrahman.settings.notifications.view.NotificationsScreen
+import org.ibadalrahman.settings.view.AppearanceScreen
 import org.ibadalrahman.settings.view.SettingsRootScreen
 import java.text.SimpleDateFormat
 import java.util.Date
+
+private const val CONTACT_US_URL = "https://www.ibad.org.lb/index.php/home/contactus"
+private const val DONATE_URL = "https://www.ibad.org.lb/index.php/home/donationform"
+private const val PLAY_STORE_URL =
+    "https://play.google.com/store/apps/details?id=org.ibadalrahman.publicsector"
 
 @Composable
 fun NavigationGraph(
@@ -34,6 +47,7 @@ fun NavigationGraph(
     NavHost(navController = navController, startDestination = initialRoute) {
         addPrayerTimesScreen(navController = navController)
         addSettingsScreen(navController = navController)
+        addSettingsSubScreens(navController = navController)
     }
 }
 
@@ -62,35 +76,107 @@ fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
         val context = LocalContext.current
         val uriHandler = LocalUriHandler.current
 
-
         SettingsRootScreen(
             viewModel = hiltViewModel(),
-            openContactUsLink = {
-                uriHandler.openUri("https://www.ibad.org.lb/index.php/home/contactus")
+            openContactUsLink = { uriHandler.openUri(CONTACT_US_URL) },
+            openDonateLink = { uriHandler.openUri(DONATE_URL) },
+            changeLanguage = { languageCode -> context.applyLanguage(languageCode) },
+            onShare = { text -> context.shareText(text) },
+            openNotifications = {
+                navController.navigate(Screen.SettingsNotifications.route)
             },
-            openDonateLink = {
-                uriHandler.openUri("https://www.ibad.org.lb/index.php/home/donationform")
+            openPrayerTimesCalculation = {
+                navController.navigate(Screen.SettingsPrayerTimesCalculation.route)
             },
-            changeLanguage = { languageCode ->
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    context.getSystemService(LocaleManager::class.java)
-                        .applicationLocales = LocaleList.forLanguageTags(languageCode)
-                }
-                else {
-                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
-                }
-            },
-            onShare = { text ->
-                val sendIntent: Intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, text)
-                    type = "text/plain"
-                }
-                val shareIntent = Intent.createChooser(sendIntent, null)
-                context.startActivity(shareIntent)
-            }
+            openAppearance = { navController.navigate(Screen.SettingsAppearance.route) },
+            openHelp = { navController.navigate(Screen.SettingsHelp.route) },
+            openRateUs = { uriHandler.openUri(PLAY_STORE_URL) },
         )
     }
+}
+
+fun NavGraphBuilder.addSettingsSubScreens(navController: NavHostController) {
+    composable(Screen.SettingsNotifications.route) {
+        NotificationsScreen(
+            viewModel = hiltViewModel(),
+            onBack = { navController.popBackStack() },
+        )
+    }
+
+    composable(Screen.SettingsAppearance.route) {
+        AppearanceScreen(
+            viewModel = hiltViewModel(),
+            onBack = { navController.popBackStack() },
+        )
+    }
+
+    composable(Screen.SettingsHelp.route) {
+        val uriHandler = LocalUriHandler.current
+        HelpScreen(
+            onBack = { navController.popBackStack() },
+            onContactUs = { uriHandler.openUri(CONTACT_US_URL) },
+        )
+    }
+
+    composable(Screen.SettingsPrayerTimesCalculation.route) {
+        PrayerTimesCalculationScreen(
+            viewModel = hiltViewModel(),
+            onBack = { navController.popBackStack() },
+            openAstronomicalMethod = {
+                navController.navigate(Screen.SettingsCalculationMethodSelection.route)
+            },
+            openAsrMethod = { navController.navigate(Screen.SettingsAsrMethod.route) },
+            openTimeAdjustments = { navController.navigate(Screen.SettingsTimeAdjustments.route) },
+        )
+    }
+
+    composable(Screen.SettingsCalculationMethodSelection.route) {
+        CalculationMethodSelectionScreen(
+            viewModel = hiltViewModel(),
+            onBack = { navController.popBackStack() },
+            openLocationSearch = { navController.navigate(Screen.SettingsLocationSearch.route) },
+        )
+    }
+
+    composable(Screen.SettingsLocationSearch.route) {
+        LocationSearchScreen(
+            viewModel = hiltViewModel(),
+            onLocationSelected = { navController.popBackStack() },
+            onBack = { navController.popBackStack() },
+        )
+    }
+
+    composable(Screen.SettingsAsrMethod.route) {
+        AsrMethodScreen(
+            viewModel = hiltViewModel(),
+            onBack = { navController.popBackStack() },
+        )
+    }
+
+    composable(Screen.SettingsTimeAdjustments.route) {
+        TimeAdjustmentsScreen(
+            viewModel = hiltViewModel(),
+            onBack = { navController.popBackStack() },
+        )
+    }
+}
+
+private fun android.content.Context.applyLanguage(languageCode: String) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getSystemService(LocaleManager::class.java).applicationLocales =
+            LocaleList.forLanguageTags(languageCode)
+    } else {
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
+    }
+}
+
+private fun android.content.Context.shareText(text: String) {
+    val sendIntent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, text)
+        type = "text/plain"
+    }
+    startActivity(Intent.createChooser(sendIntent, null))
 }
 
 // date picker modal

@@ -72,4 +72,58 @@
     <string name="event_battle_of_uhud">غزوة أحد</string>
     <string name="event_day_of_arafah">يوم عرفة</string>
     <string name="event_eid_al_adha">عيد الأضحى</string>
+
+    <!-- Settings hub -->
+    <string name="notifications">الإشعارات</string>
+    <string name="prayer_times">أوقات الصلاة</string>
+    <string name="help">المساعدة</string>
+    <string name="rate_us">قيّمنا</string>
+    <string name="invite_friends">ادعُ أصدقاءك</string>
+    <string name="go">اذهب</string>
+
+    <!-- Appearance -->
+    <string name="theme">السمة</string>
+
+    <!-- Notifications -->
+    <string name="enable_notifications">تفعيل الإشعارات</string>
+    <string name="prayer_notifications">إشعارات الصلاة</string>
+    <string name="morning_adhkar_notification">إشعار أذكار الصباح</string>
+    <string name="evening_adhkar_notification">إشعار أذكار المساء</string>
+    <string name="morning_adhkar">أذكار الصباح</string>
+    <string name="evening_adhkar">أذكار المساء</string>
+    <string name="time">الوقت</string>
+
+    <!-- Prayer times calculation method -->
+    <string name="prayer_times_calculation_method">طريقة حساب أوقات الصلاة</string>
+    <string name="astronomical_mode">فلكي</string>
+    <string name="precomputed_method">محسوب مسبقًا</string>
+    <string name="dar_el_fatwa_beirut">دار الفتوى، بيروت</string>
+    <string name="astronomical_method">الطريقة الفلكية</string>
+    <string name="asr_method">طريقة العصر</string>
+    <string name="time_adjustments">تعديلات الوقت</string>
+    <string name="madhab_shafi">الشافعي</string>
+    <string name="madhab_hanafi">الحنفي</string>
+    <string name="method_muslim_world_league">رابطة العالم الإسلامي</string>
+    <string name="method_egyptian">الهيئة المصرية</string>
+    <string name="method_umm_al_qura">أم القرى</string>
+    <string name="method_moonsighting_committee">لجنة رؤية الهلال</string>
+    <string name="method_north_america">أمريكا الشمالية</string>
+    <string name="method_singapore">سنغافورة</string>
+    <string name="method_custom">مخصص</string>
+    <string name="custom_provider">زوايا مخصصة</string>
+    <string name="custom_fajr_angle">زاوية الفجر</string>
+    <string name="custom_ishaa_angle">زاوية العشاء</string>
+    <string name="preview">معاينة</string>
+    <string name="minutes_short">دقيقة</string>
+
+    <!-- Location search -->
+    <string name="location">الموقع</string>
+    <string name="search_for_location">ابحث عن موقع</string>
+    <string name="search_for_location_description">أدخل اسم مدينة لتحديد الإحداثيات المستخدمة في الحسابات الفلكية.</string>
+    <string name="select_location_first">اختر موقعًا أولاً</string>
+
+    <!-- Help -->
+    <string name="app_info">معلومات التطبيق</string>
+    <string name="version">الإصدار</string>
+    <string name="build_number">رقم البناء</string>
 </resources>

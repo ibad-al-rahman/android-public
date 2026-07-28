@@ -54,6 +54,7 @@ dependencies {
     implementation(projects.app.common.base)
     implementation(projects.app.common.resources)
     implementation(projects.app.data.settingsRepository)
+    implementation(projects.app.data.miqatRepository)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
