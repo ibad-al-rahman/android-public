@@ -33,17 +33,6 @@ data class PrayerTimesScreenState(
                 event = null
             )
     }
-
-    val compactedWeeks: List<PrayerTimesState>
-        get() = listOf(
-            this.weekPrayerTimes?.sat,
-            this.weekPrayerTimes?.sun,
-            this.weekPrayerTimes?.mon,
-            this.weekPrayerTimes?.tue,
-            this.weekPrayerTimes?.wed,
-            this.weekPrayerTimes?.thu,
-            this.weekPrayerTimes?.fri
-        ).mapNotNull { it }
 }
 
 @Stable
