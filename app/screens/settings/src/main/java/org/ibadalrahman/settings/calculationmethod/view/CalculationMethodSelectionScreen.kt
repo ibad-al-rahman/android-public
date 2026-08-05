@@ -31,6 +31,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import java.text.DateFormat
+import java.util.Date
 import org.ibadalrahman.miqat.repository.data.domain.AstronomicalMethod
 import org.ibadalrahman.mvi.BaseScreen
 import org.ibadalrahman.resources.R
@@ -99,6 +101,25 @@ fun CalculationMethodSelectionScreen(
                     }
                 }
 
+                // Live Fajr/Ishaa preview for the current selection.
+                state.preview?.let { preview ->
+                    item {
+                        Spacer(Modifier.height(24.dp))
+                        SectionHeader(stringResource(R.string.preview))
+                        Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp))) {
+                            PrayerTimePreviewRow(
+                                label = stringResource(R.string.fajr),
+                                time = preview.fajr,
+                            )
+                            Spacer(Modifier.height(1.dp))
+                            PrayerTimePreviewRow(
+                                label = stringResource(R.string.ishaa),
+                                time = preview.ishaa,
+                            )
+                        }
+                    }
+                }
+
                 item { Spacer(Modifier.height(24.dp)) }
 
                 // Preset methods
@@ -111,6 +132,7 @@ fun CalculationMethodSelectionScreen(
                                 ?.method == method
                             MethodRow(
                                 label = stringResource(method.labelRes),
+                                caption = method.captionLabel(),
                                 selected = selected,
                                 enabled = hasLocation,
                                 onClick = {
@@ -125,6 +147,7 @@ fun CalculationMethodSelectionScreen(
                         Spacer(Modifier.height(1.dp))
                         MethodRow(
                             label = stringResource(R.string.method_custom),
+                            caption = null,
                             selected = currentMethod is AstronomicalMethod.Custom,
                             enabled = hasLocation,
                             onClick = {
@@ -185,6 +208,7 @@ fun CalculationMethodSelectionScreen(
 @Composable
 private fun MethodRow(
     label: String,
+    caption: String?,
     selected: Boolean,
     enabled: Boolean,
     onClick: () -> Unit,
@@ -199,10 +223,45 @@ private fun MethodRow(
                 ),
             )
         },
+        supportingContent = caption?.let {
+            {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                )
+            }
+        },
         trailingContent = {
             if (selected) Icon(Icons.Filled.Check, contentDescription = null)
         },
         colors = listItemColors,
         modifier = Modifier.clickable(enabled = enabled, onClick = onClick),
+    )
+}
+
+@Composable
+private fun PrayerTimePreviewRow(label: String, time: Date) {
+    val formatter = DateFormat.getTimeInstance(DateFormat.SHORT)
+    ListItem(
+        headlineContent = {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.Medium,
+                ),
+            )
+        },
+        trailingContent = {
+            Text(
+                text = formatter.format(time),
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                ),
+            )
+        },
+        colors = listItemColors,
     )
 }

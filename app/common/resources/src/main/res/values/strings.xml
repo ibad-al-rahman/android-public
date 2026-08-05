@@ -92,6 +92,15 @@
     <string name="evening_adhkar">Evening Adhkar</string>
     <string name="time">Time</string>
 
+    <!-- Notification channels and content -->
+    <string name="notification_channel_prayers">Prayer Times</string>
+    <string name="notification_channel_prayers_description">Notifies you when a prayer time has come.</string>
+    <string name="notification_channel_adhkar">Adhkar Reminders</string>
+    <string name="notification_channel_adhkar_description">Reminders for morning and evening adhkar.</string>
+    <string name="notification_prayer_body">It is time for %1$s prayer.</string>
+    <string name="notification_morning_adhkar_body">Time for morning adhkar.</string>
+    <string name="notification_evening_adhkar_body">Time for evening adhkar.</string>
+
     <!-- Prayer times calculation method -->
     <string name="prayer_times_calculation_method">Prayer Times Calculation Method</string>
     <string name="astronomical_mode">Astronomical</string>
@@ -113,6 +122,9 @@
     <string name="custom_fajr_angle">Fajr Angle</string>
     <string name="custom_ishaa_angle">Ishaa Angle</string>
     <string name="preview">Preview</string>
+    <string name="caption_fajr">Fajr</string>
+    <string name="caption_ishaa">Ishaa</string>
+    <string name="caption_interval">Interval</string>
     <string name="minutes_short">min</string>
 
     <!-- Location search -->

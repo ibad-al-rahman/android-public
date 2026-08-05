@@ -1,5 +1,6 @@
 package org.ibadalrahman.settings.calculationmethod.domain
 
+import android.icu.util.Calendar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.ibadalrahman.miqat.Coordinates
@@ -29,20 +30,32 @@ class CalculationMethodInteractor @Inject constructor(
             CalculationMethodAction.Load -> Unit
             CalculationMethodAction.SelectPrecomputed ->
                 miqatRepository.setCalculationMethod(MiqatCalculationMethod.default)
-            CalculationMethodAction.SelectAstronomical -> selectAstronomical()
+            CalculationMethodAction.SelectAstronomical ->
+                // No config to restore yet: signal the screen to open setup instead of no-op'ing.
+                if (!selectAstronomical()) {
+                    return flowOf(CalculationMethodResult.RequiresAstronomicalSetup)
+                }
             is CalculationMethodAction.SetMethod -> updateAstronomical { it.copy(method = action.method) }
             is CalculationMethodAction.SetMazhab -> updateAstronomical { it.copy(mazhab = action.mazhab) }
             is CalculationMethodAction.SetAdjustments ->
                 updateAstronomical { it.copy(adjustments = action.adjustments) }
             is CalculationMethodAction.SetCoordinates -> setCoordinates(action.coordinates)
         }
-        return flowOf(CalculationMethodResult.Loaded(miqatRepository.getCalculationMethod()))
+        val method = miqatRepository.getCalculationMethod()
+        val preview = method.asAstronomical?.let {
+            miqatRepository.previewMiqatData(timestampSecs = middayEpochSecs(), method = method)
+        }
+        return flowOf(CalculationMethodResult.Loaded(method = method, preview = preview))
     }
 
-    /** Restore the retained astronomical config, if the user ever configured one. */
-    private fun selectAstronomical() {
-        val retained = miqatRepository.getRetainedAstronomicalConfig() ?: return
+    /**
+     * Restore the retained astronomical config, returning `true` if one existed and was applied.
+     * `false` means the user has never configured astronomical mode.
+     */
+    private fun selectAstronomical(): Boolean {
+        val retained = miqatRepository.getRetainedAstronomicalConfig() ?: return false
         miqatRepository.setCalculationMethod(MiqatCalculationMethod.Astronomical(retained))
+        return true
     }
 
     /** Apply [transform] to the active-or-retained astronomical config and persist it. */
@@ -69,4 +82,19 @@ class CalculationMethodInteractor @Inject constructor(
     private fun astronomicalConfig(): AstronomicalConfig? =
         miqatRepository.getCalculationMethod().asAstronomical
             ?: miqatRepository.getRetainedAstronomicalConfig()
+}
+
+/**
+ * Epoch seconds at 12:00 local time today. miqat keys by the day of the UTC timestamp; anchoring at
+ * midday keeps a day near a UTC boundary resolving to the intended date. Mirrors the prayer-times
+ * screen's `middayEpochSecs`.
+ */
+private fun middayEpochSecs(): Long {
+    val calendar = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, 12)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }
+    return calendar.timeInMillis / 1000
 }

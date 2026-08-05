@@ -1,10 +1,13 @@
 package org.ibadalrahman.publicsector.navigation
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.LocaleManager
 import android.content.Intent
 import android.os.Build
 import android.os.LocaleList
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -97,9 +100,18 @@ fun NavGraphBuilder.addSettingsScreen(navController: NavHostController) {
 
 fun NavGraphBuilder.addSettingsSubScreens(navController: NavHostController) {
     composable(Screen.SettingsNotifications.route) {
+        val permissionLauncher = rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { /* granted-or-not is reflected by the system; nothing to do here */ }
+
         NotificationsScreen(
             viewModel = hiltViewModel(),
             onBack = { navController.popBackStack() },
+            onEnableNotifications = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            },
         )
     }
 

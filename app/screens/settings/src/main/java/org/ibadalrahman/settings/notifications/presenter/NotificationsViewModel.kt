@@ -30,27 +30,28 @@ class NotificationsViewModel @Inject constructor(
     initialState = NotificationsScreenState.Default,
     interactor = interactor,
 ) {
-    // Intentions map directly to state results — nothing is persisted (UI shell).
+    // Every intention persists via the interactor, which reloads and emits the fresh snapshot.
     override fun router(
         intention: NotificationsIntention
     ): MviBoundary<NotificationsViewAction, NotificationsAction, NotificationsResult> =
         when (intention) {
+            NotificationsIntention.Load -> action(NotificationsAction.Load)
             is NotificationsIntention.SetNotificationsEnabled ->
-                result(NotificationsResult.NotificationsEnabled(intention.enabled))
-            is NotificationsIntention.SetFajr -> result(NotificationsResult.Fajr(intention.enabled))
-            is NotificationsIntention.SetDhuhr -> result(NotificationsResult.Dhuhr(intention.enabled))
-            is NotificationsIntention.SetAsr -> result(NotificationsResult.Asr(intention.enabled))
+                action(NotificationsAction.SetNotificationsEnabled(intention.enabled))
+            is NotificationsIntention.SetFajr -> action(NotificationsAction.SetFajr(intention.enabled))
+            is NotificationsIntention.SetDhuhr -> action(NotificationsAction.SetDhuhr(intention.enabled))
+            is NotificationsIntention.SetAsr -> action(NotificationsAction.SetAsr(intention.enabled))
             is NotificationsIntention.SetMaghrib ->
-                result(NotificationsResult.Maghrib(intention.enabled))
-            is NotificationsIntention.SetIshaa -> result(NotificationsResult.Ishaa(intention.enabled))
+                action(NotificationsAction.SetMaghrib(intention.enabled))
+            is NotificationsIntention.SetIshaa -> action(NotificationsAction.SetIshaa(intention.enabled))
             is NotificationsIntention.SetMorningAdhkarEnabled ->
-                result(NotificationsResult.MorningAdhkarEnabled(intention.enabled))
+                action(NotificationsAction.SetMorningAdhkarEnabled(intention.enabled))
             is NotificationsIntention.SetEveningAdhkarEnabled ->
-                result(NotificationsResult.EveningAdhkarEnabled(intention.enabled))
+                action(NotificationsAction.SetEveningAdhkarEnabled(intention.enabled))
             is NotificationsIntention.SetMorningTime ->
-                result(NotificationsResult.MorningTime(intention.hour, intention.minute))
+                action(NotificationsAction.SetMorningTime(intention.hour, intention.minute))
             is NotificationsIntention.SetEveningTime ->
-                result(NotificationsResult.EveningTime(intention.hour, intention.minute))
+                action(NotificationsAction.SetEveningTime(intention.hour, intention.minute))
         }
 
     override fun reduce(result: NotificationsResult) {

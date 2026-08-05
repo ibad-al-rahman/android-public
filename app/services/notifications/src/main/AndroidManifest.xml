@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Required to post notifications on Android 13+ (API 33). Implicitly granted below that. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Re-arm the rolling alarm after a reboot, which clears all AlarmManager alarms. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application>
+        <!-- Fires at the next prayer/adhkar instant: posts the notification, then re-arms. -->
+        <receiver
+            android:name=".PrayerNotificationReceiver"
+            android:exported="false"
+        />
+
+        <!-- Re-arms the rolling alarm after boot or a wall-clock/timezone change. -->
+        <receiver
+            android:name=".BootAndTimeReceiver"
+            android:exported="true"
+        >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

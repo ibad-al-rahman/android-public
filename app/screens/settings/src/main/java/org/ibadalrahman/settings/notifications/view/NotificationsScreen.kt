@@ -40,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.ibadalrahman.mvi.BaseScreen
+import org.ibadalrahman.mvi.ObserveLifecycleEvents
 import org.ibadalrahman.resources.R
 import org.ibadalrahman.settings.notifications.presenter.NotificationsViewModel
 import org.ibadalrahman.settings.notifications.presenter.entity.NotificationsIntention
@@ -50,11 +51,15 @@ import org.ibadalrahman.settings.notifications.presenter.entity.NotificationsScr
 fun NotificationsScreen(
     viewModel: NotificationsViewModel,
     onBack: () -> Unit,
+    onEnableNotifications: () -> Unit = {},
 ) {
     BaseScreen(
         viewModel = viewModel,
         viewActionProcessor = { /* no side effects yet */ }
     ) { state, intentionProcessor ->
+        ObserveLifecycleEvents(
+            onResume = { intentionProcessor(NotificationsIntention.Load) }
+        )
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -73,6 +78,7 @@ fun NotificationsScreen(
             NotificationsContent(
                 state = state,
                 intentionProcessor = intentionProcessor,
+                onEnableNotifications = onEnableNotifications,
                 modifier = Modifier.padding(top = padding.calculateTopPadding()),
             )
         }
@@ -83,6 +89,7 @@ fun NotificationsScreen(
 private fun NotificationsContent(
     state: NotificationsScreenState,
     intentionProcessor: (NotificationsIntention) -> Unit,
+    onEnableNotifications: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val enabled = state.notificationsEnabled
@@ -100,8 +107,9 @@ private fun NotificationsContent(
                 SwitchRow(
                     label = stringResource(R.string.enable_notifications),
                     checked = state.notificationsEnabled,
-                    onCheckedChange = {
-                        intentionProcessor(NotificationsIntention.SetNotificationsEnabled(it))
+                    onCheckedChange = { checked ->
+                        intentionProcessor(NotificationsIntention.SetNotificationsEnabled(checked))
+                        if (checked) onEnableNotifications()
                     },
                 )
             }

@@ -1,14 +1,11 @@
 package org.ibadalrahman.settings.notifications.domain.entity
 
+import org.ibadalrahman.settings.repository.data.domain.NotificationSettings
+
+/**
+ * Every action persists the change and reloads the full snapshot, so a single [Loaded] result
+ * carrying the fresh [NotificationSettings] keeps state consistent with what was persisted.
+ */
 sealed interface NotificationsResult {
-    data class NotificationsEnabled(val enabled: Boolean) : NotificationsResult
-    data class Fajr(val enabled: Boolean) : NotificationsResult
-    data class Dhuhr(val enabled: Boolean) : NotificationsResult
-    data class Asr(val enabled: Boolean) : NotificationsResult
-    data class Maghrib(val enabled: Boolean) : NotificationsResult
-    data class Ishaa(val enabled: Boolean) : NotificationsResult
-    data class MorningAdhkarEnabled(val enabled: Boolean) : NotificationsResult
-    data class EveningAdhkarEnabled(val enabled: Boolean) : NotificationsResult
-    data class MorningTime(val hour: Int, val minute: Int) : NotificationsResult
-    data class EveningTime(val hour: Int, val minute: Int) : NotificationsResult
+    data class Loaded(val settings: NotificationSettings) : NotificationsResult
 }
