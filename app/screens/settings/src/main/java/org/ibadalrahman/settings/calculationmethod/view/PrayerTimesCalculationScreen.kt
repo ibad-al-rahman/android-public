@@ -38,6 +38,7 @@ import org.ibadalrahman.resources.R
 import org.ibadalrahman.settings.calculationmethod.presenter.CalculationMethodViewModel
 import org.ibadalrahman.settings.calculationmethod.presenter.entity.CalculationMethodIntention
 import org.ibadalrahman.settings.calculationmethod.presenter.entity.CalculationMethodScreenState
+import org.ibadalrahman.settings.calculationmethod.presenter.entity.CalculationMethodViewAction
 import org.ibadalrahman.settings.view.NavigationRow
 import org.ibadalrahman.settings.view.SectionHeader
 
@@ -52,7 +53,11 @@ fun PrayerTimesCalculationScreen(
 ) {
     BaseScreen(
         viewModel = viewModel,
-        viewActionProcessor = { }
+        viewActionProcessor = { viewAction ->
+            when (viewAction) {
+                CalculationMethodViewAction.OpenAstronomicalMethod -> openAstronomicalMethod()
+            }
+        }
     ) { state, intentionProcessor ->
         LoadOnce(intentionProcessor)
         Scaffold(

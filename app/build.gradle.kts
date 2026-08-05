@@ -117,6 +117,7 @@ dependencies {
     implementation(projects.app.screens.settings)
     implementation(projects.app.widgets.prayerTimes)
     implementation(projects.app.data.settingsRepository)
+    implementation(projects.app.services.notifications)
 
     testImplementation(libs.junit)
 

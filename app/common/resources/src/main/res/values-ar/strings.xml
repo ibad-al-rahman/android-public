@@ -93,6 +93,15 @@
     <string name="evening_adhkar">أذكار المساء</string>
     <string name="time">الوقت</string>
 
+    <!-- Notification channels and content -->
+    <string name="notification_channel_prayers">أوقات الصلاة</string>
+    <string name="notification_channel_prayers_description">ينبّهك عند دخول وقت الصلاة.</string>
+    <string name="notification_channel_adhkar">تذكير الأذكار</string>
+    <string name="notification_channel_adhkar_description">تذكير بأذكار الصباح والمساء.</string>
+    <string name="notification_prayer_body">حان الآن وقت صلاة %1$s.</string>
+    <string name="notification_morning_adhkar_body">حان وقت أذكار الصباح.</string>
+    <string name="notification_evening_adhkar_body">حان وقت أذكار المساء.</string>
+
     <!-- Prayer times calculation method -->
     <string name="prayer_times_calculation_method">طريقة حساب أوقات الصلاة</string>
     <string name="astronomical_mode">فلكي</string>
@@ -114,6 +123,9 @@
     <string name="custom_fajr_angle">زاوية الفجر</string>
     <string name="custom_ishaa_angle">زاوية العشاء</string>
     <string name="preview">معاينة</string>
+    <string name="caption_fajr">الفجر</string>
+    <string name="caption_ishaa">العشاء</string>
+    <string name="caption_interval">فترة</string>
     <string name="minutes_short">دقيقة</string>
 
     <!-- Location search -->

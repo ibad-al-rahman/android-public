@@ -1,6 +1,7 @@
 package org.ibadalrahman.settings.notifications.presenter.entity
 
 sealed interface NotificationsIntention {
+    data object Load : NotificationsIntention
     data class SetNotificationsEnabled(val enabled: Boolean) : NotificationsIntention
     data class SetFajr(val enabled: Boolean) : NotificationsIntention
     data class SetDhuhr(val enabled: Boolean) : NotificationsIntention

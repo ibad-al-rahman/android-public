@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.ibadalrahman.settings.view.listItemColors
-import kotlin.math.roundToInt
 
 private const val MIN_ANGLE = 10.0
 private const val MAX_ANGLE = 29.5
@@ -62,10 +61,4 @@ internal fun AngleRow(
         },
         colors = listItemColors,
     )
-}
-
-/** "18°" for whole degrees, "18.5°" otherwise. */
-private fun formatAngle(angle: Double): String {
-    val whole = angle.roundToInt().toDouble() == angle
-    return if (whole) "${angle.toInt()}°" else "$angle°"
 }

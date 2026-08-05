@@ -8,6 +8,9 @@ object CalculationMethodReducer {
         prevState: CalculationMethodScreenState,
         result: CalculationMethodResult
     ): CalculationMethodScreenState = when (result) {
-        is CalculationMethodResult.Loaded -> prevState.copy(method = result.method)
+        is CalculationMethodResult.Loaded ->
+            prevState.copy(method = result.method, preview = result.preview)
+        // Navigation-only; the view action drives it, state is untouched.
+        CalculationMethodResult.RequiresAstronomicalSetup -> prevState
     }
 }

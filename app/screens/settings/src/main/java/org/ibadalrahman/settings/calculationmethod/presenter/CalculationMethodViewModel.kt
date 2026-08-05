@@ -57,4 +57,11 @@ class CalculationMethodViewModel @Inject constructor(
     override fun reduce(result: CalculationMethodResult) {
         updateState { CalculationMethodReducer.reduce(prevState = this, result = result) }
     }
+
+    override fun viewActionFrom(result: CalculationMethodResult): CalculationMethodViewAction? =
+        when (result) {
+            CalculationMethodResult.RequiresAstronomicalSetup ->
+                CalculationMethodViewAction.OpenAstronomicalMethod
+            is CalculationMethodResult.Loaded -> null
+        }
 }
