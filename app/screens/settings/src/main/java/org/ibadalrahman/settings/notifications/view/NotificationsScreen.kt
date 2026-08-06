@@ -228,9 +228,6 @@ private fun SwitchRow(
                     uncheckedThumbColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant,
                     uncheckedBorderColor = MaterialTheme.colorScheme.outline,
-                    disabledUncheckedThumbColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    disabledUncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant,
-                    disabledUncheckedBorderColor = MaterialTheme.colorScheme.outline,
                 ),
             )
         },
