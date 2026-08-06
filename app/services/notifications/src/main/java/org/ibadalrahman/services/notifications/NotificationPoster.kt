@@ -3,9 +3,11 @@ package org.ibadalrahman.services.notifications
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.media.AudioAttributes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.ibadalrahman.resources.R
 import javax.inject.Inject
@@ -25,6 +27,14 @@ class NotificationPoster @Inject constructor(
     fun ensureChannels() {
         val manager = context.getSystemService<NotificationManager>() ?: return
 
+        // The adhan sound is a channel property, set once at creation (setSound on the builder is
+        // ignored on API 26+). It is immutable afterwards — changing it later needs a new channel id.
+        val adhanUri = "android.resource://${context.packageName}/${R.raw.azan}".toUri()
+        val adhanAttributes = AudioAttributes.Builder()
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+            .build()
+
         manager.createNotificationChannel(
             NotificationChannel(
                 CHANNEL_PRAYERS,
@@ -32,6 +42,7 @@ class NotificationPoster @Inject constructor(
                 NotificationManager.IMPORTANCE_HIGH,
             ).apply {
                 description = context.getString(R.string.notification_channel_prayers_description)
+                setSound(adhanUri, adhanAttributes)
             }
         )
         manager.createNotificationChannel(
