@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoStories
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.AutoStories
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Scaffold
@@ -33,6 +35,12 @@ fun RootContent(
                 icon = Icons.Outlined.CalendarMonth,
                 selectedIcon = Icons.Filled.CalendarMonth,
                 stringResourceId = R.string.timings
+            ),
+            TabBarItem(
+                route = Screen.Adhkar.route,
+                icon = Icons.Outlined.AutoStories,
+                selectedIcon = Icons.Filled.AutoStories,
+                stringResourceId = R.string.adhkar
             ),
             TabBarItem(
                 route = Screen.Settings.route,

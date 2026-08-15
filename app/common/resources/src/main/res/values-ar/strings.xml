@@ -93,6 +93,13 @@
     <string name="evening_adhkar">أذكار المساء</string>
     <string name="time">الوقت</string>
 
+    <!-- Adhkar tour -->
+    <string name="adhkar">الأذكار</string>
+    <string name="adhkar_completed">تمّت %1$s</string>
+    <string name="dhikr_done">تمّ الذكر</string>
+    <string name="dhikr_next_hint">اضغط للمتابعة</string>
+    <string name="dhikr_count_hint">اضغط للعدّ</string>
+
     <!-- Notification channels and content -->
     <string name="notification_channel_prayers">أوقات الصلاة</string>
     <string name="notification_channel_prayers_description">ينبّهك عند دخول وقت الصلاة.</string>

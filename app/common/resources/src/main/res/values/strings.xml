@@ -92,6 +92,13 @@
     <string name="evening_adhkar">Evening Adhkar</string>
     <string name="time">Time</string>
 
+    <!-- Adhkar tour -->
+    <string name="adhkar">Adhkar</string>
+    <string name="adhkar_completed">You completed %1$s</string>
+    <string name="dhikr_done">Done</string>
+    <string name="dhikr_next_hint">Tap to continue</string>
+    <string name="dhikr_count_hint">Tap to count</string>
+
     <!-- Notification channels and content -->
     <string name="notification_channel_prayers">Prayer Times</string>
     <string name="notification_channel_prayers_description">Notifies you when a prayer time has come.</string>

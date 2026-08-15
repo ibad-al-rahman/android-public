@@ -24,6 +24,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import org.ibadalrahman.adhkar.collection.view.AdhkarCollectionScreen
+import org.ibadalrahman.adhkar.tour.presenter.AdhkarTourViewModel
+import org.ibadalrahman.adhkar.tour.view.AdhkarTourScreen
 import org.ibadalrahman.prayertimes.view.PrayerTimesRootScreen
 import org.ibadalrahman.settings.calculationmethod.view.AsrMethodScreen
 import org.ibadalrahman.settings.calculationmethod.view.CalculationMethodSelectionScreen
@@ -49,8 +54,34 @@ fun NavigationGraph(
 ) {
     NavHost(navController = navController, startDestination = initialRoute) {
         addPrayerTimesScreen(navController = navController)
+        addAdhkarScreens(navController = navController)
         addSettingsScreen(navController = navController)
         addSettingsSubScreens(navController = navController)
+    }
+}
+
+fun NavGraphBuilder.addAdhkarScreens(navController: NavHostController) {
+    composable(Screen.Adhkar.route) {
+        AdhkarCollectionScreen(
+            viewModel = hiltViewModel(),
+            openTour = { collection ->
+                navController.navigate(
+                    Screen.AdhkarTour.createRouteWith(collection.slug, isNavigating = true)
+                )
+            },
+        )
+    }
+
+    composable(
+        route = Screen.AdhkarTour.createRouteWith(AdhkarTourViewModel.COLLECTION_ARG),
+        arguments = listOf(
+            navArgument(AdhkarTourViewModel.COLLECTION_ARG) { type = NavType.StringType },
+        ),
+    ) {
+        AdhkarTourScreen(
+            viewModel = hiltViewModel(),
+            onClose = { navController.popBackStack() },
+        )
     }
 }
 
