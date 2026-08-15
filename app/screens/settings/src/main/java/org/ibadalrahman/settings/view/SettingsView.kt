@@ -83,16 +83,17 @@ fun SettingsView(
         }
 
         // Prayer Times
-        item {
-            Spacer(modifier = Modifier.height(40.dp))
-            SectionHeader(stringResource(R.string.prayer_times))
-            NavigationRow(
-                text = stringResource(R.string.prayer_times_calculation_method),
-                icon = Icons.Filled.Tune,
-                onClick = openPrayerTimesCalculation,
-                modifier = Modifier.clip(RoundedCornerShape(12.dp))
-            )
-        }
+        // Temporarily hidden — calculation method feature is being enabled in a separate branch.
+        // item {
+        //     Spacer(modifier = Modifier.height(40.dp))
+        //     SectionHeader(stringResource(R.string.prayer_times))
+        //     NavigationRow(
+        //         text = stringResource(R.string.prayer_times_calculation_method),
+        //         icon = Icons.Filled.Tune,
+        //         onClick = openPrayerTimesCalculation,
+        //         modifier = Modifier.clip(RoundedCornerShape(12.dp))
+        //     )
+        // }
 
         // Display
         item {
