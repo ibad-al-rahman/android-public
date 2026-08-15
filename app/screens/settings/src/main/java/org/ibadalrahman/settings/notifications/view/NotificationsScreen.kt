@@ -212,7 +212,6 @@ private fun SwitchRow(
                 checked = checked,
                 onCheckedChange = onCheckedChange,
                 enabled = enabled,
-                // Show a check when on and an X when off, inside the thumb.
                 thumbContent = {
                     Icon(
                         imageVector = if (checked) Icons.Filled.Check else Icons.Filled.Close,
@@ -220,10 +219,6 @@ private fun SwitchRow(
                         modifier = Modifier.size(SwitchDefaults.IconSize),
                     )
                 },
-                // The default unchecked thumb (`outline`, a light grey) sits on the unchecked track
-                // (`surfaceVariant`, also light grey) against this app's white rows, so the thumb is
-                // invisible in both the enabled- and disabled-unchecked states. Use a dark thumb on
-                // the medium-grey track for clear contrast in every off state.
                 colors = SwitchDefaults.colors(
                     uncheckedThumbColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     uncheckedTrackColor = MaterialTheme.colorScheme.surfaceVariant,
