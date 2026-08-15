@@ -3,6 +3,7 @@ package org.ibadalrahman.adhkar.tour.view
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -148,26 +149,32 @@ private fun DhikrContent(
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
-        Text(
-            text = dhikr.displayText(),
-            textAlign = TextAlign.Center,
-            fontFamily = FontFamily.Serif,
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onBackground,
+        // The verse fills the flexible space above the count and centers itself within it, so the
+        // count/done block below is pushed to the bottom of the screen.
+        Box(
             modifier = Modifier
-                .weight(1f, fill = false)
-                .padding(horizontal = 8.dp),
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
+                .weight(1f)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = dhikr.displayText(),
+                textAlign = TextAlign.Center,
+                fontFamily = FontFamily.Serif,
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.padding(horizontal = 8.dp),
+            )
+        }
 
         if (state.isActiveComplete) {
             DoneBlock()
         } else {
             CountBlock(count = state.activeCount, target = dhikr.target)
         }
+
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 
