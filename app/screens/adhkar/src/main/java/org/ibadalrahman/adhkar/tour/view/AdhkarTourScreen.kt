@@ -2,6 +2,7 @@ package org.ibadalrahman.adhkar.tour.view
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -103,13 +105,17 @@ private fun Content(
 ) {
     val layoutDirection = LocalLayoutDirection.current
     val thresholdPx = with(LocalDensity.current) { SWIPE_THRESHOLD_DP.dp.toPx() }
+    val interactionSource = remember { MutableInteractionSource() }
 
     val activeDhikr = state.activeDhikr
     if (activeDhikr != null) {
         DhikrContent(
             state = state,
             modifier = modifier
-                .clickable { intentionProcessor(AdhkarTourIntention.Tapped) }
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                ) { intentionProcessor(AdhkarTourIntention.Tapped) }
                 .pointerInput(state.activeIndex, layoutDirection) {
                     var totalDrag = 0f
                     detectHorizontalDragGestures(
