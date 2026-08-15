@@ -4,6 +4,7 @@ import java.net.URLEncoder
 
 sealed class Screen(val route: String) {
     data object Adhkar: Screen("adhkar")
+    data object AdhkarTour: Screen("adhkar/tour")
     data object Settings: Screen("settings")
     data object PrayerTimes: Screen("prayer-times")
     data object DeveloperSettings: Screen("developer-settings")
