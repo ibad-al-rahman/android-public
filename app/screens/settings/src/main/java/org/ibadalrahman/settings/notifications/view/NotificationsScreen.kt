@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -187,7 +188,41 @@ private fun NotificationsContent(
                 }
             }
         }
+
+        // Manual test
+        item {
+            Spacer(Modifier.height(40.dp))
+            SectionHeader(stringResource(R.string.test_notification))
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp))) {
+                TestNotificationRow {
+                    intentionProcessor(NotificationsIntention.SendTestNotification)
+                }
+            }
+        }
     }
+}
+
+@Composable
+private fun TestNotificationRow(onClick: () -> Unit) {
+    ListItem(
+        headlineContent = {
+            Text(
+                text = stringResource(R.string.send_test_notification),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.Medium,
+                ),
+            )
+        },
+        trailingContent = {
+            Icon(
+                imageVector = Icons.Filled.Notifications,
+                contentDescription = null,
+            )
+        },
+        colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.background),
+        modifier = Modifier.clickable(onClick = onClick),
+    )
 }
 
 @Composable

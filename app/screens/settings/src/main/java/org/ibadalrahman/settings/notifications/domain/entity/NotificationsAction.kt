@@ -17,4 +17,7 @@ sealed interface NotificationsAction {
     data class SetEveningAdhkarEnabled(val enabled: Boolean) : NotificationsAction
     data class SetMorningTime(val hour: Int, val minute: Int) : NotificationsAction
     data class SetEveningTime(val hour: Int, val minute: Int) : NotificationsAction
+
+    /** Posts a notification immediately for manual testing; persists nothing. */
+    data object SendTestNotification : NotificationsAction
 }

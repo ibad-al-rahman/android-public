@@ -55,6 +55,7 @@ dependencies {
     implementation(projects.app.common.resources)
     implementation(projects.app.data.settingsRepository)
     implementation(projects.app.data.miqatRepository)
+    implementation(projects.app.services.notifications)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

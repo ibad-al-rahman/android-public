@@ -52,6 +52,8 @@ class NotificationsViewModel @Inject constructor(
                 action(NotificationsAction.SetMorningTime(intention.hour, intention.minute))
             is NotificationsIntention.SetEveningTime ->
                 action(NotificationsAction.SetEveningTime(intention.hour, intention.minute))
+            NotificationsIntention.SendTestNotification ->
+                action(NotificationsAction.SendTestNotification)
         }
 
     override fun reduce(result: NotificationsResult) {
