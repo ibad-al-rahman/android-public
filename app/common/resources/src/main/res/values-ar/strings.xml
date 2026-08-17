@@ -92,6 +92,8 @@
     <string name="morning_adhkar">أذكار الصباح</string>
     <string name="evening_adhkar">أذكار المساء</string>
     <string name="time">الوقت</string>
+    <string name="test_notification">إشعار تجريبي</string>
+    <string name="send_test_notification">أرسل إشعارًا تجريبيًا الآن</string>
 
     <!-- Adhkar tour -->
     <string name="adhkar">الأذكار</string>

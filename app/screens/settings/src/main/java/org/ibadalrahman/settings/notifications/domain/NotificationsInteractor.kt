@@ -3,6 +3,8 @@ package org.ibadalrahman.settings.notifications.domain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.ibadalrahman.mvi.BaseInteractor
+import org.ibadalrahman.services.notifications.NotificationEventType
+import org.ibadalrahman.services.notifications.NotificationPoster
 import org.ibadalrahman.settings.notifications.domain.entity.NotificationsAction
 import org.ibadalrahman.settings.notifications.domain.entity.NotificationsResult
 import org.ibadalrahman.settings.repository.SettingsRepository
@@ -16,9 +18,15 @@ import javax.inject.Inject
  */
 class NotificationsInteractor @Inject constructor(
     private val settingsRepository: SettingsRepository,
+    private val notificationPoster: NotificationPoster,
 ) : BaseInteractor<NotificationsAction, NotificationsResult> {
 
     override suspend fun resultFrom(action: NotificationsAction): Flow<NotificationsResult> {
+        if (action is NotificationsAction.SendTestNotification) {
+            notificationPoster.post(NotificationEventType.FAJR)
+            return flowOf(NotificationsResult.Loaded(settingsRepository.getNotificationSettings()))
+        }
+
         val current = settingsRepository.getNotificationSettings()
         val updated = current.applying(action)
         if (updated != current) {
@@ -29,7 +37,8 @@ class NotificationsInteractor @Inject constructor(
 
     private fun NotificationSettings.applying(action: NotificationsAction): NotificationSettings =
         when (action) {
-            NotificationsAction.Load -> this
+            NotificationsAction.Load,
+            NotificationsAction.SendTestNotification -> this
             is NotificationsAction.SetNotificationsEnabled -> copy(enabled = action.enabled)
             is NotificationsAction.SetFajr -> copy(fajr = action.enabled)
             is NotificationsAction.SetDhuhr -> copy(dhuhr = action.enabled)

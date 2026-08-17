@@ -12,4 +12,7 @@ sealed interface NotificationsIntention {
     data class SetEveningAdhkarEnabled(val enabled: Boolean) : NotificationsIntention
     data class SetMorningTime(val hour: Int, val minute: Int) : NotificationsIntention
     data class SetEveningTime(val hour: Int, val minute: Int) : NotificationsIntention
+
+    /** Posts a notification immediately for manual testing — bypasses scheduling. */
+    data object SendTestNotification : NotificationsIntention
 }

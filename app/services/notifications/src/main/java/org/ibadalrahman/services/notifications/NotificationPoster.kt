@@ -27,8 +27,14 @@ class NotificationPoster @Inject constructor(
     fun ensureChannels() {
         val manager = context.getSystemService<NotificationManager>() ?: return
 
+        // A channel is immutable once created: re-creating an existing id is a no-op, so a sound
+        // added after the channel first shipped never takes effect. The original "prayers" channel
+        // shipped without the adhan, so we drop it and create a versioned id below that carries the
+        // sound. Bump the suffix (and delete the prior id here) whenever the channel's sound changes.
+        manager.deleteNotificationChannel(CHANNEL_PRAYERS_LEGACY)
+
         // The adhan sound is a channel property, set once at creation (setSound on the builder is
-        // ignored on API 26+). It is immutable afterwards — changing it later needs a new channel id.
+        // ignored on API 26+).
         val adhanUri = "android.resource://${context.packageName}/${R.raw.azan}".toUri()
         val adhanAttributes = AudioAttributes.Builder()
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -103,7 +109,8 @@ class NotificationPoster @Inject constructor(
     }
 
     private companion object {
-        const val CHANNEL_PRAYERS = "prayers"
+        const val CHANNEL_PRAYERS = "prayers_v2"
+        const val CHANNEL_PRAYERS_LEGACY = "prayers"
         const val CHANNEL_ADHKAR = "adhkar"
     }
 }
