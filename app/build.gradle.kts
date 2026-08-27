@@ -84,6 +84,12 @@ android {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
     packaging {
+        jniLibs {
+            // Keep .so files uncompressed & page-aligned in the APK so native libs load on
+            // 16 KB-page Android 15+ devices. This is the AGP 8 default — pinned here so a future
+            // default change or dependency quirk can't silently break 16 KB alignment.
+            useLegacyPackaging = false
+        }
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/*"
