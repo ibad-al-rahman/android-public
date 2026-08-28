@@ -1,5 +1,5 @@
 object GradleConfigs {
-    const val COMPILE_SDK = 35
+    const val COMPILE_SDK = 36
     const val MIN_SDK = 26
     private const val BASE_NAMESPACE = "org.ibadalrahman"
 
