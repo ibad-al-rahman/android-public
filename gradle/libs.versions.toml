@@ -16,13 +16,12 @@ androidxHilt = "1.2.0"
 chucker = "4.1.0"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
-room = "2.7.2"
 ksp = "2.0.21-1.0.27"
 googleServices = "4.4.3"
 glance = "1.1.1"
 work = "2.10.2"
 moduleGraph = "0.13.0"
-miqat = "0.6.0"
+miqat = "0.6.2"
 jna = "5.17.0"
 
 [libraries]
@@ -56,9 +55,6 @@ okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okht
 okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance" }
 androidx-glance-material3 = { group = "androidx.glance", name = "glance-material3", version.ref = "glance" }
 androidx-glance-material = { group = "androidx.glance", name = "glance-material", version.ref = "glance" }
