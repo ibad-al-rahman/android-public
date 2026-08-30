@@ -90,3 +90,23 @@
 -keep class **.entity.** { *; }
 -keep class **.response.** { *; }
 -keep class **.responses.** { *; }
+
+############
+## JNA + miqat (UniFFI) native bindings
+############
+# miqat's UniFFI bindings call libmiqat.so through JNA, which resolves Java
+# fields/classes by name at the JNI boundary. R8 renaming/stripping them crashes
+# native calls at runtime in minified builds only — so debug works, release
+# crashes (e.g. "Can't obtain peer field ID for class com.sun.jna.Pointer").
+# These mirror miqat's AAR consumer-rules.pro; kept here so the fix doesn't
+# depend on a miqat republish.
+-keep class com.sun.jna.** { *; }
+-keepclassmembers class com.sun.jna.** { *; }
+-keep class * extends com.sun.jna.** { *; }
+-keepclassmembers class * extends com.sun.jna.Structure {
+    <fields>;
+}
+-keep interface * extends com.sun.jna.Callback { *; }
+-dontwarn java.awt.**
+-keep class org.ibadalrahman.miqat.** { *; }
+-keepclassmembers class org.ibadalrahman.miqat.** { *; }
