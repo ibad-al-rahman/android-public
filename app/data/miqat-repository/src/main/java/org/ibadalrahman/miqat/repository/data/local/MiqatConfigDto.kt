@@ -94,7 +94,7 @@ internal fun MiqatCalculationMethodDto.toDomain(): MiqatCalculationMethod = when
 }
 
 internal fun AstronomicalConfigDto.toDomain(): AstronomicalConfig = AstronomicalConfig(
-    coordinates = Coordinates(coordinates.latitude, coordinates.longitude),
+    coordinates = Coordinates(coordinates.latitude, coordinates.longitude, 0.0),
     method = method.toDomain(),
     mazhab = mazhabFromKey(mazhab),
     adjustments = adjustments.toDomain(),

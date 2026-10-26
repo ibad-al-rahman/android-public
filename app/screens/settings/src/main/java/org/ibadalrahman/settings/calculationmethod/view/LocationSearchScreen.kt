@@ -139,7 +139,7 @@ fun LocationSearchScreen(
                                 modifier = Modifier.clickable {
                                     intentionProcessor(
                                         CalculationMethodIntention.SetCoordinates(
-                                            Coordinates(suggestion.latitude, suggestion.longitude)
+                                            Coordinates(suggestion.latitude, suggestion.longitude, 0.0)
                                         )
                                     )
                                     onLocationSelected()
