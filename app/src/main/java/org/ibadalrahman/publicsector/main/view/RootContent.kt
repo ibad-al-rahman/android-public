@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -26,6 +27,8 @@ import org.ibadalrahman.resources.R
 
 @Composable
 fun RootContent(
+    forceUpdate: Boolean,
+    onRequestUpdate: () -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
     val tabBarItems = remember {
@@ -54,7 +57,9 @@ fun RootContent(
     Content(
         navController = navController,
         initialRoute = Screen.PrayerTimes.route,
-        tabBarItems = tabBarItems
+        tabBarItems = tabBarItems,
+        forceUpdate = forceUpdate,
+        onRequestUpdate = onRequestUpdate,
     )
 }
 
@@ -62,8 +67,21 @@ fun RootContent(
 fun Content(
     navController: NavHostController,
     initialRoute: String,
-    tabBarItems: List<TabBarItem>
+    tabBarItems: List<TabBarItem>,
+    forceUpdate: Boolean,
+    onRequestUpdate: () -> Unit,
 ) {
+    // Reactive gate: when the force-update flag resolves true — at launch (cached) or mid-session
+    // (a later fetch) — replace the whole back stack with the non-dismissible force-update screen.
+    LaunchedEffect(forceUpdate) {
+        if (forceUpdate) {
+            navController.navigate(Screen.ForceUpdate.route) {
+                popUpTo(0) { inclusive = true }
+                launchSingleTop = true
+            }
+        }
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
@@ -90,7 +108,11 @@ fun Content(
         Box(
             modifier = Modifier.fillMaxSize().padding(padding)
         ) {
-            NavigationGraph(navController = navController, initialRoute = initialRoute)
+            NavigationGraph(
+                navController = navController,
+                initialRoute = initialRoute,
+                onRequestUpdate = onRequestUpdate,
+            )
         }
     }
 }

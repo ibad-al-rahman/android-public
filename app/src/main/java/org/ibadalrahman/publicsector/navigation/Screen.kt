@@ -8,6 +8,7 @@ sealed class Screen(val route: String) {
     data object Settings: Screen("settings")
     data object PrayerTimes: Screen("prayer-times")
     data object DeveloperSettings: Screen("developer-settings")
+    data object ForceUpdate: Screen("force-update")
 
     // Settings sub-screens
     data object SettingsNotifications: Screen("settings/notifications")

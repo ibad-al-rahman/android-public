@@ -146,4 +146,8 @@
     <string name="app_info">App Info</string>
     <string name="version">Version</string>
     <string name="build_number">Build Number</string>
+
+    <!-- Force update -->
+    <string name="update_available_message">A new version is available. Update the app to continue.</string>
+    <string name="update_now">Update Now</string>
 </resources>

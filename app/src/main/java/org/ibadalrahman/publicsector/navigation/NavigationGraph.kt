@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import org.ibadalrahman.adhkar.collection.view.AdhkarCollectionScreen
+import org.ibadalrahman.forceupdate.view.ForceUpdateScreen
 import org.ibadalrahman.adhkar.tour.presenter.AdhkarTourViewModel
 import org.ibadalrahman.adhkar.tour.view.AdhkarTourScreen
 import org.ibadalrahman.prayertimes.view.PrayerTimesRootScreen
@@ -50,13 +51,24 @@ private const val PLAY_STORE_URL =
 @Composable
 fun NavigationGraph(
     navController: NavHostController,
-    initialRoute: String
+    initialRoute: String,
+    onRequestUpdate: () -> Unit,
 ) {
     NavHost(navController = navController, startDestination = initialRoute) {
         addPrayerTimesScreen(navController = navController)
         addAdhkarScreens(navController = navController)
         addSettingsScreen(navController = navController)
         addSettingsSubScreens(navController = navController)
+        addForceUpdateScreen(onRequestUpdate = onRequestUpdate)
+    }
+}
+
+fun NavGraphBuilder.addForceUpdateScreen(onRequestUpdate: () -> Unit) {
+    composable(Screen.ForceUpdate.route) {
+        ForceUpdateScreen(
+            viewModel = hiltViewModel(),
+            onRequestUpdate = onRequestUpdate,
+        )
     }
 }
 
