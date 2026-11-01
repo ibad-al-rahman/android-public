@@ -31,13 +31,16 @@ include(":app:common:mvi")
 include(":app:common:base")
 include(":app:common:network")
 include(":app:common:resources")
+include(":app:common:tracker")
 
 include(":app:data:settings-repository")
 include(":app:data:miqat-repository")
+include(":app:data:remote-config-repository")
 
 include(":app:screens:prayer-times")
 include(":app:screens:settings")
 include(":app:screens:adhkar")
+include(":app:screens:force-update")
 
 include(":app:widgets:prayer-times")
 

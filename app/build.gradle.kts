@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.google.dagger.hilt.android)
     alias(libs.plugins.jetbrains.kotlin.compose)
     alias(libs.plugins.google.gsm.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 val keyStoreFile = rootProject.file("publicSector.keystore")
@@ -119,12 +120,19 @@ dependencies {
     implementation(projects.app.common.base)
     implementation(projects.app.common.mvi)
     implementation(projects.app.common.resources)
+    implementation(projects.app.common.tracker)
     implementation(projects.app.screens.prayerTimes)
     implementation(projects.app.screens.settings)
     implementation(projects.app.screens.adhkar)
+    implementation(projects.app.screens.forceUpdate)
     implementation(projects.app.widgets.prayerTimes)
     implementation(projects.app.data.settingsRepository)
+    implementation(projects.app.data.remoteConfigRepository)
     implementation(projects.app.services.notifications)
+
+    // Play In-App Updates — the MainActivity owns the immediate update flow for force-update.
+    implementation(libs.play.app.update.ktx)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     testImplementation(libs.junit)
 

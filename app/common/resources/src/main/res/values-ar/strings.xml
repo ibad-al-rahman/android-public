@@ -147,4 +147,8 @@
     <string name="app_info">معلومات التطبيق</string>
     <string name="version">الإصدار</string>
     <string name="build_number">رقم البناء</string>
+
+    <!-- Force update -->
+    <string name="update_available_message">يتوفر إصدار جديد. يرجى تحديث التطبيق للمتابعة.</string>
+    <string name="update_now">حدّث الآن</string>
 </resources>
