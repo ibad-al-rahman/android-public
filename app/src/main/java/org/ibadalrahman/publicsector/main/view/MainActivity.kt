@@ -3,7 +3,6 @@ package org.ibadalrahman.publicsector.main.view
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
@@ -27,6 +26,7 @@ import org.ibadalrahman.remoteconfig.repository.RemoteConfigRepository
 import org.ibadalrahman.settings.repository.SettingsRepository
 import org.ibadalrahman.settings.repository.data.domain.Theme
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
@@ -90,7 +90,8 @@ class MainActivity: AppCompatActivity() {
      * blocking, so the user must always have a way to act.
      */
     private fun runUpdate() {
-        appUpdateManager.appUpdateInfo
+        appUpdateManager
+            .appUpdateInfo
             .addOnSuccessListener { info ->
                 val canUpdate = info.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                     info.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
@@ -112,14 +113,14 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun openPlayStoreListing() {
-        val marketIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+        val marketIntent = Intent(Intent.ACTION_VIEW, "market://details?id=$packageName".toUri())
         try {
             startActivity(marketIntent)
         } catch (error: ActivityNotFoundException) {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName"),
+                    "https://play.google.com/store/apps/details?id=$packageName".toUri(),
                 )
             )
         }
