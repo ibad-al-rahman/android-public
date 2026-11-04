@@ -1,6 +1,9 @@
 package org.ibadalrahman.publicsector.main
 
 import android.app.Application
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DEBUG_PROPERTY_NAME
@@ -21,6 +24,10 @@ class IbadApplication: Application() {
     @Inject lateinit var remoteConfigRepository: RemoteConfigRepository
     @Inject lateinit var coroutineDispatchers: CoroutineDispatchers
 
+    private val appScope by lazy {
+        CoroutineScope(SupervisorJob() + coroutineDispatchers.io)
+    }
+
     override fun onCreate() {
         super.onCreate()
         System.setProperty(DEBUG_PROPERTY_NAME, DEBUG_PROPERTY_VALUE_ON)
@@ -28,10 +35,16 @@ class IbadApplication: Application() {
         notificationPoster.ensureChannels()
         notificationRearmObserver.start()
 
-        // Fire-and-forget: refresh Remote Config in the background so startup never waits on the
-        // network. The force-update flag starts false and flips if/when the fetch resolves true.
-        CoroutineScope(SupervisorJob() + coroutineDispatchers.io).launch {
-            remoteConfigRepository.refresh()
-        }
+        // Refresh Remote Config on every app foreground (ON_START also fires on the first launch),
+        // so a force-update flipped on in Firebase reaches an already-running app on its next
+        // foreground instead of only on a cold start. Firebase's own minimumFetchInterval still
+        // throttles the actual network call, so this can't hammer the backend.
+        ProcessLifecycleOwner.get().lifecycle.addObserver(
+            object : DefaultLifecycleObserver {
+                override fun onStart(owner: LifecycleOwner) {
+                    appScope.launch { remoteConfigRepository.refresh() }
+                }
+            }
+        )
     }
 }
